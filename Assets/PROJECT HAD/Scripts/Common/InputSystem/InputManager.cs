@@ -27,7 +27,6 @@ namespace HAD
         public void OnMove(InputValue input)
         {
             MovementInput = input.Get<Vector2>();
-            Debug.Log(MovementInput);
         }
     }
 }

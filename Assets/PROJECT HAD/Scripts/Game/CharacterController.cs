@@ -21,6 +21,5 @@ namespace HAD
             Vector3 direction = cameraForward.normalized * input.y + cameraRight.normalized * input.x;
             transform.Translate(direction * Time.deltaTime * moveSpeed, Space.World);
         }
-
     }
 }
