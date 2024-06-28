@@ -7,6 +7,10 @@ namespace HAD
     public class CharacterController : MonoBehaviour
     {
         public float moveSpeed = 5f;
+        // @YS--회전 속력
+        public float turnSpeed = 80f;
+        // --
+
         private void Update()
         {
             Vector2 input = InputManager.Instance.MovementInput;
@@ -20,6 +24,18 @@ namespace HAD
 
             Vector3 direction = cameraForward.normalized * input.y + cameraRight.normalized * input.x;
             transform.Translate(direction * Time.deltaTime * moveSpeed, Space.World);
+
+            // @YS--캐릭터 이동 방향에 맞게 회전
+            // 키 조작 있을 때만
+            if (input != Vector2.zero) 
+            {
+                // 새 회전값 = 이동 방향{direction}을 바라보도록 하는 회전값
+                Quaternion newRotation = Quaternion.LookRotation(direction);
+                // this의 회전값을 현재 회전값->새 회전값으로 보간 변경
+                transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, turnSpeed * Time.deltaTime);
+            }
+            // --
+
         }
     }
 }
