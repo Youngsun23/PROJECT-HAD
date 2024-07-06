@@ -27,7 +27,7 @@ namespace HAD
 
             // @YS--캐릭터 이동 방향에 맞게 회전
             // 키 조작 있을 때만
-            if (input != Vector2.zero) 
+            if (input != Vector2.zero)
             {
                 // 새 회전값 = 이동 방향{direction}을 바라보도록 하는 회전값
                 Quaternion newRotation = Quaternion.LookRotation(direction);
