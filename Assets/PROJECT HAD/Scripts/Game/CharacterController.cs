@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +10,35 @@ namespace HAD
         public CharacterBase character;
 
         public float moveSpeed = 5f;
-        // @YS--회전 속력
         public float turnSpeed = 80f;
-        // --
+
+        private void Start()
+        {
+            InputManager.Instance.OnAttackPerformed += ExecuteAttack;                   
+            InputManager.Instance.OnMagicPerformed += ExecuteMagic;                
+            InputManager.Instance.OnSpecialAttackPerformed += ExecuteSpecialAttack;
+            InputManager.Instance.OnDashPerformed += ExecuteDash;
+        }
+
+        private void ExecuteAttack()
+        {
+            character.Attack();
+        }
+
+        private void ExecuteMagic()
+        {
+            character.Magic();
+        }
+
+        private void ExecuteSpecialAttack()
+        {
+            character.SpecialAttack();
+        }
+
+        private void ExecuteDash()
+        {
+            character.Dash();
+        }
 
         private void Update()
         {
@@ -19,6 +46,7 @@ namespace HAD
             character.Move(input, Camera.main.transform.eulerAngles.y);
         }
 
+        #region Old ver.Update(이동/회전)
         //private void Update()
         //{
         //    Vector2 input = InputManager.Instance.MovementInput;
@@ -33,7 +61,6 @@ namespace HAD
         //    Vector3 direction = cameraForward.normalized * input.y + cameraRight.normalized * input.x;
         //    transform.Translate(direction * Time.deltaTime * moveSpeed, Space.World);
 
-        //    // @YS--캐릭터 이동 방향에 맞게 회전
         //    // 키 조작 있을 때만
         //    if (input != Vector2.zero)
         //    {
@@ -42,7 +69,7 @@ namespace HAD
         //        // this의 회전값을 현재 회전값->새 회전값으로 보간 변경
         //        transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, turnSpeed * Time.deltaTime);
         //    }
-        //    // --
         // }
+        #endregion
     }
 }

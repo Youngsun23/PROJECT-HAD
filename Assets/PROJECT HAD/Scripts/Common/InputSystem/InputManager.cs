@@ -11,6 +11,11 @@ namespace HAD
 
         private PlayerInput unityPlayerInput;
 
+        public System.Action OnAttackPerformed;
+        public System.Action OnMagicPerformed;
+        public System.Action OnSpecialAttackPerformed;
+        public System.Action OnDashPerformed;
+
         public Vector2 MovementInput { get; private set; }
 
         private void Awake()
@@ -27,6 +32,26 @@ namespace HAD
         public void OnMove(InputValue input)
         {
             MovementInput = input.Get<Vector2>();
+        }
+
+        public void OnAttack()
+        {
+            OnAttackPerformed?.Invoke();
+        }
+
+        public void OnMagic()
+        {
+            OnMagicPerformed?.Invoke();
+        }
+
+        public void OnSpecialAttack()
+        {
+            OnSpecialAttackPerformed?.Invoke();  
+        }
+
+        public void OnDash()
+        {
+            OnDashPerformed?.Invoke();
         }
     }
 }
