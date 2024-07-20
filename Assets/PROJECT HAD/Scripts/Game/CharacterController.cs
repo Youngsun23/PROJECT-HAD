@@ -15,7 +15,8 @@ namespace HAD
         private void Start()
         {
             InputManager.Instance.OnAttackPerformed += ExecuteAttack;                   
-            InputManager.Instance.OnMagicPerformed += ExecuteMagic;                
+            InputManager.Instance.OnMagicAimPerformed += ExecuteMagicAim;                
+            InputManager.Instance.OnMagicShotPerformed += ExecuteMagicShot;                
             InputManager.Instance.OnSpecialAttackPerformed += ExecuteSpecialAttack;
             InputManager.Instance.OnDashPerformed += ExecuteDash;
         }
@@ -25,9 +26,16 @@ namespace HAD
             character.Attack();
         }
 
-        private void ExecuteMagic()
+        private void ExecuteMagicAim()
         {
-            character.Magic();
+            character.MagicAim();
+        }
+
+        // ToDo: ExecuteMagicAim으로부터 1초 이내에 아직 Shot 되지 않았으면 강제로 ExecuteMagicShot() 호출
+        // 이후 mouse button up에서 중복호출 되지 않도록 막기
+        private void ExecuteMagicShot()
+        {
+            character.MagicShot();
         }
 
         private void ExecuteSpecialAttack()
@@ -42,8 +50,11 @@ namespace HAD
 
         private void Update()
         {
-            Vector2 input = InputManager.Instance.MovementInput;
-            character.Move(input, Camera.main.transform.eulerAngles.y);
+            if(!character.IsDashing && !character.IsAttacking && !character.IsMagicAiming)
+            {
+                Vector2 input = InputManager.Instance.MovementInput;
+                character.Move(input, Camera.main.transform.eulerAngles.y);
+            }
         }
 
         #region Old ver.Update(이동/회전)

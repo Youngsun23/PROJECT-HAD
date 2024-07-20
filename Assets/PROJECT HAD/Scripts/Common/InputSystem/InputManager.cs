@@ -12,7 +12,8 @@ namespace HAD
         private PlayerInput unityPlayerInput;
 
         public System.Action OnAttackPerformed;
-        public System.Action OnMagicPerformed;
+        public System.Action OnMagicAimPerformed;
+        public System.Action OnMagicShotPerformed;
         public System.Action OnSpecialAttackPerformed;
         public System.Action OnDashPerformed;
 
@@ -22,6 +23,10 @@ namespace HAD
         {
             Instance = this;
             unityPlayerInput = GetComponent<PlayerInput>();
+
+            var actionMap = unityPlayerInput.actions.FindActionMap("Player"); 
+            var magicAction = actionMap["Magic"];
+            magicAction.canceled += ctx => OnMagicCanceled();
         }
 
         private void OnDestroy()
@@ -41,7 +46,13 @@ namespace HAD
 
         public void OnMagic()
         {
-            OnMagicPerformed?.Invoke();
+            OnMagicAimPerformed?.Invoke();
+        }
+
+        public void OnMagicCanceled()
+        {
+            // Debug.Log("매직 캔슬");
+            OnMagicShotPerformed?.Invoke();
         }
 
         public void OnSpecialAttack()
