@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace HAD
 {
@@ -20,25 +22,18 @@ namespace HAD
         public Animator characterAnimator;
 
         [Title("Character Movement")]
-        public float moveSpeed;
-        public float RotationSmoothTime = 0.12f;
         // public LayerMask groundLayer;
+        private float rotationSmoothTime = 0.12f;
 
         [Title("Character Attack")]
         public int comboIndex = 0;
         public bool isAttacking = false;
-        private float attakRadius = 2.5f;
         public GameObject magicArrowPrefab;
         public int curMagicArrow;
-        private int maxMagicArrow = 1;
         private bool isMagicAiming;
         private bool isCombo2ing = false;
-        private float combo2MoveSpeed = 5f;
 
         [Title("Character Dash")]
-        public float dashCooltime = 1f;
-        public float dashDuration = 1f;
-        public float dashSpeed = 10f;
         private bool dashAvailable = true;
         private bool isDashing = false;
         private float dashTimer = 0f;
@@ -52,10 +47,102 @@ namespace HAD
         private Vector3 lastPosition;
         private bool isGrounded = false;
 
+        public float curHP;
+
+        private CharacterAbilityComponent characterAbilityComponent;
+
+        // DataBase로 빼놓은 애들
+        [SerializeField] private int level;
+        [SerializeField] private float maxHP;
+        [SerializeField] private int maxMagicArrow;
+        [SerializeField] private float moveSpeed;
+        [SerializeField] private float dashSpeed;
+        [SerializeField] private float combo2MoveSpeed;
+        [SerializeField] private float attackRadius;
+        [SerializeField] private float dashDuration;
+        [SerializeField] private float dashCoolTime;
+
+        // 이 방식은 폐기
+        //[Title("Character Setting")]
+        //public CharacterGameData characterData;
+
+        // 커맨드 패턴 시도
+        private bool isAttack1ing;
+        private bool isAttack2ing;
+        // 트리거 조건 O / 조건 X 트랜지션 중 전자가 우선 확인되어야 하는 거 아닌가??
+        private bool combo1On;
+        private bool combo2On;
+        
+        // @ Receiver's the work : 주방의 요리사가 부여받은 주문서의 레시피대로 요리함
+        public void PerformAttackCombo()
+        {
+            // attackName 받아오는 대신 여기서 불값 확인해서
+            // 공격0->1, 1->2, 2->3으로 각기 다른 트리거 set해주는 방식으로 구현해볼것
+            if(isAttack2ing)
+            {
+                characterAnimator.SetTrigger("Attack3Trigger");
+                combo2On = true;
+                characterAnimator.SetBool("Combo2", combo2On);
+                // Debug.Log("트리거3 On!");
+            }
+            else if(isAttack1ing)
+            {
+                characterAnimator.SetTrigger("Attack2Trigger");
+                combo1On = true;
+                characterAnimator.SetBool("Combo1", combo1On);
+                // Debug.Log("트리거2 On!");
+            }
+            else
+            {
+                combo1On = false;
+                combo2On = false;
+                characterAnimator.SetBool("Combo1", combo1On);
+                characterAnimator.SetBool("Combo2", combo2On);
+                characterAnimator.SetTrigger("Attack1Trigger");
+                // Debug.Log("트리거1 On!");
+            }
+            // _isAttacking = true;
+        }
+
+        public void ReverseIsAttack1ing()
+        {
+            isAttack1ing = !isAttack1ing;
+            // Debug.Log($"Attack1ing: {isAttack1ing}");
+        }
+        public void ReverseIsAttack2ing()
+        {
+            isAttack2ing = !isAttack2ing;
+            // Debug.Log($"Attack2ing: {isAttack2ing}");
+        }
+
+        // -- 커맨드 패턴
+
+        public void InitializeCharacter(CharacterGameData characterData)
+        {
+            level = characterData.Level;
+            maxHP = characterData.MaxHP;
+            // curHP
+            curHP = maxHP;
+            maxMagicArrow = characterData.MaxArrow;
+            // curMagic
+            curMagicArrow = maxMagicArrow;
+            moveSpeed = characterData.MoveSpeed;
+            combo2MoveSpeed = characterData.Combo2MoveSpeed;
+            attackRadius = characterData.AttakRadius;
+            dashSpeed = characterData.DashSpeed;
+            dashDuration = characterData.DashDuration;
+            dashCoolTime = characterData.DashCooltime; // Dash()에 대시쿨타임 체크 추가하기
+        }
+
+        private void Awake()
+        {
+            characterAbilityComponent = GetComponent<CharacterAbilityComponent>();
+        }
+
         private void Start()
         {
-            characterController = GetComponent<UnityEngine.CharacterController>(); // 콜라이더 기능 포함
-            curMagicArrow = maxMagicArrow;
+            characterController = GetComponent<UnityEngine.CharacterController>();
+
         }
 
         private void Update()
@@ -68,11 +155,16 @@ namespace HAD
             IsGround();
             FreeFall();
 
-            if (isDashing)
+            if (!dashAvailable)
             {
-                if (Time.time > dashTimer) // 대쉬 지속시간이 지났다는 뜻이다.
+                // 대쉬 쿨타임 체크
+                if (Time.time > dashTimer + dashCoolTime)
                 {
-                    DashRestore();
+                    dashAvailable = true;
+                }
+                else if (Time.time > dashTimer + dashDuration) // 대쉬 지속시간이 지났다는 뜻이다.
+                {
+                    DashEnd();
                 }
                 else
                 {
@@ -88,8 +180,8 @@ namespace HAD
             if(isMagicAiming)
             {
                 MouseRotate();
-                if(characterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.35f)
-                characterAnimator.speed = 0f;
+                //if(characterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.35f)
+                //characterAnimator.speed = 0f;
                 // 날아갈 경로 보여주기
             }
         }
@@ -105,7 +197,7 @@ namespace HAD
             if (input != Vector2.zero)
             {
                 targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + yAxis;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, RotationSmoothTime);
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, rotationSmoothTime);
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
 
@@ -148,16 +240,21 @@ namespace HAD
         {
             if(!isDashing)
                 MouseRotate(); // ToDo: 콤보 막타 중 회전 막기
-            characterAnimator.SetTrigger("AttackTrigger");
-            comboIndex++;
-            characterAnimator.SetInteger("AttackComboCount", comboIndex);
+            // characterAnimator.SetTrigger("AttackTrigger");
+            // comboIndex++;
+            // characterAnimator.SetInteger("AttackComboCount", comboIndex);
+        }
+
+        private void ExecuteDamage(IDamage damageInterface, float damage)
+        {
+            damageInterface?.TakeDamage(this, damage);
         }
 
         public void ExecuteAttackLogic(string parameter)
         {
             // parameter => "BasicAttack"
 
-            Collider[] overlapObjects = Physics.OverlapSphere(transform.position, attakRadius);
+            Collider[] overlapObjects = Physics.OverlapSphere(transform.position, attackRadius);
             if (overlapObjects == null || overlapObjects.Length == 0)
             {
                 // To do : 공격대상이 아무것도 없다는 뜻
@@ -180,29 +277,44 @@ namespace HAD
                 Vector3 position = overlapObjects[i].transform.root.position;
                 Vector3 direction = (position - transform.position).normalized;
                 float dotAngle = Vector3.Dot(transform.forward, direction); // Dot 함수 - -1~1 / Angle 함수 - 0~360
-                // 점A 위치(점A에서 forward로의 방향), 점A에서 점B로의 방향 둘 사이의 내적
-                
+                                                                            // 점A 위치(점A에서 forward로의 방향), 점A에서 점B로의 방향 둘 사이의 내적
+
                 if (dotAngle > 0.5f)
                 {
                     Debug.DrawLine(transform.position + Vector3.up, overlapObjects[i].transform.root.position + Vector3.up, Color.red, 1f);
 
                     var damageInterface = overlapObjects[i].transform.root.GetComponent<IDamage>();
-                    if (damageInterface != null)
+                    ExecuteDamage(damageInterface, 10f);
+                    // Debug.Log($"{overlapObjects[i].transform.root.name} 공격에 피격!");
+
+                    // @ Ability System
+                    // 타격 유효 대상이 적의 투사체인 경우
+                    // 반사 스킬 유무 확인
+                    // 있으면, 반사 스킬로 넘기기
+                    // 없으면, 투사체 파괴만
+                    if (overlapObjects[i].transform.root.gameObject.layer == LayerMask.NameToLayer(Constant.LAYER_NAME_MONPROJECTILE))
                     {
-                        damageInterface.TakeDamage(this, 10f);
-                        Debug.Log($"{overlapObjects[i].transform.root.name} 공격에 피격!");
+                        if (characterAbilityComponent.GetAbility(AbilityTag.Reflection, out ReflectionAbility abil))
+                        {
+                            abil.SetTargetProjectile(overlapObjects[i].transform.root.gameObject);
+                            abil.Execute();
+                        }
+                        else
+                        {
+                            Destroy(overlapObjects[i].transform.root.gameObject);
+                        }
                     }
                 }
             }
         }
 
-        // 범위: 0.2~0.3 전방 찌르기
-        // overlapshere? raycast? boxcast?
-        // ray 쏘는 길이 = attack의 radius
+        // 범위: 0.2~0.3 너비, 길이 전방 찌르기
         public void ExecuteCombo1Logic()
         {
-            RaycastHit[] rayCastHits = Physics.RaycastAll(transform.position + Vector3.up, transform.forward, attakRadius);
-            if (rayCastHits == null || rayCastHits.Length == 0)
+            // RaycastHit[] rayCastHits = Physics.RaycastAll(transform.position + Vector3.up, transform.forward, attakRadius);
+            RaycastHit[] sphereCastHits = Physics.SphereCastAll(transform.position + Vector3.up, attackRadius, transform.forward, attackRadius);
+            
+            if (sphereCastHits == null || sphereCastHits.Length == 0)
             {
                 // To do : 공격 모션이나 이펙트만 출력해주고 빠져나감
 
@@ -210,25 +322,34 @@ namespace HAD
             }
 
             // To do : 실제 공격 로직을 구현한다.
-            for (int i = 0; i < rayCastHits.Length; i++)
+            for (int i = 0; i < sphereCastHits.Length; i++)
             {
-                var damageInterface = rayCastHits[i].collider.transform.root.GetComponent<IDamage>();
-                if (damageInterface != null)
+                var damageInterface = sphereCastHits[i].collider.transform.root.GetComponent<IDamage>();
+                ExecuteDamage(damageInterface, 10f);
+                Debug.DrawLine(transform.position + Vector3.up, sphereCastHits[i].collider.transform.root.position + Vector3.up, Color.green, 1f);
+                // Debug.Log($"{sphereCastHits[i].collider.transform.root.name} 콤보1에 피격!");
+
+                // @ Ability System
+                if (sphereCastHits[i].transform.root.gameObject.layer == LayerMask.NameToLayer(Constant.LAYER_NAME_MONPROJECTILE))
                 {
-                    damageInterface.TakeDamage(this, 10f);
-                    Debug.DrawLine(transform.position + Vector3.up, rayCastHits[i].collider.transform.root.position + Vector3.up, Color.green, 1f);
-                    Debug.Log($"{rayCastHits[i].collider.transform.root.name} 콤보1에 피격!");
+                    if (characterAbilityComponent.GetAbility(AbilityTag.Reflection, out ReflectionAbility abil))
+                    {
+                        abil.SetTargetProjectile(sphereCastHits[i].transform.root.gameObject);
+                        abil.Execute();
+                    }
+                    else
+                    {
+                        Destroy(sphereCastHits[i].transform.root.gameObject);
+                    }
                 }
             }
         }
 
-        // 범위: 0.2~0.3 전방 찌르며 전진(찌르는 순간부터 전진 마치는 순간까지 지속? 아니면 길이만 그만큼 길게?)
-        // overlapshere? raycast? boxcast?
-        // ray 쏘는 길이 = attack의 radius * 2
+        // 범위: 0.2~0.3 너비, 두 배 길이 전방 찌르며 전진 (찌르는 순간부터 전진 마치는 순간까지 지속? 아니면 길이만 그만큼 길게?)
         public void ExecuteCombo2Logic()
         {
-            RaycastHit[] rayCastHits = Physics.RaycastAll(transform.position + Vector3.up, transform.forward, attakRadius * 2);
-            if (rayCastHits == null || rayCastHits.Length == 0)
+            RaycastHit[] sphereCastHits = Physics.SphereCastAll(transform.position + Vector3.up, attackRadius, transform.forward, attackRadius * 2);
+            if (sphereCastHits == null || sphereCastHits.Length == 0)
             {
                 // To do : 공격 모션이나 이펙트만 출력해주고 빠져나감
 
@@ -236,14 +357,25 @@ namespace HAD
             }
 
             // To do : 실제 공격 로직을 구현한다.
-            for (int i = 0; i < rayCastHits.Length; i++)
+            for (int i = 0; i < sphereCastHits.Length; i++)
             {
-                var damageInterface = rayCastHits[i].collider.transform.root.GetComponent<IDamage>();
-                if (damageInterface != null)
+                var damageInterface = sphereCastHits[i].collider.transform.root.GetComponent<IDamage>();
+                ExecuteDamage(damageInterface, 10f);
+                Debug.DrawLine(transform.position + Vector3.up, sphereCastHits[i].collider.transform.root.position + Vector3.up, Color.black, 1f);
+                // Debug.Log($"{sphereCastHits[i].collider.transform.root.name} 콤보2에 피격!");
+
+                // @ Ability System
+                if (sphereCastHits[i].transform.root.gameObject.layer == LayerMask.NameToLayer(Constant.LAYER_NAME_MONPROJECTILE))
                 {
-                    damageInterface.TakeDamage(this, 10f);
-                    Debug.DrawLine(transform.position + Vector3.up, rayCastHits[i].collider.transform.root.position + Vector3.up, Color.black, 1f);
-                    Debug.Log($"{rayCastHits[i].collider.transform.root.name} 콤보2에 피격!");
+                    if (characterAbilityComponent.GetAbility(AbilityTag.Reflection, out ReflectionAbility abil))
+                    {
+                        abil.SetTargetProjectile(sphereCastHits[i].transform.root.gameObject);
+                        abil.Execute();
+                    }
+                    else
+                    {
+                        Destroy(sphereCastHits[i].transform.root.gameObject);
+                    }
                 }
             }
         }
@@ -251,7 +383,7 @@ namespace HAD
         // 범위: 360도 넓은 원(파동 퍼지기 시작~소멸까지 지속?)
         public void ExecuteSpecialAttackLogic()
         {
-            Collider[] overlapObjects = Physics.OverlapSphere(transform.position, attakRadius);
+            Collider[] overlapObjects = Physics.OverlapSphere(transform.position, attackRadius);
             if (overlapObjects == null || overlapObjects.Length == 0)
             {
                 // To do : 공격 모션이나 이펙트만 출력해주고 빠져나감
@@ -269,10 +401,21 @@ namespace HAD
                 checkedObjects.Add(overlapObjects[i].transform.root);
 
                 var damageInterface = overlapObjects[i].transform.root.GetComponent<IDamage>();
-                if (damageInterface != null)
+                ExecuteDamage(damageInterface, 10f);
+                // Debug.Log($"{overlapObjects[i].transform.root.name} 특수공격에 피격!");
+
+                // @ Ability System
+                if(overlapObjects[i].transform.root.gameObject.layer == LayerMask.NameToLayer(Constant.LAYER_NAME_MONSTER))
                 {
-                    damageInterface.TakeDamage(this, 10f);
-                    Debug.Log($"{overlapObjects[i].transform.root.name} 특수공격에 피격!");
+                    if (characterAbilityComponent.GetAbility(AbilityTag.Push, out PushAbility abil))
+                    {
+                        abil.SetTargetMon(overlapObjects[i].transform.root.gameObject);
+                        abil.Execute();
+                    }
+                    //// Test용
+                    //GameObject targetMon = overlapObjects[i].transform.root.gameObject;
+                    //Vector3 pushDir = (transform.position - targetMon.transform.position).normalized;
+                    //targetMon.transform.Translate(pushDir);
                 }
             }
         }
@@ -287,20 +430,18 @@ namespace HAD
             if (curMagicArrow <= 0)
                 return;
 
-            isMagicAiming = true;
-            // MouseRotate();
-            characterAnimator.SetTrigger("MagicTrigger");
+            // ToDo: 칼 비활성화
 
-            // 현재, 키다운 -> 애니메이션, 생성 한 번에
-            // 수정, 누르는 동안 애니메이션 멈추고 날아가는 경로 보여주면서 마우스 회전
+            isMagicAiming = true;
+            characterAnimator.SetTrigger("MagicAimTrigger");
         }
 
         public void MagicShot()
         {
-            // 떼는 순간(혹은 시간 초과) 던지는 애니메이션 나가면서 Instantiate 해야 함
-            characterAnimator.speed = 1f;
             isMagicAiming = false;
+            characterAnimator.SetTrigger("MagicShotTrigger");
             Instantiate(magicArrowPrefab, transform.position + transform.forward + transform.up, transform.rotation * Quaternion.Euler(90, 0, 0));
+            // 테스트 위해 일단 주석
             // curMagicArrow--;
         }
         
@@ -319,7 +460,8 @@ namespace HAD
                 // To do : Dash 이동 구현
                 dashAvailable = false;
                 isDashing = true;
-                dashTimer = Time.time + dashDuration;
+                dashTimer = Time.time;
+                // 쿨타임 적용해야함~~
 
                 Vector3 currentPosition = transform.position;
                 Vector3 currentForward = transform.forward;
@@ -328,14 +470,16 @@ namespace HAD
                 Ray ray = new Ray(predictPosition + Vector3.up, Vector3.down);
                 // Raycast로 default, groundlayer 둘 다 감지 -> groundlayer 있으므로 T 반환 => 원하는 처리와 다른 결과
                 // 위에서 아래로 쏘는 ray에 가장 먼저 충돌한 옵젝의 layer를 기준으로 해야 한다.
-                RaycastHit[] rayHits = Physics.RaycastAll(ray, 100f);
-                if(rayHits.Length > 0)
-                {
-                    System.Array.Sort(rayHits, (a, b) => a.distance.CompareTo(b.distance));
-                    // Debug.Log($"여러 레이어 발견, 정렬했습니다. 최상위 레이어: {rayHits[0].collider.gameObject.layer}");
-                }
+                // RaycastHit[] rayHits = Physics.RaycastAll(ray, 100f); // All 안 하면 맨 처음 것만 되는 것
+                RaycastHit rayHit;
+                Physics.Raycast(ray, out rayHit, 100f);
+                //if(rayHits.Length > 0) // 알아서 순서대로 해줌
+                //{
+                //    System.Array.Sort(rayHits, (a, b) => a.distance.CompareTo(b.distance));
+                //    // Debug.Log($"여러 레이어 발견, 정렬했습니다. 최상위 레이어: {rayHits[0].collider.gameObject.layer}");
+                //}
                 // 도착 지점이 * layer일 경우 레이어 변경 - *은 floor 하나면 됨
-                if (rayHits[0].collider.gameObject.layer == LayerMask.NameToLayer(Constant.LAYER_NAME_GROUND))
+                if (rayHit.collider.gameObject.layer == LayerMask.NameToLayer(Constant.LAYER_NAME_GROUND))
                 {
                     // To do : predictPosition 에서 아래로 발사한 레이캐스팅이 성공했다
                     // => 최종 예측지점이 GroundLayer에 속해있다 => 땅이다.
@@ -348,13 +492,15 @@ namespace HAD
             }
         }
 
-        private void DashRestore()
+        private void DashEnd()
         {
             isDashing = false;
-            dashAvailable = true;
             characterAnimator.SetBool("IsDashing", false);
             gameObject.layer = LayerMask.NameToLayer(Constant.LAYER_NAME_DEFAULT);
+            // dashAvailable = true;
         }
+
+        
 
         private void IsGround()
         {
@@ -374,6 +520,16 @@ namespace HAD
                 verticalVelocity = 0;
         }
 
+        public void SetIsAttacking(bool tf)
+        {
+            isAttacking = tf;
+        }
+
+        public void ResetComboIndex()
+        {
+            comboIndex = 0;
+        }
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.blue;
@@ -384,9 +540,30 @@ namespace HAD
         {
             // 피격 이펙트 출력
             // 체력 감소 - 사망 체크
-
+            curHP -= damage;
             // Debug.Log($"Take Damage - Attacker : {actor.GetActor().name}, Damage : {damage}");
+
+            // @ Ability System
+            // Revenge Ability 유무 체크
+            // 있으면, 받은 damage의 1/4을 actor에 돌려줌
+            //if (characterAbilityComponent.GetAbility(AbilityTag.Revenge, out RevengeAbility abil))
+            //{
+            //    abil.SetAttacker(actor);
+            //    abil.SetOriginDamage(damage);
+            //    abil.Execute(); // actor, damage 저쪽으로 넘겨줬다가 다시 이쪽으로 넘겨주는 작업을 해야 하는 것...?
+            //}
+            //// 테스트용
+            //IDamage damageInterface = actor.GetActor().GetComponent<IDamage>();
+            //ExecuteDamage(damageInterface, damage * 0.25f);
         }
+
+        // @ Ability System
+        public void RevengeAttack(IActor actor, float damage)
+        {
+            // actor(공격자)의 IDamage 가져와서 ExecuteDamage
+            IDamage damageInterface = actor.GetActor().GetComponent<IDamage>();
+            ExecuteDamage(damageInterface, damage * 0.25f);
+        } 
 
         public GameObject GetActor()
         {

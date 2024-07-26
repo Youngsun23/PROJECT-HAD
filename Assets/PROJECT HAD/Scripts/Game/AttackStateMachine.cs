@@ -11,16 +11,16 @@ namespace HAD
         {
             if (animator.transform.root.TryGetComponent(out CharacterBase character))
             {
-                character.isAttacking = true;
+                character.SetIsAttacking(true);
             }
         }
         public override void OnStateMachineExit(Animator animator, int stateMachinePathHash)
         {
             if(animator.transform.root.TryGetComponent(out CharacterBase character))
             {
-                character.isAttacking = false;
-                character.comboIndex = 0;
-                animator.ResetTrigger("AttackTrigger");
+                character.SetIsAttacking(false);
+                character.ResetComboIndex();
+                animator.ResetTrigger("Attack1Trigger");
             }
         }
     }

@@ -14,9 +14,12 @@ namespace HAD
 
         private void Start()
         {
+            var playerCharacterData = GameDataModel.Singleton.GetPlayerCharacterData(1);
+            character.InitializeCharacter(playerCharacterData);
+
             InputManager.Instance.OnAttackPerformed += ExecuteAttack;                   
-            InputManager.Instance.OnMagicAimPerformed += ExecuteMagicAim;                
-            InputManager.Instance.OnMagicShotPerformed += ExecuteMagicShot;                
+            InputManager.Instance.OnMagicAimPerformed += ExecuteMagicAim;
+            InputManager.Instance.OnMagicShotPerformed += ExecuteMagicShot;
             InputManager.Instance.OnSpecialAttackPerformed += ExecuteSpecialAttack;
             InputManager.Instance.OnDashPerformed += ExecuteDash;
         }
