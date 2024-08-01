@@ -1,12 +1,6 @@
 using Sirenix.OdinInspector;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.Burst.CompilerServices;
-using Unity.Burst.Intrinsics;
 using UnityEngine;
-using UnityEngine.InputSystem.HID;
-using static UnityEngine.UI.GridLayoutGroup;
 
 namespace HAD
 {
@@ -16,6 +10,11 @@ namespace HAD
         public bool IsDashing => isDashing;
         public bool IsAttacking => isAttacking;
         public bool IsMagicAiming => isMagicAiming;
+
+        // Class Try 2 _ Command Pattern
+        public CharacterAttackComboController CharacterAttackComboController => characterAttackComboController;
+        // Attribute
+        public CharacterAttributeComponent CharacterAttributeComponent => characterAttributeComponent;
 
         [Title("Components")]
         public UnityEngine.CharacterController characterController;
@@ -27,7 +26,6 @@ namespace HAD
 
         [Title("Character Attack")]
         public int comboIndex = 0;
-        public bool isAttacking = false;
         public GameObject magicArrowPrefab;
         public int curMagicArrow;
         private bool isMagicAiming;
@@ -50,8 +48,20 @@ namespace HAD
         public float curHP;
 
         private CharacterAbilityComponent characterAbilityComponent;
+        // Attribute
+        private CharacterAttributeComponent characterAttributeComponent;
+
+        #region Class Try 1 _ Command Pattern
+        //// Class Try 1 _ Command Pattern
+        //private CharacterActionController characterActionController;
+        //private CharacterActionData currentAction;
+        #endregion
+
+        // Class Try 2 _ Command Pattern
+        private CharacterAttackComboController characterAttackComboController;
 
         // DataBase로 빼놓은 애들
+        // Attribute 구조로 바꾸며 필요 없어짐 -> 주석처리
         [SerializeField] private int level;
         [SerializeField] private float maxHP;
         [SerializeField] private int maxMagicArrow;
@@ -66,61 +76,133 @@ namespace HAD
         //[Title("Character Setting")]
         //public CharacterGameData characterData;
 
-        // 커맨드 패턴 시도
-        private bool isAttack1ing;
-        private bool isAttack2ing;
-        // 트리거 조건 O / 조건 X 트랜지션 중 전자가 우선 확인되어야 하는 거 아닌가??
-        private bool combo1On;
-        private bool combo2On;
-        
-        // @ Receiver's the work : 주방의 요리사가 부여받은 주문서의 레시피대로 요리함
+        #region Command Combo _ PerformAttackCombo()
+        //// 커맨드 패턴 시도
+        //private bool isAttack1ing;
+        //private bool isAttack2ing;
+        //// 트리거 조건 O / 조건 X 트랜지션 중 전자가 우선 확인되어야 하는 거 아닌가??
+        //private bool combo1On;
+        //private bool combo2On;
+
+        //// @ Receiver's the work : 주방의 요리사가 부여받은 주문서의 레시피대로 요리함
+        //public void PerformAttackCombo()
+        //{
+        //    // attackName 받아오는 대신 여기서 불값 확인해서
+        //    // 공격0->1, 1->2, 2->3으로 각기 다른 트리거 set해주는 방식으로 구현해볼것
+        //    if(isAttack2ing)
+        //    {
+        //        characterAnimator.SetTrigger("Attack3Trigger");
+        //        combo2On = true;
+        //        characterAnimator.SetBool("Combo2", combo2On);
+        //        // Debug.Log("트리거3 On!");
+        //    }
+        //    else if(isAttack1ing)
+        //    {
+        //        characterAnimator.SetTrigger("Attack2Trigger");
+        //        combo1On = true;
+        //        characterAnimator.SetBool("Combo1", combo1On);
+        //        // Debug.Log("트리거2 On!");
+        //    }
+        //    else
+        //    {
+        //        combo1On = false;
+        //        combo2On = false;
+        //        characterAnimator.SetBool("Combo1", combo1On);
+        //        characterAnimator.SetBool("Combo2", combo2On);
+        //        characterAnimator.SetTrigger("Attack1Trigger");
+        //        // Debug.Log("트리거1 On!");
+        //    }
+        //    // _isAttacking = true;
+        //}
+
+        //public void ReverseIsAttack1ing()
+        //{
+        //    isAttack1ing = !isAttack1ing;
+        //    // Debug.Log($"Attack1ing: {isAttack1ing}");
+        //}
+        //public void ReverseIsAttack2ing()
+        //{
+        //    isAttack2ing = !isAttack2ing;
+        //    // Debug.Log($"Attack2ing: {isAttack2ing}");
+        //}
+        //// -- 커맨드 패턴
+        #endregion
+
+        #region Class Try 1 _ Command Pattern
+        //// Class Try 1 _ Command Pattern
+        //private bool isNeedToExecuteNextAction = false;
+        //public void PerformAttackCombo()
+        //{
+        //    if(currentAction == null)
+        //    {
+        //        isNeedToExecuteNextAction = false;
+        //        var firstActionData = characterActionController.GetActionData(null);
+        //        characterAnimator.Play(firstActionData.ActionStateName);
+        //        currentAction = firstActionData;
+        //    }
+        //    else
+        //    {
+        //        if(currentAction.NextAction != null)
+        //        {
+        //            isNeedToExecuteNextAction = true;
+        //        }
+        //    }
+        //}
+        #endregion
+
+        // Class Try 2 _ Command Pattern
+        // 일단 하드코딩 -> 점점 바꾸기
+        public int CurrentAttackComboIndex => attackComboIndex;
+        private int attackComboIndex = 0;
+        public bool isAttacking = false;
+        private bool isNeedExecuteNextCombo = false;
         public void PerformAttackCombo()
         {
-            // attackName 받아오는 대신 여기서 불값 확인해서
-            // 공격0->1, 1->2, 2->3으로 각기 다른 트리거 set해주는 방식으로 구현해볼것
-            if(isAttack2ing)
+            // 기존 Attack() // ToDo: 콤보 막타 중 회전 막기
+            if (!isDashing)
+                MouseRotate();
+
+            if (!isAttacking)
             {
-                characterAnimator.SetTrigger("Attack3Trigger");
-                combo2On = true;
-                characterAnimator.SetBool("Combo2", combo2On);
-                // Debug.Log("트리거3 On!");
-            }
-            else if(isAttack1ing)
-            {
-                characterAnimator.SetTrigger("Attack2Trigger");
-                combo1On = true;
-                characterAnimator.SetBool("Combo1", combo1On);
-                // Debug.Log("트리거2 On!");
+                isAttacking = true;
+                attackComboIndex++;
             }
             else
             {
-                combo1On = false;
-                combo2On = false;
-                characterAnimator.SetBool("Combo1", combo1On);
-                characterAnimator.SetBool("Combo2", combo2On);
-                characterAnimator.SetTrigger("Attack1Trigger");
-                // Debug.Log("트리거1 On!");
+                isNeedExecuteNextCombo = true;
+                attackComboIndex++;
             }
-            // _isAttacking = true;
         }
-
-        public void ReverseIsAttack1ing()
+        public void ResetComboIndex()
         {
-            isAttack1ing = !isAttack1ing;
-            // Debug.Log($"Attack1ing: {isAttack1ing}");
+            isAttacking = false;
+            isNeedExecuteNextCombo = false;
+            attackComboIndex = 0;
         }
-        public void ReverseIsAttack2ing()
-        {
-            isAttack2ing = !isAttack2ing;
-            // Debug.Log($"Attack2ing: {isAttack2ing}");
-        }
+        //
 
-        // -- 커맨드 패턴
+        //// Attribute
+        //// CharacterAttributeComponent에서 모든 Type 도는 대신에
+        //public List<AttributeTypes> attributes = new List<AttributeTypes>();
 
         public void InitializeCharacter(CharacterGameData characterData)
         {
+            //// 이런 방법도 가능
+            //for(int i = 0; i < attributes.Count; i++)
+            //{
+            //    characterAttributeComponent.attributes.Add((AttributeTypes)i, new CharacterAttribute());
+            //}
+
             level = characterData.Level;
-            maxHP = characterData.MaxHP;
+
+            // Attribute
+            // 이 코드를
+            // maxHP = characterData.MaxHP;
+            // 이렇게 변경
+            // characterAttributeComponent.SetAttribute(AttributeTypes.HealthPoint, characterData.MaxHP);
+            // 스탯 변경은 모두 characterAttributeComponent로 접근해서 값 변경 
+            // public float CurrentHP => characterAttribute.GetAttribute(Attributetypes.HealthPoint).CurrentValue; // 이렇게 사용도 가능
+
             // curHP
             curHP = maxHP;
             maxMagicArrow = characterData.MaxArrow;
@@ -134,15 +216,32 @@ namespace HAD
             dashCoolTime = characterData.DashCooltime; // Dash()에 대시쿨타임 체크 추가하기
         }
 
+        // 이렇게 사용도 가능
+        public float CurrentHP
+        {
+            get => characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue;
+            set => characterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.HealthPoint, value);
+        }
+
         private void Awake()
         {
             characterAbilityComponent = GetComponent<CharacterAbilityComponent>();
-        }
 
+            #region Class Try 1 _ Command Pattern
+            //// Class Try 1 _ Command Pattern
+            //characterActionController = GetComponent<CharacterActionController>();  
+            #endregion
+
+            // Class Try 2 _ Command Pattern
+            characterAttackComboController = GetComponent<CharacterAttackComboController>();
+
+            // Attribute
+            characterAttributeComponent = GetComponent<CharacterAttributeComponent>();    
+        }
+    
         private void Start()
         {
             characterController = GetComponent<UnityEngine.CharacterController>();
-
         }
 
         private void Update()
@@ -184,6 +283,33 @@ namespace HAD
                 //characterAnimator.speed = 0f;
                 // 날아갈 경로 보여주기
             }
+
+            #region Class Try 1 _ Command Pattern
+            //// Class Try 1 _ Command Pattern
+            //if(currentAction != null)
+            //{
+            //    var stateInfo = characterAnimator.GetCurrentAnimatorStateInfo(0);
+            //    if(currentAction.NextAction != null
+            //        && stateInfo.normalizedTime <= currentAction.LimitInputNormalizedTime
+            //        && stateInfo.normalizedTime >= currentAction.MinimumPlayClipLength)
+            //    {
+            //        if(isNeedToExecuteNextAction)
+            //        {
+            //            characterAnimator.CrossFade(currentAction.NextAction.ActionStateName, 0.25f);
+            //            currentAction = currentAction.NextAction;
+
+            //            PerformAttackCombo();
+            //        }
+            //    }
+            //    // 다음 액션으로 연결 실패 -> 초기화
+            //    if(stateInfo.normalizedTime >= currentAction.MinimumExitNormalizedTime)
+            //    {
+            //        currentAction = null;
+            //        isNeedToExecuteNextAction = false;
+            //        characterAnimator.CrossFade("Locomotion", 1.0f - currentAction.MinimumExitNormalizedTime);
+            //    }
+            //}
+            #endregion
         }
 
         public void Move(Vector2 input, float yAxis)
@@ -234,15 +360,6 @@ namespace HAD
                 Quaternion lookTarget = Quaternion.LookRotation(dir);
                 transform.rotation = lookTarget;
             }
-        }
-
-        public void Attack()
-        {
-            if(!isDashing)
-                MouseRotate(); // ToDo: 콤보 막타 중 회전 막기
-            // characterAnimator.SetTrigger("AttackTrigger");
-            // comboIndex++;
-            // characterAnimator.SetInteger("AttackComboCount", comboIndex);
         }
 
         private void ExecuteDamage(IDamage damageInterface, float damage)
@@ -412,10 +529,10 @@ namespace HAD
                         abil.SetTargetMon(overlapObjects[i].transform.root.gameObject);
                         abil.Execute();
                     }
-                    //// Test용
-                    //GameObject targetMon = overlapObjects[i].transform.root.gameObject;
-                    //Vector3 pushDir = (transform.position - targetMon.transform.position).normalized;
-                    //targetMon.transform.Translate(pushDir);
+                    // Test용
+                    GameObject targetMon = overlapObjects[i].transform.root.gameObject;
+                    Vector3 pushDir = (transform.position - targetMon.transform.position).normalized;
+                    targetMon.transform.Translate(pushDir);
                 }
             }
         }
@@ -441,6 +558,7 @@ namespace HAD
             isMagicAiming = false;
             characterAnimator.SetTrigger("MagicShotTrigger");
             Instantiate(magicArrowPrefab, transform.position + transform.forward + transform.up, transform.rotation * Quaternion.Euler(90, 0, 0));
+            // ToDo: 여기서 캐릭터 정면 = 화살 정면되게 로테이션
             // 테스트 위해 일단 주석
             // curMagicArrow--;
         }
@@ -525,10 +643,10 @@ namespace HAD
             isAttacking = tf;
         }
 
-        public void ResetComboIndex()
-        {
-            comboIndex = 0;
-        }
+        //public void ResetComboIndex()
+        //{
+        //    comboIndex = 0;
+        //}
 
         private void OnDrawGizmos()
         {
@@ -548,9 +666,8 @@ namespace HAD
             // 있으면, 받은 damage의 1/4을 actor에 돌려줌
             //if (characterAbilityComponent.GetAbility(AbilityTag.Revenge, out RevengeAbility abil))
             //{
-            //    abil.SetAttacker(actor);
-            //    abil.SetOriginDamage(damage);
-            //    abil.Execute(); // actor, damage 저쪽으로 넘겨줬다가 다시 이쪽으로 넘겨주는 작업을 해야 하는 것...?
+            //    abil.Init(this, actor, damage);
+            //    abil.Execute();
             //}
             //// 테스트용
             //IDamage damageInterface = actor.GetActor().GetComponent<IDamage>();
@@ -558,16 +675,22 @@ namespace HAD
         }
 
         // @ Ability System
-        public void RevengeAttack(IActor actor, float damage)
-        {
-            // actor(공격자)의 IDamage 가져와서 ExecuteDamage
-            IDamage damageInterface = actor.GetActor().GetComponent<IDamage>();
-            ExecuteDamage(damageInterface, damage * 0.25f);
-        } 
+        //public void RevengeAttack(IActor actor, float damage)
+        //{
+        //    // actor(공격자)의 IDamage 가져와서 ExecuteDamage
+        //    IDamage damageInterface = actor.GetActor().GetComponent<IDamage>();
+        //    ExecuteDamage(damageInterface, damage * 0.25f);
+        //} 
 
         public GameObject GetActor()
         {
             return gameObject;
+        }
+
+        // Attribute
+        public void AddBuffed(AttributeTypes type, float buffedValue)
+        {
+            characterAttributeComponent.SetAttributeBuffedValue(type, buffedValue);
         }
     }
 }

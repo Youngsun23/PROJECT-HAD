@@ -12,10 +12,18 @@ namespace HAD
         public float moveSpeed = 5f;
         public float turnSpeed = 80f;
 
+        // private CharacterCommandInvoker charCommandInvoker; // 동일 클래스(클래스명 변경)
+        // Class Try 2 _ Command Pattern
+        private CharacterCommandManager charCommandInvoker;
+
         private void Start()
         {
             var playerCharacterData = GameDataModel.Singleton.GetPlayerCharacterData(1);
             character.InitializeCharacter(playerCharacterData);
+
+            // charCommandInvoker = new CharacterCommandInvoker();
+            // Class Try 2 _ Command Pattern
+            charCommandInvoker = GetComponent<CharacterCommandManager>();
 
             InputManager.Instance.OnAttackPerformed += ExecuteAttack;                   
             InputManager.Instance.OnMagicAimPerformed += ExecuteMagicAim;
@@ -26,7 +34,30 @@ namespace HAD
 
         private void ExecuteAttack()
         {
-            character.Attack();
+            // @ Client : 손님 주문
+            //ICommand attackComboCommand = new AttackCombo1Command(character);
+            //charCommandInvoker.AddCommand(attackComboCommand);
+
+            // Class Try 2 _ Command Pattern
+            // 일단 하드코딩 -> 점점 바꾸기
+            if (character.CurrentAttackComboIndex == 0)
+            {
+                ICommand attackCombo1Command = new AttackCombo1Command(character);
+                charCommandInvoker.AddCommand(attackCombo1Command);
+            }
+            else if(character.CurrentAttackComboIndex == 1)
+            {
+                ICommand attackCombo2Command = new AttackCombo2Command(character);
+                charCommandInvoker.AddCommand(attackCombo2Command);
+            }
+            else if(character.CurrentAttackComboIndex == 2)
+            {
+                ICommand attackCombo3Command = new AttackCombo3Command(character);
+                charCommandInvoker.AddCommand(attackCombo3Command);
+            }
+
+            // character.Attack();
+            character.PerformAttackCombo();
         }
 
         private void ExecuteMagicAim()
