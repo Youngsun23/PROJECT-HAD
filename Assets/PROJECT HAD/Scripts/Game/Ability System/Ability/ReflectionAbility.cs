@@ -18,7 +18,8 @@ namespace HAD
             // 1. 투사체의 이동 방향을 기존의 반대 방향으로 변경
             // 2. 적의 투사체가 아닌 내 공격으로 변경
             var projCon = targetProjectile.GetComponent<ProjectileController>();
-            projCon.SetLayer(LayerMask.NameToLayer(Constant.LAYER_NAME_PLAYERPROJECTILE));
+            // projCon.SetLayer(LayerMask.NameToLayer(Constant.LAYER_NAME_PLAYERPROJECTILE));
+            // ToDo: 레이어로 처리하던거 -> 태그로 처리
             projCon.ReverseMoveDir();
 
             //// OverlapSphere로 360도 원형 검사

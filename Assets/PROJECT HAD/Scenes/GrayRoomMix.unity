@@ -6760,7 +6760,6 @@ MonoBehaviour:
   characterController: {fileID: 313559695}
   characterAnimator: {fileID: 313559694}
   comboIndex: 0
-  isAttacking: 0
   magicArrowPrefab: {fileID: 0}
   curMagicArrow: 0
   curHP: 0
@@ -6773,6 +6772,7 @@ MonoBehaviour:
   attackRadius: 0
   dashDuration: 0
   dashCoolTime: 0
+  isAttacking: 0
 --- !u!95 &313559694
 Animator:
   serializedVersion: 5
@@ -23771,7 +23771,6 @@ MonoBehaviour:
   characterController: {fileID: 1187049554}
   characterAnimator: {fileID: 1187049553}
   comboIndex: 0
-  isAttacking: 0
   magicArrowPrefab: {fileID: 0}
   curMagicArrow: 0
   curHP: 0
@@ -23784,6 +23783,7 @@ MonoBehaviour:
   attackRadius: 0
   dashDuration: 0
   dashCoolTime: 0
+  isAttacking: 0
 --- !u!95 &1187049553
 Animator:
   serializedVersion: 5
@@ -32160,6 +32160,7 @@ GameObject:
   - component: {fileID: 1683881812}
   - component: {fileID: 1683881811}
   - component: {fileID: 1683881816}
+  - component: {fileID: 1683881817}
   m_Layer: 0
   m_Name: HAD.Character.Player
   m_TagString: Untagged
@@ -32182,7 +32183,6 @@ MonoBehaviour:
   characterController: {fileID: 1683881814}
   characterAnimator: {fileID: 1683881813}
   comboIndex: 0
-  isAttacking: 0
   magicArrowPrefab: {fileID: 8900558857015839686, guid: 77ec70f2d90832d49a16942d656e503b, type: 3}
   curMagicArrow: 0
   curHP: 0
@@ -32195,6 +32195,7 @@ MonoBehaviour:
   attackRadius: 0
   dashDuration: 0
   dashCoolTime: 0
+  isAttacking: 0
 --- !u!114 &1683881812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32265,7 +32266,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1683881810}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9998495, z: -0, w: -0.017353043}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -7.18, y: 1.15, z: 4.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -32274,7 +32275,7 @@ Transform:
   - {fileID: 1185655960}
   - {fileID: 560635262}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 181.989, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1683881816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32285,6 +32286,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8be7828040206864f99738be66865e49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1683881817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683881810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 611b8d37aea68f0448f37e20d5a0a7c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1688274636
@@ -36037,7 +36050,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16b96a7fab380ed478ca6fa294ce9093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 1683881811}
 --- !u!114 &1919381979
 MonoBehaviour:
   m_ObjectHideFlags: 0
