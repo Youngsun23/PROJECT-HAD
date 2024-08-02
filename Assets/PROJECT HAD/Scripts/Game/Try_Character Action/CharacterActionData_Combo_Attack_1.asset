@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0ad243b885190745bdd0f4e45da7c21, type: 3}
+  m_Name: CharacterActionData_Combo_Attack_1
+  m_EditorClassIdentifier: 
+  <ActionStateName>k__BackingField: Attack1
+  <PrevAction>k__BackingField: {fileID: 0}
+  <NextAction>k__BackingField: {fileID: 11400000, guid: f6714f8e2f1654a478747d28ba269ba6, type: 2}
+  <LimitInputNormalizedTime>k__BackingField: 0.35
+  <MinimumPlayClipLength>k__BackingField: 0.6
+  <MinimumExitNormalizedTime>k__BackingField: 0.75

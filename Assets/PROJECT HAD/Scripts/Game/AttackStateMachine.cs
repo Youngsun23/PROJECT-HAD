@@ -19,8 +19,8 @@ namespace HAD
             if(animator.transform.root.TryGetComponent(out CharacterBase character))
             {
                 character.SetIsAttacking(false);
-                character.ResetComboIndex();
-                animator.ResetTrigger("Attack1Trigger");
+                //character.ResetComboIndex();
+                //animator.ResetTrigger("Attack1Trigger");
             }
         }
     }
