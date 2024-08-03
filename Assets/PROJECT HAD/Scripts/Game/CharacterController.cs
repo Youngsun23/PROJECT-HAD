@@ -14,7 +14,8 @@ namespace HAD
 
         // private CharacterCommandInvoker charCommandInvoker; // 동일 클래스(클래스명 변경)
         // Class Try 2 _ Command Pattern
-        private CharacterCommandManager charCommandInvoker;
+        // private CharacterCommandManager charCommandInvoker;
+        private CharacterCommandManager characterCommandManager;
 
         private void Start()
         {
@@ -23,7 +24,8 @@ namespace HAD
 
             // charCommandInvoker = new CharacterCommandInvoker();
             // Class Try 2 _ Command Pattern
-            charCommandInvoker = GetComponent<CharacterCommandManager>();
+            //charCommandInvoker = GetComponent<CharacterCommandManager>();
+            characterCommandManager = GetComponent<CharacterCommandManager>();
 
             InputManager.Instance.OnAttackPerformed += ExecuteAttack;                   
             InputManager.Instance.OnMagicAimPerformed += ExecuteMagicAim;
@@ -40,24 +42,44 @@ namespace HAD
 
             // Class Try 2 _ Command Pattern
             // 일단 하드코딩 -> 점점 바꾸기
-            if (character.CurrentAttackComboIndex == 0)
-            {
-                ICommand attackCombo1Command = new AttackCombo1Command(character);
-                charCommandInvoker.AddCommand(attackCombo1Command);
-            }
-            else if(character.CurrentAttackComboIndex == 1)
-            {
-                ICommand attackCombo2Command = new AttackCombo2Command(character);
-                charCommandInvoker.AddCommand(attackCombo2Command);
-            }
-            else if(character.CurrentAttackComboIndex == 2)
-            {
-                ICommand attackCombo3Command = new AttackCombo3Command(character);
-                charCommandInvoker.AddCommand(attackCombo3Command);
-            }
+            //if (character.CurrentAttackComboIndex == 0)
+            //{
+            //    ICommand attackCombo1Command = new AttackCombo1Command(character);
+            //    charCommandInvoker.AddCommand(attackCombo1Command);
+            //}
+            //else if (character.CurrentAttackComboIndex == 1)
+            //{
+            //    ICommand attackCombo2Command = new AttackCombo2Command(character);
+            //    charCommandInvoker.AddCommand(attackCombo2Command);
+            //}
+            //else if (character.CurrentAttackComboIndex == 2)
+            //{
+            //    ICommand attackCombo3Command = new AttackCombo3Command(character);
+            //    charCommandInvoker.AddCommand(attackCombo3Command);
+            //}
+
+            characterCommandManager.AddCommand(character.CurrentAttackComboIndex);
+
+            #region trial
+            //// 대체 코드? 이러면 결국 다를 게 없음
+            //if (character.CurrentAttackComboIndex == 0)
+            //{
+            //    characterCommandManager.ExecuteCommand(commands: new List<ICommand> { characterCommandManager.singleCommand });
+            //}
+            //else if (character.CurrentAttackComboIndex == 1)
+            //{
+            //    characterCommandManager.singleCommand = AttackComboCommands.Create<AttackCombo2Command>(character);
+            //    characterCommandManager.ExecuteCommand(commands: new List<ICommand> { characterCommandManager.singleCommand });
+            //}
+            //else if (character.CurrentAttackComboIndex == 2)
+            //{
+            //    characterCommandManager.singleCommand = AttackComboCommands.Create<AttackCombo3Command>(character);
+            //    characterCommandManager.ExecuteCommand(commands: new List<ICommand> { characterCommandManager.singleCommand });
+            //}
+            #endregion
 
             // character.Attack();
-            character.PerformAttackCombo();
+            // character.PerformAttackCombo();
         }
 
         private void ExecuteMagicAim()

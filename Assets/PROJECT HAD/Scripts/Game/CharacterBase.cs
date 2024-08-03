@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,9 +26,9 @@ namespace HAD
         private float rotationSmoothTime = 0.12f;
 
         [Title("Character Attack")]
-        public int comboIndex = 0;
+        // public int comboIndex = 0;
         public GameObject magicArrowPrefab;
-        public int curMagicArrow;
+        // public int curMagicArrow;
         private bool isMagicAiming;
         private bool isCombo2ing = false;
 
@@ -47,6 +48,8 @@ namespace HAD
 
         public float curHP;
 
+        public GameObject reflectionAbilFX;
+
         private CharacterAbilityComponent characterAbilityComponent;
         // Attribute
         private CharacterAttributeComponent characterAttributeComponent;
@@ -59,18 +62,20 @@ namespace HAD
 
         // Class Try 2 _ Command Pattern
         private CharacterAttackComboController characterAttackComboController;
+        // 지연시키기
+        private CharacterCommandManager characterCommandManager;
 
         // DataBase로 빼놓은 애들
         // Attribute 구조로 바꾸며 필요 없어짐 -> 주석처리
-        [SerializeField] private int level;
-        [SerializeField] private float maxHP;
-        [SerializeField] private int maxMagicArrow;
-        [SerializeField] private float moveSpeed;
+        //[SerializeField] private int level;
+        //[SerializeField] private float maxHP;
+        //[SerializeField] private int maxMagicArrow;
+        //[SerializeField] private float moveSpeed;
+        //[SerializeField] private float dashCoolTime;
         [SerializeField] private float dashSpeed;
         [SerializeField] private float combo2MoveSpeed;
         [SerializeField] private float attackRadius;
         [SerializeField] private float dashDuration;
-        [SerializeField] private float dashCoolTime;
 
         // 이 방식은 폐기
         //[Title("Character Setting")]
@@ -156,6 +161,10 @@ namespace HAD
         private int attackComboIndex = 0;
         public bool isAttacking = false;
         private bool isNeedExecuteNextCombo = false;
+        public bool IsNeedExecuteNextCombo => isNeedExecuteNextCombo;
+        //private bool isNextComboReady = false;
+        //public void SetNextComboReady(bool tr) { isNextComboReady = tr; }
+        //public bool IsNextComboReady => isNextComboReady;
         public void PerformAttackCombo()
         {
             // 기존 Attack() // ToDo: 콤보 막타 중 회전 막기
@@ -172,12 +181,15 @@ namespace HAD
                 isNeedExecuteNextCombo = true;
                 attackComboIndex++;
             }
+            //Debug.Log("증가"+attackComboIndex);
         }
         public void ResetComboIndex()
         {
+            //Debug.Log($"ResetCombo 호출됨");
             isAttacking = false;
             isNeedExecuteNextCombo = false;
             attackComboIndex = 0;
+            //Debug.Log("리셋"+attackComboIndex);
         }
         //
 
@@ -193,27 +205,29 @@ namespace HAD
             //    characterAttributeComponent.attributes.Add((AttributeTypes)i, new CharacterAttribute());
             //}
 
-            level = characterData.Level;
+            // level = characterData.Level;
 
             // Attribute
             // 이 코드를
             // maxHP = characterData.MaxHP;
             // 이렇게 변경
-            // characterAttributeComponent.SetAttribute(AttributeTypes.HealthPoint, characterData.MaxHP);
             // 스탯 변경은 모두 characterAttributeComponent로 접근해서 값 변경 
             // public float CurrentHP => characterAttribute.GetAttribute(Attributetypes.HealthPoint).CurrentValue; // 이렇게 사용도 가능
 
-            // curHP
-            curHP = maxHP;
-            maxMagicArrow = characterData.MaxArrow;
-            // curMagic
-            curMagicArrow = maxMagicArrow;
-            moveSpeed = characterData.MoveSpeed;
+            characterAttributeComponent.SetAttribute(AttributeTypes.HealthPoint, characterData.MaxHP);
+            characterAttributeComponent.SetAttribute(AttributeTypes.MagicArrowCount, characterData.MaxArrow);
+            characterAttributeComponent.SetAttribute(AttributeTypes.DashCoolTime, characterData.DashCooltime);
+            characterAttributeComponent.SetAttribute(AttributeTypes.MoveSpeed, characterData.MoveSpeed);
+            characterAttributeComponent.SetAttribute(AttributeTypes.AttackPower, characterData.AttackPower);
+            characterAttributeComponent.SetAttribute(AttributeTypes.MagicPower, characterData.MagicPower);
+            characterAttributeComponent.SetAttribute(AttributeTypes.SpecialAttackPower, characterData.SpecialAttackPower);
+
+            // 아래는 벞/디벞/강화 안 하는 요소
+            // 그대로 써도 되나?
             combo2MoveSpeed = characterData.Combo2MoveSpeed;
             attackRadius = characterData.AttakRadius;
             dashSpeed = characterData.DashSpeed;
             dashDuration = characterData.DashDuration;
-            dashCoolTime = characterData.DashCooltime; // Dash()에 대시쿨타임 체크 추가하기
         }
 
         // 이렇게 사용도 가능
@@ -234,6 +248,8 @@ namespace HAD
 
             // Class Try 2 _ Command Pattern
             characterAttackComboController = GetComponent<CharacterAttackComboController>();
+            // 지연시키기
+            characterCommandManager = GetComponent<CharacterCommandManager>();
 
             // Attribute
             characterAttributeComponent = GetComponent<CharacterAttributeComponent>();    
@@ -257,7 +273,7 @@ namespace HAD
             if (!dashAvailable)
             {
                 // 대쉬 쿨타임 체크
-                if (Time.time > dashTimer + dashCoolTime)
+                if (Time.time > dashTimer + characterAttributeComponent.GetAttribute(AttributeTypes.DashCoolTime).CurrentValue)
                 {
                     dashAvailable = true;
                 }
@@ -317,7 +333,7 @@ namespace HAD
             //if (isAttacking)
             //    return;
 
-            targetMoveSpeed = input != Vector2.zero ? moveSpeed : 0.0f;
+            targetMoveSpeed = input != Vector2.zero ? characterAttributeComponent.GetAttribute(AttributeTypes.MoveSpeed).CurrentValue : 0.0f;
 
             Vector3 inputDirection = new Vector3(input.x, 0.0f, input.y).normalized;
             if (input != Vector2.zero)
@@ -413,6 +429,8 @@ namespace HAD
                     {
                         if (characterAbilityComponent.GetAbility(AbilityTag.Reflection, out ReflectionAbility abil))
                         {
+                            // 여기?
+                            // reflectionAbilFX.SetActive(true);
                             abil.SetTargetProjectile(overlapObjects[i].transform.root.gameObject);
                             abil.Execute();
                         }
@@ -539,12 +557,13 @@ namespace HAD
 
         public void ExecuteCombo2Move()
         {
+            //Debug.Log($"콤보3Bool이벤트: {DateTime.Now}");
             isCombo2ing = !isCombo2ing;
         }
 
         public void MagicAim()
         {
-            if (curMagicArrow <= 0)
+            if (characterAttributeComponent.GetAttribute(AttributeTypes.MagicArrowCount).CurrentValue <= 0)
                 return;
 
             // ToDo: 칼 비활성화

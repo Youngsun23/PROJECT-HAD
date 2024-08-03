@@ -8,7 +8,11 @@ namespace HAD
     {
         // 예시
         HealthPoint,
-        ManaPoint,
+        MagicArrowCount,
+        AttackPower,
+        MagicPower,
+        SpecialAttackPower,
+        DashCoolTime,
         MoveSpeed,
 
         EndField,

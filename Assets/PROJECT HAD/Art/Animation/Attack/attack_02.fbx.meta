@@ -60,15 +60,15 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.3263688
-        functionName: ExecuteCombo2Logic
+      - time: 0.2487056
+        functionName: ExecuteCombo2Move
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.2487056
-        functionName: ExecuteCombo2Move
+      - time: 0.3263688
+        functionName: ExecuteCombo2Logic
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

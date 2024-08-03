@@ -18,6 +18,9 @@ namespace HAD
 
         [field: Title("Attack Setting")]
         [field: SerializeField] public float AttakRadius { get; protected set; } = 2.5f;
+        [field: SerializeField] public float AttackPower { get; protected set; } = 10f;
+        [field: SerializeField] public float MagicPower { get; protected set; } = 10f;
+        [field: SerializeField] public float SpecialAttackPower { get; protected set; } = 15f;
         
         [field: Title("Combo Setting")]
         [field: SerializeField] public float Combo2MoveSpeed { get; protected set; } = 5f;
