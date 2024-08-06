@@ -123,7 +123,7 @@ namespace HAD
         // 여기 Update에서 인풋(키1||키2)에 따라
         // singleCommand 하나 담은 리스트 새로 만들어 ExecuteCommand()하거나
         // 보유한 액션 모두 담아뒀던 commands를 ExeucteCommand()하는 방식
-        // 입력-공1-입력-공2-입력-공3의 형태와 맞지 않음
+        // 입력-공1-입력-공2-입력-공3의 형태로 변형?
     }
 
     // 영상

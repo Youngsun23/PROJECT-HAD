@@ -29,6 +29,23 @@ namespace HAD
         //    animationDurations.Add(AttackCombo_3_Hash, AttackCombo_3_ClipLength);
         //}
 
+        //// 위의 시도 -> 제대로 작동하는 방식 (그냥 알아만두자~ 실무에서 이렇게는 안하지~)
+        //// 직접 적으면 컴퓨터가 일 안 해도 되죠? 어차피 애니메이션 클립은 한 번 정해지면 가변적이지도 않죠?
+        //public SerializableDictionary<string, AnimationClip> animationData = new SerializableDictionary<string, AnimationClip>(); // 인스펙터에서 애니메이션 클립 등록
+        //private Dictionary<int, float> animationDurations2 = new Dictionary<int, float>();
+        //private void Awake()
+        //{
+        //    animator = GetComponent<Animator>();
+
+        //    foreach(var data in animationData)
+        //    {
+        //        int hashKey = Animator.StringToHash(data.Key);
+        //        float animeTime = animationData[data.Key].length;
+        //        animationDurations2.Add(hashKey, animeTime);
+        //    }
+        //}
+        // return을 animationDurations2[]로 하면 된다.
+
         static readonly Dictionary<int, float> animationDurations = new Dictionary<int, float>()
         {
             { Locomotion_Hash, 0f },        // Length

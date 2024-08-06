@@ -19,13 +19,11 @@ namespace HAD
             character = ch;
         }
 
-
         //public void Execute()
         //{
         //    character.PerformAttackCombo();
         //}
 
-        // Class Try 2 _ Command Pattern
         // public override async Task Execute()
         async Task ICommand.Execute()
         {

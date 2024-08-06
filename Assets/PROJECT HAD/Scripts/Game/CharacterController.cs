@@ -7,7 +7,10 @@ namespace HAD
 {
     public class CharacterController : MonoBehaviour
     {
+        public static CharacterController Instance { get; private set; }
+
         public CharacterBase character;
+        public InteractionSensor interactionSensor;
 
         public float moveSpeed = 5f;
         public float turnSpeed = 80f;
@@ -16,6 +19,16 @@ namespace HAD
         // Class Try 2 _ Command Pattern
         // private CharacterCommandManager charCommandInvoker;
         private CharacterCommandManager characterCommandManager;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
+
+        private void OnDestroy()
+        {
+            Instance = null;
+        }
 
         private void Start()
         {
@@ -32,14 +45,44 @@ namespace HAD
             InputManager.Instance.OnMagicShotPerformed += ExecuteMagicShot;
             InputManager.Instance.OnSpecialAttackPerformed += ExecuteSpecialAttack;
             InputManager.Instance.OnDashPerformed += ExecuteDash;
+
+            interactionSensor.OnDetectedInteractable += OnDetectedInteractable;
+            interactionSensor.OnLostInteractable += OnLostInteractable;
+        }
+        private void OnDetectedInteractable(IInteractable interactable)
+        {
+            if(interactable.IsAutomaticInteraction)
+            {
+                // 자동 상호작용 (템 획득 등)
+                interactable.Interact(character);
+            }
+            else
+            {
+                // 상호작용 가능 UI 켜기
+            }
+        }
+
+        private void OnLostInteractable(IInteractable interactable)
+        {
+            // 상호작용 가능 UI 끄기
+        }
+
+        // ToDo
+        private void MoveCameraPivot(Vector3 dir, float magnitude)
+        {
+
         }
 
         private void ExecuteAttack()
         {
+            #region trial 1
+
             // @ Client : 손님 주문
             //ICommand attackComboCommand = new AttackCombo1Command(character);
             //charCommandInvoker.AddCommand(attackComboCommand);
+            #endregion
 
+            #region trial 2
             // Class Try 2 _ Command Pattern
             // 일단 하드코딩 -> 점점 바꾸기
             //if (character.CurrentAttackComboIndex == 0)
@@ -57,10 +100,9 @@ namespace HAD
             //    ICommand attackCombo3Command = new AttackCombo3Command(character);
             //    charCommandInvoker.AddCommand(attackCombo3Command);
             //}
+            #endregion
 
-            characterCommandManager.AddCommand(character.CurrentAttackComboIndex);
-
-            #region trial
+            #region trial 3
             //// 대체 코드? 이러면 결국 다를 게 없음
             //if (character.CurrentAttackComboIndex == 0)
             //{
@@ -77,6 +119,8 @@ namespace HAD
             //    characterCommandManager.ExecuteCommand(commands: new List<ICommand> { characterCommandManager.singleCommand });
             //}
             #endregion
+
+            characterCommandManager.AddCommand(character.CurrentAttackComboIndex);
 
             // character.Attack();
             // character.PerformAttackCombo();

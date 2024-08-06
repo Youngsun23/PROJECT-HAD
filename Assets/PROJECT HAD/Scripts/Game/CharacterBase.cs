@@ -199,6 +199,7 @@ namespace HAD
 
         public void InitializeCharacter(CharacterGameData characterData)
         {
+            //// Attribute
             //// 이런 방법도 가능
             //for(int i = 0; i < attributes.Count; i++)
             //{
@@ -230,12 +231,13 @@ namespace HAD
             dashDuration = characterData.DashDuration;
         }
 
-        // 이렇게 사용도 가능
-        public float CurrentHP
-        {
-            get => characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue;
-            set => characterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.HealthPoint, value);
-        }
+        //// Attributes
+        //// 이렇게 사용도 가능
+        //public float CurrentHP
+        //{
+        //    get => characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue;
+        //    set => characterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.HealthPoint, value);
+        //}
 
         private void Awake()
         {

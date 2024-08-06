@@ -13,7 +13,7 @@ namespace HAD
         private void Awake()
         {
             moveDir = -transform.forward;
-            // 생성할 때 애초에 캐릭터 정면 쪽이 forward가 되도록 회전해서 소환
+            // ToDo - > + 생성할 때 애초에 캐릭터 정면 쪽이 forward가 되도록 회전해서 소환
         }
 
         // 생성 지점 ~ 캐릭터 전방으로 일정 거리 이동
@@ -41,7 +41,13 @@ namespace HAD
                 damageInterface.TakeDamage(this, 10f);
                 Debug.Log($"마법에 피격!");
             }
-            Destroy(gameObject);
+
+            // ToDo
+            // 적한테 충돌? => 얘는 Destroy, 적한테 Tag 부여, 적이 죽으면 magicArrow를 근처 어느 좌표에 생성
+            // 그 외? => Destroy 하지 않고 바로 떨어뜨림
+
+            // 특정 경우에만 Destroy
+            // Destroy(gameObject);
         }
 
         public GameObject GetActor()
