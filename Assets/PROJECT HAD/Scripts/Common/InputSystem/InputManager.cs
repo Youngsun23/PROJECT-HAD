@@ -17,6 +17,7 @@ namespace HAD
         public System.Action OnMagicShotPerformed;
         public System.Action OnSpecialAttackPerformed;
         public System.Action OnDashPerformed;
+        public System.Action OnInteractPerformed;
 
         // 커맨드 패턴 시도
         // public CharacterBase character;
@@ -68,6 +69,11 @@ namespace HAD
         public void OnDash()
         {
             OnDashPerformed?.Invoke();
+        }
+
+        public void OnInteract()
+        {
+            OnInteractPerformed?.Invoke();
         }
     }
 }

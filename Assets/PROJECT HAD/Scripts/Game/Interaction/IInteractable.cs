@@ -9,5 +9,7 @@ namespace HAD
         bool IsAutomaticInteraction { get; }
 
         void Interact(CharacterBase actor);
+        void InteractEnable(); // Auto 아닌 애들용 (안 쓰는 애는 비워두면 되는 거 아닌가?)
+        void InteractDisenable();
     }
 }

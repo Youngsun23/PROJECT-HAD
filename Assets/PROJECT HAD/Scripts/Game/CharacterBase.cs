@@ -12,6 +12,8 @@ namespace HAD
         public bool IsAttacking => isAttacking;
         public bool IsMagicAiming => isMagicAiming;
 
+        public LayerMask ignoreLayerMask;
+
         // Class Try 2 _ Command Pattern
         public CharacterAttackComboController CharacterAttackComboController => characterAttackComboController;
         // Attribute
@@ -371,7 +373,7 @@ namespace HAD
         {
             RaycastHit mouseHit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out mouseHit, 100f))
+            if (Physics.Raycast(ray, out mouseHit, 100f, ~ignoreLayerMask))
             {
                 Vector3 destPos = new Vector3(mouseHit.point.x, transform.position.y, mouseHit.point.z);
                 Vector3 dir = destPos - transform.position;
@@ -379,6 +381,8 @@ namespace HAD
                 transform.rotation = lookTarget;
             }
         }
+        // ??? 얘는 왜 갑자기 고장남??
+        // BoundingVolume 옵젝들에 먼저 걸려서 그런가보다...레이어로 빼서 무시
 
         private void ExecuteDamage(IDamage damageInterface, float damage)
         {

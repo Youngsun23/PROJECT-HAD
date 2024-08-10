@@ -31,7 +31,7 @@ namespace HAD
                 {
                     isTracking = false;
 
-                    // ToDo: PC currentArrow 증가 // 이게 맞나...
+                    // ToDo: PC currentArrow 증가 // 맞나?
                     float currentArrowCount = target.gameObject.GetComponent<CharacterAttributeComponent>().GetAttribute(AttributeTypes.MagicArrowCount).CurrentValue;
                     target.gameObject.GetComponent<CharacterAttributeComponent>().SetAttributeBuffedValue(AttributeTypes.MagicArrowCount, currentArrowCount + 1);
 
@@ -49,5 +49,8 @@ namespace HAD
             target = actor.transform;
             isTracking = true;
         }
+
+        public void InteractEnable() { }
+        public void InteractDisenable() { }
     }
 }

@@ -11,6 +11,9 @@ namespace HAD
 
         public CharacterBase character;
         public InteractionSensor interactionSensor;
+        //private bool interactionInformed = false;
+        private bool interactionEnabled = false;
+        private IInteractable interactableObject;
 
         public float moveSpeed = 5f;
         public float turnSpeed = 80f;
@@ -48,6 +51,7 @@ namespace HAD
 
             interactionSensor.OnDetectedInteractable += OnDetectedInteractable;
             interactionSensor.OnLostInteractable += OnLostInteractable;
+            InputManager.Instance.OnInteractPerformed += OnInteraction;
         }
         private void OnDetectedInteractable(IInteractable interactable)
         {
@@ -58,20 +62,41 @@ namespace HAD
             }
             else
             {
+                //interactionInformed = true;
+                //interactionSensor.SetInteractionInformed(true);
+
                 // 상호작용 가능 UI 켜기
+                interactionEnabled = true;
+                interactableObject = interactable;
+                interactable.InteractEnable();
             }
         }
 
         private void OnLostInteractable(IInteractable interactable)
         {
-            // 상호작용 가능 UI 끄기
+            if (!interactable.IsAutomaticInteraction)
+            {
+                //interactionInformed = false;
+                //interactionSensor.SetInteractionInformed(false);
+
+                // 상호작용 가능 UI 끄기
+                interactionEnabled = false;
+                interactableObject = null;
+                interactable.InteractDisenable();
+            }
         }
 
-        // ToDo
-        private void MoveCameraPivot(Vector3 dir, float magnitude)
+        private void OnInteraction()
         {
-
+            if (interactionEnabled)
+            {
+                interactionEnabled = false;
+                interactableObject?.InteractDisenable();
+                interactableObject?.Interact(character);
+            }
         }
+
+        // public void MoveCameraPivot(Vector3 dir, float magnitude) { }
 
         private void ExecuteAttack()
         {
