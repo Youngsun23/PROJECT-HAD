@@ -8,7 +8,7 @@ namespace HAD
     public abstract class AbilityBase
     {
         public abstract AbilityTag Tag { get; }
-        public CharacterBase Owner { get; set; }
+        public CharacterBase Owner { get; set; } 
 
         public abstract void Execute();
     }

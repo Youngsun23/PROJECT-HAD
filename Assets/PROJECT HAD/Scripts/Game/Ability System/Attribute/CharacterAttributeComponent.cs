@@ -12,7 +12,7 @@ namespace HAD
         AttackPower,
         MagicPower,
         SpecialAttackPower,
-        DashCoolTime,
+        DashCooltime,
         MoveSpeed,
 
         EndField,

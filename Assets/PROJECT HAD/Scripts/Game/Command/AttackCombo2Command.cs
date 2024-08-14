@@ -12,7 +12,7 @@ namespace HAD
         //public AttackCombo2Command(CharacterBase ch)
         //    : base(ch) { }
 
-        public AttackCombo2Command(CharacterBase ch)
+        public AttackCombo2Command(CharacterBase ch) 
         {
             character = ch;
         }

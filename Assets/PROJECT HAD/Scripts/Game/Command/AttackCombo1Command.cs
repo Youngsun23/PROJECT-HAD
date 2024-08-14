@@ -9,12 +9,12 @@ namespace HAD
 {
     public class AttackCombo1Command : ICommand
     {
-        private CharacterBase character;
+        private CharacterBase character; 
 
         //// : AttackComboCommands
         //public AttackCombo1Command(CharacterBase ch)
         //    : base(ch) { }
-        public AttackCombo1Command(CharacterBase ch)        
+        public AttackCombo1Command(CharacterBase ch)      
         {
             character = ch;
         }

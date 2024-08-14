@@ -1,4 +1,4 @@
-#region
+#region Old Try
 //using Cinemachine;
 //using Sirenix.Utilities;
 //using System.Collections;
@@ -129,6 +129,14 @@
 //            //}
 //            #endregion
 
+// 월드 기준이니까 고정적으로 이 방향 아니야?
+// private Vector3 rightDir = new Vector3(-1, 0, 1).normalized; // -x, +z
+// private Vector3 forwardDir = new Vector3(-1, 0, 1).normalized; //
+// 카메라 피벗이 0,0,0을 벗어나면 부모인 캐릭터를 기준으로 공전을 함
+// 피벗 위치는 그대로 놔둔 채 카메라에 오프셋만 줄 방법 없나?
+// 안 벗어나도 캐릭터 회전 영향 받음
+
+
 //            // 마우스 위치를 화면 좌표에서 월드 좌표로 변환
 //            Vector2 mousePosition = Input.mousePosition;
 //            Ray ray = mainCamera.ScreenPointToRay(mousePosition);
@@ -183,6 +191,7 @@
 #endregion
 
 using Cinemachine;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -193,23 +202,28 @@ namespace HAD
     {
         public static CameraSystem Instance { get; private set; }
 
+        public Transform CameraPivot
+        {
+            get => playerCamera.Follow;
+            set
+            {
+                playerCamera.Follow = value;
+                playerCamera.LookAt = value;
+            }
+        }
+
         public CinemachineVirtualCamera playerCamera;
         public CinemachineConfiner currentConfiner;
 
         private Camera mainCamera;
-        //[SerializeField] private Transform cameraPivot;  // 피벗 위치
-        //[SerializeField] private Transform character;    // 캐릭터 위치 기준
 
-        public float maxMoveDistance = 1.5f; // 피벗이 이동할 최대 거리
-        public float smoothSpeed = 4.0f;     // 피벗 이동의 부드러움
-        private Vector3 initialPivotPosition;  // 피벗의 초기 위치
+        [field: SerializeField, MinMaxSlider(-10f, 10f, true)] public Vector2 CameraOffsetRangeX { get; private set; }
+        [field: SerializeField, MinMaxSlider(-10f, 10f, true)] public Vector2 CameraOffsetRangeY { get; private set; }
+        //[field: SerializeField] public AnimationCurve CameraOffsetCurveX { get; private set; }
+        //[field: SerializeField] public AnimationCurve CameraOffsetCurveY { get; private set; }
+        [field: SerializeField] public float CameraOffsetMaxDistance { get; private set; }
+
         
-        // 월드 기준이니까 고정적으로 이 방향 아니야?
-        // private Vector3 rightDir = new Vector3(-1, 0, 1).normalized; // -x, +z
-        // private Vector3 forwardDir = new Vector3(-1, 0, 1).normalized; //
-        // 카메라 피벗이 0,0,0을 벗어나면 부모인 캐릭터를 기준으로 공전을 함
-        // 피벗 위치는 그대로 놔둔 채 카메라에 오프셋만 줄 방법 없나?
-        // 안 벗어나도 캐릭터 회전 영향 받음
 
         private void Awake()
         {
@@ -227,33 +241,50 @@ namespace HAD
             currentConfiner.m_BoundingVolume = collider;
         }
 
-        private void Update()
-        {
-            #region Try
-            // Vector3 initialPivotPosition = character.position; // 
+        // @ 임시 Off @
+        //private void Update()
+        //{
+        //    // Camera Pivot의 기준점 => 캐릭터 위치
+        //    // 계산하는 기준점 => 화면의 중앙 기준으로 보았을 때, 현재 Mouse의 위치
 
-            // 마우스 위치를 화면 좌표에서 뷰포트 좌표로 변환
-            // Vector3 mouseViewportPosition = mainCamera.ScreenToViewportPoint(Input.mousePosition);
+        //    // 얼마만큼 움직일꺼냐?
+        //    // => 누구를? Camera Pivot 을 움직인다
+        //    // => 어떻게? 어디로? 캐릭터의 위치와 계산하는 기준점을 토대로 방향을 계산한다.
+        //    // => 얼마나? CameraSystem에 Inspector 창에 노출을해서 값을 조정할 수 있게 잡아보자.
 
-            // 뷰포트 좌표에서 중앙과의 차이를 계산
-            // Vector3 offsetFromCenter = mouseViewportPosition - new Vector3(0.5f, 0.5f, 0);
+        //    Transform charaterTransform = CharacterController.Instance.transform;
+        //    Vector3 mousePositionAsViewport = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        //    Vector3 centerViewport = new Vector3(0.5f, 0.5f, 0);
+        //    Vector3 distMouseViewport = mousePositionAsViewport - centerViewport;
 
-            // Vector3 moveDirection = character.right * offsetFromCenter.x + character.forward * offsetFromCenter.y;
-            // 캐릭터 로컬 방향으로 해도 gizmos, 실제 회전값 반영한 월드 좌표 아님
+        //    float threshold = 0.1f;
+        //    if (distMouseViewport.magnitude < threshold)
+        //    {
+        //        Vector3 originPosition = Vector3.up;
+        //        CameraPivot.transform.localPosition = Vector3.Lerp(CameraPivot.transform.localPosition, originPosition, Time.deltaTime * 20f);
+        //    }
+        //    else
+        //    {
+        //        float clampX = Mathf.Clamp(distMouseViewport.x, CameraOffsetRangeX.x, CameraOffsetRangeX.y);
+        //        float clampY = Mathf.Clamp(distMouseViewport.y, CameraOffsetRangeY.x, CameraOffsetRangeY.y);
 
-            // 피벗의 목표 위치를 계산 (최대 이동 거리 제한)
-            // Vector3 targetPivotPosition = initialPivotPosition + moveDirection * maxMoveDistance;
+        //        // 마우스 움직임을 받아서 이동할 방향
+        //        Vector3 direction = new Vector3(clampX, clampY, 0);
 
-            // 피벗을 부드럽게 이동시킴
-            //cameraPivot.localPosition = Vector3.Lerp(cameraPivot.localPosition, targetPivotPosition, Time.deltaTime * smoothSpeed);
-            #endregion
+        //        // 카메라를 기준으로 마우스 움직임 방향을 월드방향으로 변환
+        //        Vector3 cameraDirection = Camera.main.transform.TransformDirection(direction);
 
-            // 
-        }
-
+        //        // 카메라에서 구한 방향을 CameraPivot의 로컬 방향으로 변환
+        //        Vector3 localDirection = charaterTransform.transform.InverseTransformDirection(cameraDirection);
+                
+        //        // 최종 움직일 위치 계산
+        //        Vector3 targetPosition = Vector3.up + localDirection * CameraOffsetMaxDistance;
+        //        CameraPivot.transform.localPosition = Vector3.Lerp(CameraPivot.transform.localPosition, targetPosition, Time.deltaTime * 20f);
+        //    }
+        //}
     }
 }
 
-// 문제 0. 캐릭터 회전 -> x,z축 기준 달라짐
-// 문제 1. 전체 화면이 아닌 게임 화면 기준
-// 문제 2. 클릭에 반응하지 않게
+// 카메라 피벗 계속 바뀌는 중 캐릭터 회전, 클릭 반응 - 매 프레임 Lerp 중이라
+// -> Max Distance를 낮게 잡기
+// 하지만? 하데스에서는 값 20 정도의 거리를 이동하는데도 이런 문제가 발생하지 않음 (의문...)

@@ -9,11 +9,13 @@ namespace HAD
     {
         public static CharacterController Instance { get; private set; }
 
-        public CharacterBase character;
+        public PlayerCharacter character;
         public InteractionSensor interactionSensor;
         //private bool interactionInformed = false;
         private bool interactionEnabled = false;
         private IInteractable interactableObject;
+
+        public Transform cameraPivot;
 
         public float moveSpeed = 5f;
         public float turnSpeed = 80f;
@@ -37,6 +39,8 @@ namespace HAD
         {
             var playerCharacterData = GameDataModel.Singleton.GetPlayerCharacterData(1);
             character.InitializeCharacter(playerCharacterData);
+
+            CameraSystem.Instance.CameraPivot = cameraPivot;
 
             // charCommandInvoker = new CharacterCommandInvoker();
             // Class Try 2 _ Command Pattern

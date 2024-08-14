@@ -50,7 +50,7 @@ namespace HAD
 
         public float curHP;
 
-        public GameObject reflectionAbilFX;
+        // public GameObject reflectionAbilFX;
 
         private CharacterAbilityComponent characterAbilityComponent;
         // Attribute
@@ -73,7 +73,7 @@ namespace HAD
         //[SerializeField] private float maxHP;
         //[SerializeField] private int maxMagicArrow;
         //[SerializeField] private float moveSpeed;
-        //[SerializeField] private float dashCoolTime;
+        //[SerializeField] private float dashCooltime;
         [SerializeField] private float dashSpeed;
         [SerializeField] private float combo2MoveSpeed;
         [SerializeField] private float attackRadius;
@@ -219,7 +219,7 @@ namespace HAD
 
             characterAttributeComponent.SetAttribute(AttributeTypes.HealthPoint, characterData.MaxHP);
             characterAttributeComponent.SetAttribute(AttributeTypes.MagicArrowCount, characterData.MaxArrow);
-            characterAttributeComponent.SetAttribute(AttributeTypes.DashCoolTime, characterData.DashCooltime);
+            characterAttributeComponent.SetAttribute(AttributeTypes.DashCooltime, characterData.DashCooltime);
             characterAttributeComponent.SetAttribute(AttributeTypes.MoveSpeed, characterData.MoveSpeed);
             characterAttributeComponent.SetAttribute(AttributeTypes.AttackPower, characterData.AttackPower);
             characterAttributeComponent.SetAttribute(AttributeTypes.MagicPower, characterData.MagicPower);
@@ -241,7 +241,7 @@ namespace HAD
         //    set => characterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.HealthPoint, value);
         //}
 
-        private void Awake()
+        protected virtual void Awake()
         {
             characterAbilityComponent = GetComponent<CharacterAbilityComponent>();
 
@@ -258,13 +258,13 @@ namespace HAD
             // Attribute
             characterAttributeComponent = GetComponent<CharacterAttributeComponent>();    
         }
-    
-        private void Start()
+
+        protected virtual void Start()
         {
             characterController = GetComponent<UnityEngine.CharacterController>();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             targetMoveInputBlend = Vector2.Lerp(targetMoveInputBlend, targetMoveInput, Time.deltaTime * 10);
 
@@ -277,7 +277,7 @@ namespace HAD
             if (!dashAvailable)
             {
                 // 대쉬 쿨타임 체크
-                if (Time.time > dashTimer + characterAttributeComponent.GetAttribute(AttributeTypes.DashCoolTime).CurrentValue)
+                if (Time.time > dashTimer + characterAttributeComponent.GetAttribute(AttributeTypes.DashCooltime).CurrentValue)
                 {
                     dashAvailable = true;
                 }

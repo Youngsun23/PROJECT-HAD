@@ -9,7 +9,7 @@ namespace HAD
     {
         protected readonly CharacterBase character;
 
-        protected AttackComboCommands(CharacterBase character)
+        protected AttackComboCommands(CharacterBase character) 
         {
             this.character = character;
         }

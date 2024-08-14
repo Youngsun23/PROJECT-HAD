@@ -13,7 +13,7 @@ namespace HAD
 
         private void Awake()
         {
-            character = GetComponent<CharacterBase>();
+            character = GetComponent<CharacterBase>(); 
         }
 
         public void AddAbility(AbilityBase newAbility)
