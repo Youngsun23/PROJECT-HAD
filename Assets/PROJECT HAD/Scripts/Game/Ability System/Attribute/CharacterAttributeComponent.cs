@@ -56,5 +56,17 @@ namespace HAD
         {
             attributes[type].BuffedValue = buffedValue;
         }
+
+        // CurrentValue Increase/Decrease 함수를 만드는 게 나을 듯
+        // InCrease, Decrease 함수를 두 개 만드는 것과, Change 함수 하나에 인수 +-로 구분하는 것 중 무엇이 낫지?
+        public void IncreaseAttributeCurrentValue(AttributeTypes type, float increaseAmount)
+        {
+            attributes[type].CurrentValue += increaseAmount;
+        }
+        public void DecreaseAttributeCurrentValue(AttributeTypes type, float decreaseAmount)
+        {
+            attributes[type].CurrentValue -= decreaseAmount;
+        }
+        
     }
 }

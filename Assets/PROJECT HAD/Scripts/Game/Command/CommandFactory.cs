@@ -6,7 +6,7 @@ namespace HAD
 {
     public class CommandFactory : MonoBehaviour
     {
-        public static ICommand CreateCommand(CharacterBase character, int comboStep)
+        public static ICommand CreateCommand(PlayerCharacter character, int comboStep)
         {
             switch (comboStep)
             {

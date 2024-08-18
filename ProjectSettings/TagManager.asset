@@ -18,7 +18,7 @@ TagManager:
   - CharacterInDash
   - DashIgnoreObject
   - Projectile
-  - 
+  - Player
   - Monster
   - 
   - Sensor

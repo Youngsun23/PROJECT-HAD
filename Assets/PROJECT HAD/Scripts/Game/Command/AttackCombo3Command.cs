@@ -8,12 +8,12 @@ namespace HAD
 {
     public class AttackCombo3Command : ICommand
     {
-        private CharacterBase character;
+        private PlayerCharacter character;
 
         //public AttackCombo2Command(CharacterBase ch)
         //    : base(ch) { }
 
-        public AttackCombo3Command(CharacterBase ch) 
+        public AttackCombo3Command(PlayerCharacter ch) 
         {
             character = ch;
         }

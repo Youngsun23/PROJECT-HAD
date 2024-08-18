@@ -13,7 +13,7 @@ namespace HAD
         // Class Try 2 _ Command Pattern
         public ICommand singleCommand;
         readonly CommandInvoker commandInvoker;
-        public CharacterBase characterBase; 
+        public PlayerCharacter characterBase; 
         //bool isNextCommandReady;
         private Animator animator;
 
@@ -27,7 +27,7 @@ namespace HAD
 
         private void Start()
         {
-            characterBase = GetComponent<CharacterBase>();
+            characterBase = GetComponent<PlayerCharacter>();
             //singleCommand = CommandFactory.CreateCommand(characterBase, 0); 
             animator = GetComponent<Animator>();
         }

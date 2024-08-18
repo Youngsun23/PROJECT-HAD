@@ -18,6 +18,9 @@ MonoBehaviour:
   <MaxArrow>k__BackingField: 3
   <MoveSpeed>k__BackingField: 3
   <AttakRadius>k__BackingField: 2.5
+  <AttackPower>k__BackingField: 10
+  <MagicPower>k__BackingField: 10
+  <SpecialAttackPower>k__BackingField: 15
   <Combo2MoveSpeed>k__BackingField: 5
   <DashCooltime>k__BackingField: 1
   <DashDuration>k__BackingField: 0.4
