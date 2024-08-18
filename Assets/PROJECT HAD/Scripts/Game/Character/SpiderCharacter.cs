@@ -8,7 +8,7 @@ namespace HAD
     {
         private bool isAttackDashing = false;
         private Vector3 targetDirection;
-        // AttackPossibleRange를 25초 동안 이동하도록 속도 계산
+        // AttackPossibleRange를 20초 동안 이동하도록 속도 계산
         float attackDashSpeed;
         public LayerMask sensorLayerMask;
 

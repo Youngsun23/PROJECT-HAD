@@ -197,6 +197,7 @@ namespace HAD
             }
         }
 
+        // 이상 작동
         Vector3 GetRandomPositionInPathBox()
         {
             Vector3 originPosition = monsterPathBoxObject.transform.position;
