@@ -38,6 +38,11 @@ namespace HAD
             characterController = GetComponent<UnityEngine.CharacterController>();
         }
 
+        protected virtual void OnDestroy()
+        {
+
+        }
+
         protected virtual void Update()
         {
             targetMoveInputBlend = Vector2.Lerp(targetMoveInputBlend, targetMoveInput, Time.deltaTime * 10);

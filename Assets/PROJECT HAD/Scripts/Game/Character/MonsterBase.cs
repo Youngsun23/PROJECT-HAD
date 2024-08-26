@@ -15,6 +15,9 @@ namespace HAD
 
     public class MonsterBase : CharacterBase
     {
+        public static List<MonsterBase> spawnedMonsters = new List<MonsterBase>();
+        public static System.Action<int> OnSpawnedMonsterCountChanged;
+
         [field: SerializeField] public MonsterAIState AIState { get; protected set; }
         [field: SerializeField] public float MaxHP { get; protected set; }
         [field: SerializeField] public float MoveSpeed { get; protected set; }
@@ -37,14 +40,18 @@ namespace HAD
         [SerializeField] private bool attackAvailable = false;
         private bool isAttacking = false;
 
-        public GameObject monsterPathBoxObject;
-        BoxCollider monsterPathBoxCollider;
+        // public GameObject monsterPathBoxObject;
+        // BoxCollider monsterPathBoxCollider;
 
         protected override void Awake()
         {
             base.Awake();
+
+            spawnedMonsters.Add(this);
+            OnSpawnedMonsterCountChanged?.Invoke(spawnedMonsters.Count);
+
             navMeshAgent = GetComponent<NavMeshAgent>();
-            monsterPathBoxCollider = monsterPathBoxObject.GetComponent<BoxCollider>();  
+            // monsterPathBoxCollider = monsterPathBoxObject.GetComponent<BoxCollider>();  
 
             MaxHP = monsterStatData.MaxHP;
             MoveSpeed = monsterStatData.MoveSpeed;
@@ -52,6 +59,12 @@ namespace HAD
             AttackRange = monsterStatData.AttackRange;
             AttackDamage = monsterStatData.AttackDamage;
             AttackCooltime = monsterStatData.AttackCooltime;
+        }
+
+        protected override void OnDestroy()
+        {
+            spawnedMonsters.Remove(this);
+            OnSpawnedMonsterCountChanged?.Invoke(spawnedMonsters.Count);
         }
 
         protected override void Start()
@@ -197,28 +210,29 @@ namespace HAD
             }
         }
 
-        // 이상 작동
-        Vector3 GetRandomPositionInPathBox()
-        {
-            Vector3 originPosition = monsterPathBoxObject.transform.position;
-            Vector3 localCenter = monsterPathBoxCollider.center;
-            Vector3 localSize = monsterPathBoxCollider.size;
+        #region 박스 랜덤 좌표 - 이상 작동으로 주석화
+        //Vector3 GetRandomPositionInPathBox()
+        //{
+        //    Vector3 originPosition = monsterPathBoxObject.transform.position;
+        //    Vector3 localCenter = monsterPathBoxCollider.center;
+        //    Vector3 localSize = monsterPathBoxCollider.size;
 
-            float randomX = UnityEngine.Random.Range(-localSize.x / 2, localSize.x / 2);
-            float randomZ = UnityEngine.Random.Range(-localSize.z / 2, localSize.z / 2);
+        //    float randomX = UnityEngine.Random.Range(-localSize.x / 2, localSize.x / 2);
+        //    float randomZ = UnityEngine.Random.Range(-localSize.z / 2, localSize.z / 2);
 
-            Vector3 randomLocalPosition = new Vector3(randomX, 0f, randomZ);
-            Vector3 randomWorldPosition = monsterPathBoxCollider.transform.TransformPoint(localCenter + randomLocalPosition);
+        //    Vector3 randomLocalPosition = new Vector3(randomX, 0f, randomZ);
+        //    Vector3 randomWorldPosition = monsterPathBoxCollider.transform.TransformPoint(localCenter + randomLocalPosition);
 
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomWorldPosition, out hit, 10f, NavMesh.AllAreas))
-            {
-                randomWorldPosition = hit.position;
-            }
+        //    NavMeshHit hit;
+        //    if (NavMesh.SamplePosition(randomWorldPosition, out hit, 10f, NavMesh.AllAreas))
+        //    {
+        //        randomWorldPosition = hit.position;
+        //    }
 
-            randomWorldPosition.y = transform.position.y;
-            return randomWorldPosition;
-        }
+        //    randomWorldPosition.y = transform.position.y;
+        //    return randomWorldPosition;
+        //}
+        #endregion
 
 
         public override void TakeDamage(IActor actor, float damage)
