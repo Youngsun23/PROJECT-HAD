@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MaxHP>k__BackingField: 100
   <MoveSpeed>k__BackingField: 2
-  <AttackPossibleRange>k__BackingField: 3
+  <AttackPossibleRange>k__BackingField: 4
   <AttackRange>k__BackingField: 2
   <AttackDamage>k__BackingField: 10
   <AttackCooltime>k__BackingField: 5

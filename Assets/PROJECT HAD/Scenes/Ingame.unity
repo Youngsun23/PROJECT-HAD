@@ -5583,6 +5583,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 877269164}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1337326657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1337326658}
+  m_Layer: 0
+  m_Name: -----Unloaded Scenes-----
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1337326658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337326657}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1340312319
 GameObject:
   m_ObjectHideFlags: 0
@@ -5949,7 +5980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74735d50a89b895408182191e98b638f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractionEnableUIPrefab: {fileID: 0}
+  InteractionEnableUIPrefab: {fileID: 6401709839389600682, guid: afb08f777a6abee47b538281e4812361, type: 3}
 --- !u!114 &1407647032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5962,7 +5993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dcf58f08f0ea3c49990c81e6425930f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DialogueUIPrefab: {fileID: 0}
+  DialogueUIPrefab: {fileID: 7951838372021913146, guid: 570dcf58928f4f24891fb590c95d1076, type: 3}
 --- !u!1 &1439250971
 GameObject:
   m_ObjectHideFlags: 0
@@ -7035,7 +7066,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1683881812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7242,7 +7273,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: b12f27820f28c7c47bb2a5f8dfc5377d, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 4836a1f31dd956548b0f4dad87a80226, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1689249265
 Transform:
@@ -8516,3 +8547,4 @@ SceneRoots:
   - {fileID: 1939285952}
   - {fileID: 1668091891}
   - {fileID: 1683881815}
+  - {fileID: 1337326658}
