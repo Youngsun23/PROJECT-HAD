@@ -276,7 +276,7 @@ namespace HAD
             // Debug.Log($"Take Damage - Attacker : {actor.GetActor().name}, Damage : {damage}");
             characterAttributeComponent.DecreaseAttributeCurrentValue(AttributeTypes.HealthPoint, damage);
             // Debug.Log($"캐릭터가 공격받았다! by {actor.GetActor().name}");
-            Debug.Log($"캐릭터 체력: {characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue}");
+            // Debug.Log($"캐릭터 체력: {characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue}");
 
             // 체력 감소 - 사망 체크
             if (characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue <= 0)
@@ -338,6 +338,14 @@ namespace HAD
             if (Physics.Raycast(ray, out mouseHit, 100f, ~ignoreLayerMask))
             {
                 Vector3 destPos = new Vector3(mouseHit.point.x, transform.position.y, mouseHit.point.z);
+                Vector3 dir = destPos - transform.position;
+                Quaternion lookTarget = Quaternion.LookRotation(dir);
+                transform.rotation = lookTarget;
+            }
+            else // ray 충돌 대상 없는 빈 곳의 경우
+            {
+                Vector3 destPos = ray.GetPoint(100f);
+                destPos.y = transform.position.y;
                 Vector3 dir = destPos - transform.position;
                 Quaternion lookTarget = Quaternion.LookRotation(dir);
                 transform.rotation = lookTarget;
