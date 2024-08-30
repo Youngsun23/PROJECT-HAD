@@ -13,10 +13,12 @@ namespace HAD
         
     }
 
+    // @ 임시 코드 - 몬스터 스폰 시스템 미구현 base @
+
     public class MonsterBase : CharacterBase
     {
         public static List<MonsterBase> spawnedMonsters = new List<MonsterBase>();
-        public static System.Action<int> OnSpawnedMonsterCountChanged;
+        public static System.Action<int, Vector3> OnSpawnedMonsterCountChanged;
 
         [field: SerializeField] public MonsterAIState AIState { get; protected set; }
         [field: SerializeField] public float MaxHP { get; protected set; }
@@ -48,7 +50,8 @@ namespace HAD
             base.Awake();
 
             spawnedMonsters.Add(this);
-            OnSpawnedMonsterCountChanged?.Invoke(spawnedMonsters.Count);
+            OnSpawnedMonsterCountChanged?.Invoke(spawnedMonsters.Count, this.transform.position);
+            Debug.Log($"spawnedMonsters: {spawnedMonsters.Count}");
 
             navMeshAgent = GetComponent<NavMeshAgent>();
             // monsterPathBoxCollider = monsterPathBoxObject.GetComponent<BoxCollider>();  
@@ -64,7 +67,7 @@ namespace HAD
         protected override void OnDestroy()
         {
             spawnedMonsters.Remove(this);
-            OnSpawnedMonsterCountChanged?.Invoke(spawnedMonsters.Count);
+            OnSpawnedMonsterCountChanged?.Invoke(spawnedMonsters.Count, this.transform.position);
         }
 
         protected override void Start()
@@ -144,7 +147,7 @@ namespace HAD
 
         public virtual void Patrol()
         {
-            Debug.Log("Patrol!");
+            // Debug.Log("Patrol!");
 
             // 랜덤 좌표 목적지로 설정 -> 실제 이동은 Update에서
             Vector3 randomPosition = GetRandomPositionOnNavMesh();
@@ -154,7 +157,7 @@ namespace HAD
 
         public virtual void Attack()
         {
-            Debug.Log("Attack!");
+            // Debug.Log("Attack!");
 
             isAttacking = true;
             timeSinceLastAttackTimer = Time.time;
@@ -165,7 +168,7 @@ namespace HAD
 
         public virtual void Chase()
         {
-            Debug.Log("Chase!");
+            // Debug.Log("Chase!");
 
             navMeshAgent.SetDestination(targetPlayer.transform.position);
             // 실제 이동은 Update에서
@@ -173,7 +176,7 @@ namespace HAD
 
         public virtual void OnDetectedPlayer(PlayerCharacter player) // 캐릭터 인지
         {
-            Debug.Log("Detected!"); 
+            // Debug.Log("Detected!"); 
 
             AIState = MonsterAIState.CombatState;
             targetPlayer = player;
@@ -183,7 +186,7 @@ namespace HAD
 
         public virtual void OnLostPlayer(PlayerCharacter player) // 캐릭터 인지 풀림
         {
-            Debug.Log("Lost!");
+            // Debug.Log("Lost!");
 
             AIState = MonsterAIState.PeaceState;
             targetPlayer = null;
@@ -251,6 +254,8 @@ namespace HAD
         public void Die()
         {
             characterAnimator.SetTrigger("DieTrigger");
+
+            Destroy(gameObject, 1f);
 
             // ToDo
             Debug.Log($"----- {this.gameObject.name} Died -----");

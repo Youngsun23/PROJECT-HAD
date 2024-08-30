@@ -8,6 +8,8 @@ TagManager:
   - PlayerProjectile
   - Monster
   - PlayerCharacter
+  - Gate
+  - RoomReward
   layers:
   - Default
   - TransparentFX

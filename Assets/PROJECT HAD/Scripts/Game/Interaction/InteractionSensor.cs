@@ -49,7 +49,11 @@ namespace HAD
 
         private void OnTriggerEnter(Collider other)
         {
-            if(other.transform.root.TryGetComponent(out IInteractable interactable))
+            // root -> 최상위옵젝을 Level_~로 모두 묶어놓은 상태라서 원하는 동작 x
+            // 어떡함? 센서는 어차피 콜라이더와 스크립트가 한 곳에 있으니 ok
+            // 문제는 몬스터들
+            // if(other.transform.root.TryGetComponent(out IInteractable interactable)) 
+            if(other.TryGetComponent(out IInteractable interactable)) 
             {
                 // interactableObject = interactable;
                 OnDetectedInteractable?.Invoke(interactable);
@@ -58,7 +62,9 @@ namespace HAD
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.transform.root.TryGetComponent(out IInteractable interactable))
+            // if (other.transform.root.TryGetComponent(out IInteractable interactable))
+            if (other.TryGetComponent(out IInteractable interactable))
+
             {
                 // interactableObject = null;
                 OnLostInteractable?.Invoke(interactable);

@@ -39,7 +39,7 @@ namespace HAD
             if (damageInterface != null)
             {
                 damageInterface.TakeDamage(this, 10f);
-                Debug.Log($"마법에 피격!");
+                // Debug.Log($"마법에 피격!");
             }
 
             // ToDo
