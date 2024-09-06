@@ -25,7 +25,7 @@ namespace HAD
                     // gamemanager에 list 두고 door의 awake에서 리스트에 자기 등록, 씬 언로드할 때 리스트 초기화
                     // list 돌면서 activate 함수 호출
                     Debug.Log("문을 활성화");
-                    GameManager.Instance.gates.ForEach(gate => gate.ActivateGate());
+                    GameManager.Instance.GetGateList().ForEach(gate => gate.ActivateGate());
                 }
             }
 

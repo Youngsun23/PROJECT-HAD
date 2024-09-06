@@ -50,7 +50,7 @@ namespace HAD
             base.Awake();
 
             spawnedMonsters.Add(this);
-            OnSpawnedMonsterCountChanged?.Invoke(spawnedMonsters.Count, this.transform.position);
+            // OnSpawnedMonsterCountChanged?.Invoke(spawnedMonsters.Count, this.transform.position);
             Debug.Log($"spawnedMonsters: {spawnedMonsters.Count}");
 
             navMeshAgent = GetComponent<NavMeshAgent>();
@@ -67,7 +67,12 @@ namespace HAD
         protected override void OnDestroy()
         {
             spawnedMonsters.Remove(this);
-            OnSpawnedMonsterCountChanged?.Invoke(spawnedMonsters.Count, this.transform.position);
+            // OnSpawnedMonsterCountChanged?.Invoke(spawnedMonsters.Count, this.transform.position);
+
+            if(spawnedMonsters.Count <= 0)
+            {
+                GameManager.Instance.NotifyLastMonsterDead(this);
+            }
         }
 
         protected override void Start()

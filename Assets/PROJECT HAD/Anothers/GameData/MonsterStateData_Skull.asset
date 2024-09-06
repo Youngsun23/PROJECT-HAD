@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02c6840fe0b139e4dbc5d06f64ab286b, type: 3}
   m_Name: MonsterStateData_Skull
   m_EditorClassIdentifier: 
-  <MaxHP>k__BackingField: 100
+  <MaxHP>k__BackingField: 40
+  <MoveSpeed>k__BackingField: 0
+  <AttackPossibleRange>k__BackingField: 0
   <AttackRange>k__BackingField: 10
   <AttackDamage>k__BackingField: 10
   <AttackCooltime>k__BackingField: 3

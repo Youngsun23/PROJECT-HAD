@@ -214,6 +214,7 @@ namespace HAD
 
         public CinemachineVirtualCamera playerCamera;
         public CinemachineConfiner currentConfiner;
+        public CameraShaker cameraShaker;
 
         private Camera mainCamera;
 
@@ -239,6 +240,11 @@ namespace HAD
         public void SetConfinerVolume(Collider collider)
         {
             currentConfiner.m_BoundingVolume = collider;
+        }
+
+        public void ShakeCamera()
+        {
+            cameraShaker.ShakeCamera();
         }
 
         // @ 임시 Off @

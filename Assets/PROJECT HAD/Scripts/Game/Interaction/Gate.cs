@@ -15,7 +15,7 @@ namespace HAD
 
         private void Awake()
         {
-            GameManager.Instance.gates.Add(this);
+            GameManager.Instance.AddGate(this);
         }
 
         public void ActivateGate()
