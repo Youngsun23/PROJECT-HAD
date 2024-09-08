@@ -30,7 +30,7 @@ namespace HAD
 
         protected virtual void Awake()
         {
-
+            lastPosition = transform.position;
         }
 
         protected virtual void Start()

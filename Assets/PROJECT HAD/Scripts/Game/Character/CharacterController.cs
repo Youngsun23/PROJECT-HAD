@@ -173,6 +173,9 @@ namespace HAD
         private void ExecuteMagicShot()
         {
             character.MagicShot();
+
+            GameObject effect = EffectManager.Singleton.GetEffect("Effect_A");
+            effect.transform.position = character.transform.position + character.transform.forward * 3f;
         }
 
         private void ExecuteSpecialAttack()

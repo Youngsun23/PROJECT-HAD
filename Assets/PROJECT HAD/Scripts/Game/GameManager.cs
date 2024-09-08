@@ -90,7 +90,8 @@ namespace HAD
         IEnumerator LoadLevelAsync(string levelName)
         {
             // 캐릭터 비활성화 -> 애니메이션 고정 등 문제
-            // CharacterController.Instance.enabled = false;
+            CharacterController.Instance.enabled = false;
+            CharacterController.Instance.character.Move(Vector2.zero, Camera.main.transform.eulerAngles.y);
 
             FadeInOutUI.Instance.FadeIn();
             yield return new WaitForSeconds(1);
@@ -122,6 +123,7 @@ namespace HAD
             // ToDo: 임시 코드라서 FindObjectOfType 사용 -> 대체할 것
             // Player Character를 Entry Point로 이동
             var entryPoint = GameObject.FindObjectOfType<LevelEntryPoint>();
+            CharacterController.Instance.character.Move(Vector2.zero, Camera.main.transform.eulerAngles.y);
             CharacterController.Instance.transform.position = entryPoint.transform.position;
 
             FadeInOutUI.Instance.FadeOut();
@@ -131,7 +133,7 @@ namespace HAD
             // MonsterWaveManager.Instance.StartNextWave(null);
 
             // 캐릭터 활성화
-            // CharacterController.Instance.enabled = true;
+            CharacterController.Instance.enabled = true;
 
             // 하데스의 집 / 타르타로스 / 카오스 / 자그레우스의 방 / 뒷뜰 / ...
             if (currentLevelName == "GrayRoomMix_Tarta")

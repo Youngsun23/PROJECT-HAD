@@ -75,7 +75,10 @@ namespace HAD
 
             if(spawnedMonsters.Count <= 0)
             {
-                MonsterWaveManager.Instance.NotifyLastMonsterDead(this);
+                if(MonsterWaveManager.Instance) // null 체크
+                {
+                    MonsterWaveManager.Instance.NotifyLastMonsterDead(this);
+                }
             }
         }
 
