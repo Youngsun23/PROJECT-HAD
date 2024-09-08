@@ -80,6 +80,15 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CharacterInfoMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""2cdd7b06-840d-4f73-a057-80b36f6db22b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -247,6 +256,17 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""970f39d9-d791-4d61-913e-79260e8d8292"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CharacterInfoMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -322,6 +342,7 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
         m_Player_SpecialAttack = m_Player.FindAction("SpecialAttack", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_CharacterInfoMenu = m_Player.FindAction("CharacterInfoMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -389,6 +410,7 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SpecialAttack;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_CharacterInfoMenu;
     public struct PlayerActions
     {
         private @ProjectHad m_Wrapper;
@@ -399,6 +421,7 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
         public InputAction @SpecialAttack => m_Wrapper.m_Player_SpecialAttack;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @CharacterInfoMenu => m_Wrapper.m_Player_CharacterInfoMenu;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -426,6 +449,9 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @CharacterInfoMenu.started += instance.OnCharacterInfoMenu;
+            @CharacterInfoMenu.performed += instance.OnCharacterInfoMenu;
+            @CharacterInfoMenu.canceled += instance.OnCharacterInfoMenu;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -448,6 +474,9 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @CharacterInfoMenu.started -= instance.OnCharacterInfoMenu;
+            @CharacterInfoMenu.performed -= instance.OnCharacterInfoMenu;
+            @CharacterInfoMenu.canceled -= instance.OnCharacterInfoMenu;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -518,5 +547,6 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
         void OnSpecialAttack(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnCharacterInfoMenu(InputAction.CallbackContext context);
     }
 }

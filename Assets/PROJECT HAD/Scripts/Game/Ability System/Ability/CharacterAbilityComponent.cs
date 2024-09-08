@@ -20,6 +20,8 @@ namespace HAD
         {
             abilities.Add(newAbility);
             newAbility.Owner = character;
+
+            AbilityListUI.Instance.RegisterAbility(newAbility);
         }
 
         public void RemoveAbility(AbilityBase ability)

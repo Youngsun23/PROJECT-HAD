@@ -41,6 +41,7 @@ namespace HAD
         private float attackMotionTime = 2.18f;
         [SerializeField] private bool attackAvailable = false;
         private bool isAttacking = false;
+        private float stunTimer = 0f;
 
         // public GameObject monsterPathBoxObject;
         // BoxCollider monsterPathBoxCollider;
@@ -64,14 +65,17 @@ namespace HAD
             AttackCooltime = monsterStatData.AttackCooltime;
         }
 
-        protected override void OnDestroy()
+        // 콜백 아닌 경우, 미리 호출하지말라고 빼줄 수도 없고...(이것땜시 콜백으로 해야하나...?)
+        protected override void OnDestroy() // 이걸 오타내놓고 모른 내가 무섭다...
         {
             spawnedMonsters.Remove(this);
+            
+            Debug.Log($"몬스터 죽음 -> spawnedMonstersCount: {spawnedMonsters.Count}");
             // OnSpawnedMonsterCountChanged?.Invoke(spawnedMonsters.Count, this.transform.position);
 
             if(spawnedMonsters.Count <= 0)
             {
-                GameManager.Instance.NotifyLastMonsterDead(this);
+                MonsterWaveManager.Instance.NotifyLastMonsterDead(this);
             }
         }
 
@@ -96,6 +100,12 @@ namespace HAD
 
         protected override void Update()
         {
+            if (stunTimer > 0)
+            {
+                stunTimer -= Time.deltaTime;
+                return;
+            }
+
             base.Update();
 
             if (Time.time >= timeSinceLastAttackTimer + attackMotionTime)
@@ -245,10 +255,12 @@ namespace HAD
 
         public override void TakeDamage(IActor actor, float damage)
         {
+            stunTimer = 2f;
+
             characterAnimator.SetTrigger("HitTrigger");
 
             currentHP -= damage;
-            Debug.Log($"Monster Damaged! Current HP: {currentHP}");
+            // Debug.Log($"Monster Damaged! Current HP: {currentHP}");
 
             if(currentHP <= 0)
             {

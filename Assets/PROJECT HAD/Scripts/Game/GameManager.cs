@@ -8,8 +8,6 @@ namespace HAD
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private List<GameObject> rewardItems = new List<GameObject>();
-        
         private List<Gate> gates = new List<Gate>();
         public void AddGate(Gate newGate)
         {
@@ -82,22 +80,7 @@ namespace HAD
         //}
         #endregion
 
-        public void NotifyLastMonsterDead(MonsterBase monsterBase)
-        {
-            Debug.Log("보상 생성");
-            var reward = rewardItems.FindIndex(x => x.name == "HAD.Relic.Darkness");
-            rewardItems[reward].tag = "RoomReward";
-            StartCoroutine(DelayedInstantiate(rewardItems[reward], monsterBase.transform.position, Quaternion.Euler(0, 0, 0), 1.0f));
-        }
 
-        IEnumerator DelayedInstantiate(GameObject prefab, Vector3 position, Quaternion rotation, float delay)
-        {
-            // 지정된 시간 동안 대기
-            yield return new WaitForSeconds(delay);
-
-            // 딜레이가 끝난 후 오브젝트 생성
-            Instantiate(prefab, position, rotation);
-        }
 
         public void LoadLevel(string levelName)
         {
@@ -106,6 +89,9 @@ namespace HAD
 
         IEnumerator LoadLevelAsync(string levelName)
         {
+            // 캐릭터 비활성화 -> 애니메이션 고정 등 문제
+            // CharacterController.Instance.enabled = false;
+
             FadeInOutUI.Instance.FadeIn();
             yield return new WaitForSeconds(1);
 
@@ -140,6 +126,26 @@ namespace HAD
 
             FadeInOutUI.Instance.FadeOut();
             yield return new WaitForSeconds(1);
+
+            // 전투 씬인 경우만...
+            // MonsterWaveManager.Instance.StartNextWave(null);
+
+            // 캐릭터 활성화
+            // CharacterController.Instance.enabled = true;
+
+            // 하데스의 집 / 타르타로스 / 카오스 / 자그레우스의 방 / 뒷뜰 / ...
+            if (currentLevelName == "GrayRoomMix_Tarta")
+            {
+                AreaAnnouncerUI.Instance.ShowAreaAnnouncerUI("Tartarus");
+            }
+            if (currentLevelName == "GrayRoomMix_Backyard")
+            {
+                AreaAnnouncerUI.Instance.ShowAreaAnnouncerUI("Backyard");
+            }           
+            if (currentLevelName == "GrayRoomMix_ZagreusRoom")
+            {
+                AreaAnnouncerUI.Instance.ShowAreaAnnouncerUI("Zagreus's Room");
+            }           
         }
         // ToDo: 원래는 맵 로드하는 동안 캐릭터가 낙하하지 않도록 안 움직이게 처리해줘야 함
     }

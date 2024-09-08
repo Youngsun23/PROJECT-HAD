@@ -567,6 +567,10 @@ namespace HAD
             // ToDo: 여기서 캐릭터 정면 = 화살 정면되게 로테이션
             // 테스트 위해 일단 주석
             // curMagicArrow--;
+
+            // Test용 - Abil 추가 UI
+            PushAbility pushAbil = new PushAbility();
+            characterAbilityComponent.AddAbility(pushAbil);
         }
 
         public void SpecialAttack()

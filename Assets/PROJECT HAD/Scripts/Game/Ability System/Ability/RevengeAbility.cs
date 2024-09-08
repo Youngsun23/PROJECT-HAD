@@ -10,6 +10,8 @@ namespace HAD
         private IActor attacker;
         private float originDamage;
 
+        public override string Name => "Revenge";
+
         public override void Execute()
         {
             // Owner.RevengeAttack(attacker, originDamage);

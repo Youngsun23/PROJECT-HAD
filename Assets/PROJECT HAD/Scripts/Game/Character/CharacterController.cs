@@ -56,7 +56,15 @@ namespace HAD
             interactionSensor.OnDetectedInteractable += OnDetectedInteractable;
             interactionSensor.OnLostInteractable += OnLostInteractable;
             InputManager.Instance.OnInteractPerformed += OnInteraction;
+
+            InputManager.Instance.OnCharacterInfoMenuPerformed += ExecuteCharacterInfoMenu;
         }
+
+        private void ExecuteCharacterInfoMenu()
+        {
+            AbilityListUI.Instance.SwitchAbilityListUI();
+        }
+
         private void OnDetectedInteractable(IInteractable interactable)
         {
             if(interactable.IsAutomaticInteraction)

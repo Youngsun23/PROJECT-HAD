@@ -64,6 +64,5 @@ namespace HAD
             this.fadeStartTime = Time.time;
             this.isFading = true;
         }
-
     }
 }

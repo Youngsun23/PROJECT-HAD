@@ -6,9 +6,12 @@ namespace HAD
 {
     public class PushAbility : AbilityBase
     {
-        public override AbilityTag Tag => AbilityTag.Push;
+        // Test용 설정
+        public override AbilityTag Tag => AbilityTag.Push | AbilityTag.Attack;
 
         private GameObject targetMon;
+
+        public override string Name => "Push";
 
         public override void Execute()
         {

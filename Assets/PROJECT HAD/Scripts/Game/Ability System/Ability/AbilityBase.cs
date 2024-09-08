@@ -9,6 +9,8 @@ namespace HAD
     {
         public abstract AbilityTag Tag { get; }
         public CharacterBase Owner { get; set; } 
+        
+        public abstract string Name { get; }    
 
         public abstract void Execute();
     }

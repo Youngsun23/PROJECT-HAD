@@ -12,6 +12,8 @@ namespace HAD
         //private float attackRadius;
         private GameObject targetProjectile;
 
+        public override string Name => "Reflection";
+
         // 반사 스킬 발동 시 수행
         public override void Execute()
         {

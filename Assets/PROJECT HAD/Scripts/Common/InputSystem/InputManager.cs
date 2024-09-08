@@ -18,6 +18,7 @@ namespace HAD
         public System.Action OnSpecialAttackPerformed;
         public System.Action OnDashPerformed;
         public System.Action OnInteractPerformed;
+        public System.Action OnCharacterInfoMenuPerformed;
 
         // 커맨드 패턴 시도
         // public CharacterBase character;
@@ -74,6 +75,11 @@ namespace HAD
         public void OnInteract()
         {
             OnInteractPerformed?.Invoke();
+        }
+
+        public void OnCharacterInfoMenu()
+        {
+            OnCharacterInfoMenuPerformed?.Invoke();
         }
     }
 }
