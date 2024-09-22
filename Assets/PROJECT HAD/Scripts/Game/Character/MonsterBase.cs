@@ -52,7 +52,7 @@ namespace HAD
 
             spawnedMonsters.Add(this);
             // OnSpawnedMonsterCountChanged?.Invoke(spawnedMonsters.Count, this.transform.position);
-            Debug.Log($"spawnedMonsters: {spawnedMonsters.Count}");
+            // Debug.Log($"spawnedMonsters: {spawnedMonsters.Count}");
 
             navMeshAgent = GetComponent<NavMeshAgent>();
             // monsterPathBoxCollider = monsterPathBoxObject.GetComponent<BoxCollider>();  

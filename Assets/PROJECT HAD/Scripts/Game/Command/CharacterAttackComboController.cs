@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 namespace HAD
 {
@@ -65,10 +66,20 @@ namespace HAD
             switch(combo)
             {
                 case 1:
+                    // 애니메이션 타이밍과 맞추려면 여기 - character 참조 추가 필요 -> AttackCombo123Command 쪽에서
+                    // var effect1 = EffectPoolManager.Singleton.GetEffect("Attack1");
+                    // effect1.gameObject.transform.position = character.transform.position;
+
                     return PlayAnimation(AttackCombo_1_Hash);
                 case 2:
+                    // var effect2 = EffectPoolManager.Singleton.GetEffect("Attack2");
+                    // effect2.gameObject.transform.position = character.transform.position;
+
                     return PlayAnimation(AttackCombo_2_Hash);
                 case 3:
+                    // var effect3 = EffectPoolManager.Singleton.GetEffect("Attack3");
+                    // effect3.gameObject.transform.position = character.transform.position;
+
                     return PlayAnimation(AttackCombo_3_Hash);
                 default:
                     return 0f;

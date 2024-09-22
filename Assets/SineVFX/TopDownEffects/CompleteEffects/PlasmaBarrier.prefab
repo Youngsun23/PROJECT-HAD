@@ -24510,7 +24510,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6147136699737270811}
-  - component: {fileID: 2466340789506314263}
+  - component: {fileID: -6208464282936266319}
   m_Layer: 0
   m_Name: PlasmaBarrier
   m_TagString: Untagged
@@ -24535,7 +24535,7 @@ Transform:
   - {fileID: 6147136699964330018}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2466340789506314263
+--- !u!114 &-6208464282936266319
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24544,10 +24544,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6147136699737270812}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 944ee16a2302ef045a193f1f5bded34c, type: 3}
+  m_Script: {fileID: 11500000, guid: 6070578ad6c19dc4f97ee82f8884c673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayTime: 3
+  delayTime: 1.5
 --- !u!1 &6147136699835184639
 GameObject:
   m_ObjectHideFlags: 0

@@ -3070,8 +3070,20 @@ PrefabInstance:
       value: 29.4881
       objectReference: {fileID: 0}
     - target: {fileID: 4112754089555764544, guid: 570dcf58928f4f24891fb590c95d1076, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b8ec5b0472d25c408c9d3778023f9b6, type: 2}
+    - target: {fileID: 4112754089555764544, guid: 570dcf58928f4f24891fb590c95d1076, type: 3}
       propertyPath: m_fontSizeBase
       value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 4112754089555764544, guid: 570dcf58928f4f24891fb590c95d1076, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -62811850275633633, guid: 5b8ec5b0472d25c408c9d3778023f9b6, type: 2}
+    - target: {fileID: 4112754089555764544, guid: 570dcf58928f4f24891fb590c95d1076, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7152375532700632854, guid: 570dcf58928f4f24891fb590c95d1076, type: 3}
       propertyPath: m_Color.a
@@ -3691,14 +3703,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 798044005}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7b7b735fea164143a3227559073a216, type: 3}
+  m_Script: {fileID: 11500000, guid: 734fee683e1662246ac0456af73dfccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container:
-  - key: Effect_1
-    capacity: 10
-    maxSize: 100
+  effectInfoList:
+  - key: Example
+    capacity: 5
     prefab: {fileID: 6147136699737270812, guid: 3564f1008a564c13b06dfe16ef9c48b0, type: 3}
+  - key: Attack1
+    capacity: 5
+    prefab: {fileID: 1872147318604286, guid: 5bea49531fc500c408823a2e2863106f, type: 3}
+  - key: Attack2
+    capacity: 5
+    prefab: {fileID: 1645009922904612, guid: 5e3170c6ef0f014409bd7423e3bb805a, type: 3}
+  - key: Attack3
+    capacity: 5
+    prefab: {fileID: 1893033738566276, guid: 3e04efdf8ee665d48962b33b06e8e3d3, type: 3}
+  - key: SpecialAttack
+    capacity: 5
+    prefab: {fileID: 1210069404974878, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
 --- !u!1 &804693848
 GameObject:
   m_ObjectHideFlags: 0
@@ -5922,6 +5945,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2087671043}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1197262698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1197262700}
+  - component: {fileID: 1197262699}
+  m_Layer: 0
+  m_Name: HAD.CSVParser
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1197262699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197262698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 445ea5bbfbbab854181ffad20aaf8954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  csvFilePath: DialogueData
+--- !u!4 &1197262700
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197262698}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1211972822
 GameObject:
   m_ObjectHideFlags: 0
@@ -7342,6 +7410,11 @@ Transform:
   - {fileID: 501830180}
   m_Father: {fileID: 514248298}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1389037630 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7951838372021913146, guid: 570dcf58928f4f24891fb590c95d1076, type: 3}
+  m_PrefabInstance: {fileID: 669797669}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1389374081
 GameObject:
   m_ObjectHideFlags: 0
@@ -7467,7 +7540,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dcf58f08f0ea3c49990c81e6425930f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DialogueUIPrefab: {fileID: 7951838372021913146, guid: 570dcf58928f4f24891fb590c95d1076, type: 3}
+  DialogueUIPrefab: {fileID: 1389037630}
+  csvParser: {fileID: 1197262699}
+  monologueUI: {fileID: 669797671}
 --- !u!1 &1439250971
 GameObject:
   m_ObjectHideFlags: 0
@@ -8149,7 +8224,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1562685952}
   m_Layer: 0
-  m_Name: -----UI-----
+  m_Name: -----Canvas-----
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10601,6 +10676,7 @@ SceneRoots:
   - {fileID: 1919381980}
   - {fileID: 78804422}
   - {fileID: 1130325754}
+  - {fileID: 1197262700}
   - {fileID: 1407647030}
   - {fileID: 1689249265}
   - {fileID: 1939285952}

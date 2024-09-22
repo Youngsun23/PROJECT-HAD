@@ -78,7 +78,7 @@ namespace HAD
 
         public void MonsterSpawn(string monsterName, Vector3 pos)
         {
-            Debug.Log("찐 몬스터 스폰");
+            // Debug.Log("찐 몬스터 스폰");
             Instantiate(monsterDictionary[monsterName], pos, Quaternion.identity);
         }
     }

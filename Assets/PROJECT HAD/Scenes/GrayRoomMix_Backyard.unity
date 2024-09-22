@@ -554,6 +554,7 @@ GameObject:
   - component: {fileID: 3158137764913083966}
   - component: {fileID: 500515312364557816}
   - component: {fileID: 3537527542828298571}
+  - component: {fileID: 3537527542828298572}
   m_Layer: 0
   m_Name: GuideSkull
   m_TagString: Untagged
@@ -1659,6 +1660,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3537527542828298572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230627294063710275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26808386bbecfc446a1c292dc011d781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!33 &3759159932145335290
 MeshFilter:
   m_ObjectHideFlags: 0

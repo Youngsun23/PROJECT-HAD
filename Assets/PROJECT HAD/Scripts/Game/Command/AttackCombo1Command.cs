@@ -9,7 +9,8 @@ namespace HAD
 {
     public class AttackCombo1Command : ICommand
     {
-        private PlayerCharacter character; 
+        private PlayerCharacter character;
+        private float awaitTime;
 
         //// : AttackComboCommands
         //public AttackCombo1Command(CharacterBase ch)
@@ -28,7 +29,13 @@ namespace HAD
         async Task ICommand.Execute()
         {
             character.PerformAttackCombo();
-            await Awaitable.WaitForSecondsAsync(character.CharacterAttackComboController.AttackCombo(1));
+
+            awaitTime = character.CharacterAttackComboController.AttackCombo(1);
+            var effect = EffectPoolManager.Singleton.GetEffect("Attack1");
+            effect.gameObject.transform.position = character.transform.position;
+            effect.gameObject.transform.rotation = character.transform.rotation;
+
+            await Awaitable.WaitForSecondsAsync(awaitTime);
             // 다음 콤보로 연결 안 되면 아래 코드 실행 (await는 일시중단일뿐임)
             if (character.CurrentAttackComboIndex <= 1) // 여기 조건을 대체 뭘로 해야하나
             {
