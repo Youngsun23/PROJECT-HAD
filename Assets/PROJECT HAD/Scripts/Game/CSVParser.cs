@@ -7,7 +7,7 @@ namespace HAD
 {
     public class CSVParser : MonoBehaviour
     {
-        private Dictionary<string, DialogueData> DialogueDataDictionary = new Dictionary<string, DialogueData>();
+        [SerializeField] private SerializableDictionary<string, DialogueData> DialogueDataDictionary = new SerializableDictionary<string, DialogueData>();
 
         [SerializeField] private string csvFilePath = "DialogueData"; // CSV 파일 경로
 
@@ -38,6 +38,16 @@ namespace HAD
                         string english = values[3];
 
                         // Dictionary에 데이터를 저장
+                        DialogueDataDictionary[key] = new DialogueData(key, group, korean, english);
+                    }
+                    else // 예외 처리
+                    {
+                        // 키는 무조건 있어야 합니다. (약속) -> 있다고 상정하고
+                        string key = values[0];
+                        string group = "-1";
+                        string korean = "Null";
+                        string english = "Null";
+
                         DialogueDataDictionary[key] = new DialogueData(key, group, korean, english);
                     }
                 }

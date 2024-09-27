@@ -6,24 +6,30 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/PROJECT HAD/Scenes/Main.unity
+    guid: dbe5eb7117429e64885a928875c4e4ed
+  - enabled: 1
+    path: Assets/PROJECT HAD/Scenes/Title.unity
+    guid: 196db80665294894dbd91a7afea74f5a
+  - enabled: 1
     path: Assets/PROJECT HAD/Scenes/Ingame.unity
     guid: b929690906cf23b4c81898633573052e
   - enabled: 1
-    path: Assets/PROJECT HAD/Art/Prefab/Level/GrayRoomMix_ZagreusRoom.unity
+    path: Assets/PROJECT HAD/Scenes/GrayRoomMix_ZagreusRoom.unity
     guid: 7bd888e3414be0c4cac052986fb199d3
   - enabled: 1
     path: Assets/PROJECT HAD/Scenes/GrayRoomMix_Backyard.unity
     guid: 9ae4e87432c1ebc43b52aa8afe4e24d7
   - enabled: 1
-    path: Assets/PROJECT HAD/Art/Prefab/Level/GrayRoomMix_Tarta.unity
+    path: Assets/PROJECT HAD/Scenes/GrayRoomMix_Tarta.unity
     guid: bf401d52bec224c46aec903fe2a352e9
   - enabled: 1
-    path: Assets/PROJECT HAD/Art/Prefab/Level/GrayRoomMix_Combat3.unity
+    path: Assets/PROJECT HAD/Scenes/GrayRoomMix_Combat3.unity
     guid: 96db4f0b600f4ed45af669b32f3282bd
   - enabled: 1
-    path: Assets/PROJECT HAD/Art/Prefab/Level/GrayRoomMix_Combat4.unity
+    path: Assets/PROJECT HAD/Scenes/GrayRoomMix_Combat4.unity
     guid: 8184e330f5dc6d843a6f4e52c1cb9385
   - enabled: 1
-    path: Assets/PROJECT HAD/Art/Prefab/Level/GrayRoomMix_Combat5.unity
+    path: Assets/PROJECT HAD/Scenes/GrayRoomMix_Combat5.unity
     guid: a8858f26e283f9347bf300fe2333b8f6
   m_configObjects: {}

@@ -9,6 +9,7 @@ namespace HAD
     {
         public string key;
         public int capacity;
+        public int maxSize;
         public GameObject prefab;
     }
 
@@ -21,15 +22,17 @@ namespace HAD
         // key-prefab 찾기 위한 딕셔너리...
         // private Dictionary<string, GameObject> effectPrefabDic = new Dictionary<string, GameObject>();
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             for (int i = 0; i < effectInfoList.Count; i++)
             {
                 IObjectPool<Effect> effectPool = null;
                 var currentEffectInfo = effectInfoList[i];
                 // 바로 effectInfoList[i] 사용하면 Get 시점에 IndexOutOfRange 발생
                 // new, CreateEffect, Get 등의 호출 시점과 인자 값 확정 시점 혼란
-                effectPool = new ObjectPool<Effect>(() => CreateEffect(currentEffectInfo.prefab, effectPool), OnGetEffect, OnReleaseEffect, OnDestroyEffect, true, currentEffectInfo.capacity, currentEffectInfo.capacity);
+                effectPool = new ObjectPool<Effect>(() => CreateEffect(currentEffectInfo.prefab, effectPool), OnGetEffect, OnReleaseEffect, OnDestroyEffect, true, currentEffectInfo.capacity, currentEffectInfo.maxSize);
 
                 effectPoolDic.Add(currentEffectInfo.key, effectPool);
                 // effectPrefabDic.Add(effectInfoList[i].key, effectInfoList[i].prefab);

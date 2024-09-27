@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HAD
 {
-    public class DialogueData : MonoBehaviour
+    public class DialogueData
     {
         public string Key;
         public string Group;
