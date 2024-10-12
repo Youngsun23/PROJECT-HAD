@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88ecb02e6665185448bbab1a5341a117, type: 3}
+  m_Name: Character GameData - Default
+  m_EditorClassIdentifier: 
+  <UniqueID>k__BackingField: 0
+  <Option>k__BackingField: Default
+  <MaxHP>k__BackingField: 50
+  <MaxArrow>k__BackingField: 1
+  <MoveSpeed>k__BackingField: 5
+  <AttakRadius>k__BackingField: 2.5
+  <AttackDamage>k__BackingField: 20
+  <MagicDamage>k__BackingField: 50
+  <SpecialAttackDamage>k__BackingField: 15
+  <BonusAttackDamage>k__BackingField: 0
+  <BonusCriticalAttackDamage>k__BackingField: 0
+  <AttackDamageResistance>k__BackingField: 0
+  <TrapDamageResistance>k__BackingField: 0
+  <Combo2MoveSpeed>k__BackingField: 5
+  <MaxDashCount>k__BackingField: 1
+  <DashCooltime>k__BackingField: 1
+  <DashDuration>k__BackingField: 0.4
+  <DashSpeed>k__BackingField: 10
+  <Coin>k__BackingField: 0
+  <Key>k__BackingField: 0
+  <Darkness>k__BackingField: 0

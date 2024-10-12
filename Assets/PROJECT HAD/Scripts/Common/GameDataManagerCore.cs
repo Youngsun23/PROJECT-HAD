@@ -10,8 +10,9 @@ namespace HAD
     {
         public void Initialize()
         {
-            string[] characterSampleDataText = CSVParserUtility.LoadData("CharacterSampleData");
-            characterSampleData = DataParsing<CharacterSampleData, CharacterSampleData.CharacterSampleDataEntity>(characterSampleDataText);
+            // 예시
+            // string[] characterSampleDataText = CSVParserUtility.LoadData("CharacterSampleData");
+            // characterSampleData = DataParsing<CharacterSampleData, CharacterSampleData.CharacterSampleDataEntity>(characterSampleDataText);
         }
 
         public T DataParsing<T, K>(string[] line) where T : GameDataSource, new() where K : new()

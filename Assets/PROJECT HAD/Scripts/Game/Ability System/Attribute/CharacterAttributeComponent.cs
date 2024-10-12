@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace HAD
 {
-    public enum AttributeTypes
+    public enum AttributeTypes // 재화 관리는 따로 해야겠지?
     {
         // 예시
         HealthPoint,
         MagicArrowCount,
-        AttackPower,
-        MagicPower,
-        SpecialAttackPower,
+        AttackDamage,
+        MagicDamage,
+        SpecialAttackDamage,
         DashCooltime,
         MoveSpeed,
 
@@ -52,21 +52,27 @@ namespace HAD
             attributes[type].DefaultValue = defaultValue;
         }
 
-        public void SetAttributeBuffedValue(AttributeTypes type, float buffedValue)
+        public void SetAttributeBuffedValue(AttributeTypes type, float buffedValue) // 
         {
             attributes[type].BuffedValue = buffedValue;
         }
 
-        // CurrentValue Increase/Decrease 함수를 만드는 게 나을 듯
-        // InCrease, Decrease 함수를 두 개 만드는 것과, Change 함수 하나에 인수 +-로 구분하는 것 중 무엇이 낫지?
-        public void IncreaseAttributeCurrentValue(AttributeTypes type, float increaseAmount)
+        // 이 클래스는 데이터 저장소로만 작동하고, 변경에는 사용 X -> 주석화?
+        // currentHP만 buff 개념이 아니라서 +- 따로 두고 싶은데...
+        // 아니면 얘만 PlayerCharacter의 필드로 두고 거기서 GetSet하고, UserData에 저장만 해주면 안되나?
+        public void IncreaseCurrentHP(float value)
         {
-            attributes[type].CurrentValue += increaseAmount;
-        }
-        public void DecreaseAttributeCurrentValue(AttributeTypes type, float decreaseAmount)
+            attributes[AttributeTypes.HealthPoint].CurrentValue += value;
+        }        
+        public void DecreaseCurrentHP(float value)
         {
-            attributes[type].CurrentValue -= decreaseAmount;
+            attributes[AttributeTypes.HealthPoint].CurrentValue -= value;
         }
-        
+
+        // 으아아아 GameData-~Component-UserData
+        // Default-Buffed-Current-Max 죄다 헷갈려
+        // 여기에 증감 함수 두고
+        // 유저 데이터 쪽에는 Max 수치는 뭐 강화할 때 뭐 강화했음 정보만 저장하고(Max 수치 자체가 아니라)
+        // Current 수치는 게임 저장할 때(방 이동 시 이전 방에서의 모든 상태 저장함)만 유저 데이터에 갱신해주는 방식은 안되나
     }
 }

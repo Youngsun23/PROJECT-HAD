@@ -249,13 +249,14 @@ namespace HAD
             // 스탯 변경은 모두 characterAttributeComponent로 접근해서 값 변경 
             // public float CurrentHP => characterAttribute.GetAttribute(Attributetypes.HealthPoint).CurrentValue; // 이렇게 사용도 가능
 
-            characterAttributeComponent.SetAttribute(AttributeTypes.HealthPoint, characterData.MaxHP);
+            // GameData의 초기값 + UserData의 변화 정보&변화 내용의 설정 변화값(ex.켄타심장1개-+25HP) => Component
+            characterAttributeComponent.SetAttribute(AttributeTypes.HealthPoint, characterData.MaxHP + UserDataManager.Singleton.CalUserDataMaxHP());
             characterAttributeComponent.SetAttribute(AttributeTypes.MagicArrowCount, characterData.MaxArrow);
             characterAttributeComponent.SetAttribute(AttributeTypes.DashCooltime, characterData.DashCooltime);
             characterAttributeComponent.SetAttribute(AttributeTypes.MoveSpeed, characterData.MoveSpeed);
-            characterAttributeComponent.SetAttribute(AttributeTypes.AttackPower, characterData.AttackPower);
-            characterAttributeComponent.SetAttribute(AttributeTypes.MagicPower, characterData.MagicPower);
-            characterAttributeComponent.SetAttribute(AttributeTypes.SpecialAttackPower, characterData.SpecialAttackPower);
+            characterAttributeComponent.SetAttribute(AttributeTypes.AttackDamage, characterData.AttackDamage);
+            characterAttributeComponent.SetAttribute(AttributeTypes.MagicDamage, characterData.MagicDamage);
+            characterAttributeComponent.SetAttribute(AttributeTypes.SpecialAttackDamage, characterData.SpecialAttackDamage);
 
             // 아래는 벞/디벞/강화 안 하는 요소
             // 그대로 써도 되나?
@@ -274,7 +275,9 @@ namespace HAD
             // float currentHP = characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue;
             // characterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.HealthPoint, currentHP - damage);
             // Debug.Log($"Take Damage - Attacker : {actor.GetActor().name}, Damage : {damage}");
-            characterAttributeComponent.DecreaseAttributeCurrentValue(AttributeTypes.HealthPoint, damage);
+            characterAttributeComponent.DecreaseCurrentHP(damage);
+            // # ToDo: 이 부분
+
             // Debug.Log($"캐릭터가 공격받았다! by {actor.GetActor().name}");
             // Debug.Log($"캐릭터 체력: {characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue}");
 
@@ -301,6 +304,12 @@ namespace HAD
         {
             // ToDo
             Debug.Log("--- Player Died ---");
+            UserDataManager.Singleton.ResetTempUserData();
+
+            // 죽음 -> 부활 연출
+
+            // 하데스의집 씬으로 이동
+
         }
 
         public override void AddBuffed(AttributeTypes type, float buffedValue)

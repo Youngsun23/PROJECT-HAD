@@ -16,9 +16,12 @@ namespace HAD
             // 플레이어의 Darkness 수량을 quantity만큼 증가, 획득 UI 등의 연출
             // DropItem 코드 피드백 전까지 임시
             Debug.Log("+ Darkness 획득 +");
+            UserDataManager.Singleton.UpdateUserDataResources("Darkness", 10);
+            // 유저데이터
+            // attribute 쪽 업데이트는 어떻게 하지?
 
             // 만약 맵 보상으로 생성된 경우라면, 문의 상호작용 버튼 on?
-            if(this.gameObject.CompareTag("RoomReward"))
+            if (this.gameObject.CompareTag("RoomReward"))
             {
                 // GameObject.FindGameObjectsWithTag("Gate")
                 {

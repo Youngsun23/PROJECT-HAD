@@ -3691,8 +3691,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4754cde81bdadf045888739709273aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterSampleData:
-    DataGroup: []
 --- !u!1 &787575315
 GameObject:
   m_ObjectHideFlags: 0
@@ -5652,11 +5650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterData:
-  - {fileID: 11400000, guid: bf0fcd655e37e2c499dd0b9fab1a3653, type: 2}
-  - {fileID: 11400000, guid: 9d8dad937935b3747a689b6f7033255d, type: 2}
-  - {fileID: 11400000, guid: f953de97cbb16f24884d484f51835c57, type: 2}
-  - {fileID: 11400000, guid: ca098fa112276aa41be953e50d3f8c41, type: 2}
-  - {fileID: 11400000, guid: f156a56a236ed8e49bccfe0ad41a17c8, type: 2}
+  - {fileID: 11400000, guid: 0f2453b2152f40c48adcebe9892f9704, type: 2}
 --- !u!4 &1130325754
 Transform:
   m_ObjectHideFlags: 0

@@ -615,8 +615,9 @@ GameObject:
   - component: {fileID: 6242416062147326222}
   - component: {fileID: 8627841496289607341}
   - component: {fileID: 6566696664151256850}
+  - component: {fileID: 8627841496289607342}
   m_Layer: 0
-  m_Name: Cube (15)
+  m_Name: Upgrade.Mirror
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2154,6 +2155,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8627841496289607342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537318710965609471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 179dae92b5dd2c647a7f5986e03cf709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &8740504173340682590
 BoxCollider:
   m_ObjectHideFlags: 0
