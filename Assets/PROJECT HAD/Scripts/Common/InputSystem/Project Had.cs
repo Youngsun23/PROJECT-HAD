@@ -89,6 +89,15 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""9f3e9569-2332-4e52-ab0c-e10562a154e7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -267,6 +276,17 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
                     ""action"": ""CharacterInfoMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""24e045da-3576-4b04-8dec-36534c900054"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -343,6 +363,7 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_CharacterInfoMenu = m_Player.FindAction("CharacterInfoMenu", throwIfNotFound: true);
+        m_Player_Escape = m_Player.FindAction("Escape", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -411,6 +432,7 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_CharacterInfoMenu;
+    private readonly InputAction m_Player_Escape;
     public struct PlayerActions
     {
         private @ProjectHad m_Wrapper;
@@ -422,6 +444,7 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @CharacterInfoMenu => m_Wrapper.m_Player_CharacterInfoMenu;
+        public InputAction @Escape => m_Wrapper.m_Player_Escape;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -452,6 +475,9 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
             @CharacterInfoMenu.started += instance.OnCharacterInfoMenu;
             @CharacterInfoMenu.performed += instance.OnCharacterInfoMenu;
             @CharacterInfoMenu.canceled += instance.OnCharacterInfoMenu;
+            @Escape.started += instance.OnEscape;
+            @Escape.performed += instance.OnEscape;
+            @Escape.canceled += instance.OnEscape;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -477,6 +503,9 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
             @CharacterInfoMenu.started -= instance.OnCharacterInfoMenu;
             @CharacterInfoMenu.performed -= instance.OnCharacterInfoMenu;
             @CharacterInfoMenu.canceled -= instance.OnCharacterInfoMenu;
+            @Escape.started -= instance.OnEscape;
+            @Escape.performed -= instance.OnEscape;
+            @Escape.canceled -= instance.OnEscape;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -548,5 +577,6 @@ public partial class @ProjectHad: IInputActionCollection2, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnCharacterInfoMenu(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
 }

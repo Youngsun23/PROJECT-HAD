@@ -28,11 +28,12 @@ namespace HAD
 
         public void Initialize()
         {
-            // 초기화
-            // GameDataManager
-            // GameDataModel
-            // UIManager
-            // ...
+            //// 초기화 -> BootStrapper로 이동
+            //// GameDataManager
+            //// GameDataModel
+            //// UIManager
+            //UIManager.Singleton.Initialize();
+            //// ...
 
             ChangeScene(SceneType.Title);
         }

@@ -3291,6 +3291,11 @@ MonoBehaviour:
     id: 1
     lastPlayerPosition: {x: 0, y: 1, z: 0}
     lastSceneName: DummyLevel
+    centaurHeart: 0
+    vitality: 0
+    coin: 0
+    key: 0
+    darkness: 0
 --- !u!4 &707588029
 Transform:
   m_ObjectHideFlags: 0

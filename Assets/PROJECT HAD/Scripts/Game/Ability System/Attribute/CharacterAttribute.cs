@@ -11,6 +11,7 @@ namespace HAD
         public float CurrentValue { get; set; }
         public float DefaultValue { get; set; }
         public float BuffedValue { get; set; }
+        // public float DeBuffedValue { get; set; }
 
         // 여기 구조 자체를 바꿔도 되나?
         // default는 GameData
