@@ -62,7 +62,9 @@ namespace HAD
 
         private void ExecuteCharacterInfoMenu()
         {
-            AbilityListUI.Instance.SwitchAbilityListUI();
+            // AbilityListUI.Instance.SwitchAbilityListUI();
+            var abilityUI = UIManager.Singleton.GetUI<AbilityListUI>(UIList.AbilityList);
+            abilityUI.SwitchAbilityListUI();
         }
 
         private void OnDetectedInteractable(IInteractable interactable)

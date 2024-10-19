@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 namespace HAD
 {
-    public class InteractionEnableUISetup : MonoBehaviour
+    public class InteractionNoticeUI : UIBase
     {
-        # region Try
+        #region Try
         //[SerializeField] private GameObject interactionUIImage;
         //[SerializeField] private TextMeshProUGUI interactionUIText;
 
@@ -32,36 +33,23 @@ namespace HAD
         //}
         #endregion
 
-        [SerializeField] private GameObject InteractionEnableUIPrefab;
-        private static InteractionEnableUISetup Instance;
+        //[SerializeField] private GameObject InteractionEnableUIPrefab;
+        //private static InteractionNoticeUI Instance;
 
-        // 
+
         public enum IconType
         {
 
         }
 
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-                Instance.InteractionEnableUIPrefab.SetActive(false);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
+        //public void Display()
+        //{
+        //    Show();
+        //}
 
-        public static void Display()
-        { 
-            Instance.InteractionEnableUIPrefab.SetActive(true);
-        }
-
-        public static void Hide()
-        {
-            Instance.InteractionEnableUIPrefab.SetActive(false);
-        }
+        //public void Hide()
+        //{
+        //    Hide();
+        //}
     }
 }

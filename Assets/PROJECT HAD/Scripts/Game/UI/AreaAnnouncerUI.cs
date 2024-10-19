@@ -6,25 +6,27 @@ using UnityEngine.UI;
 
 namespace HAD
 {
-    public class AreaAnnouncerUI : MonoBehaviour
+    public class AreaAnnouncerUI : UIBase
     {
         [SerializeField] private TextMeshProUGUI AreaUIText;
         [SerializeField] private Image AreaUIBackground;
 
-        public static AreaAnnouncerUI Instance { get; private set; }
+        //public static AreaAnnouncerUI Instance { get; private set; }
 
-        private void Awake()
-        {
-            Instance = this;
-        }
+        //private void Awake()
+        //{
+        //    Instance = this;
+        //}
 
-        private void OnDestroy()
-        {
-            Instance = null;
-        }
+        //private void OnDestroy()
+        //{
+        //    Instance = null;
+        //}
 
         public void ShowAreaAnnouncerUI(string text)
         {
+            Show();
+            AreaUIBackground.gameObject.SetActive(false);
             StartCoroutine(SwitchAreaAnnouncerUI(text));
         }
 
@@ -33,14 +35,13 @@ namespace HAD
             yield return new WaitForSeconds(1f);
 
             // todo: 연출 처리
-            AreaUIText.text = text;
             AreaUIBackground.gameObject.SetActive(true);
-            AreaUIText.gameObject.SetActive(true);
+            AreaUIText.text = text;
 
             yield return new WaitForSeconds(3f);
+            AreaUIText.text = "";
 
-            AreaUIBackground.gameObject.SetActive(false);
-            AreaUIText.gameObject.SetActive(false);
+            Hide();
         }
     }
 }

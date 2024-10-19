@@ -5,9 +5,10 @@ using UnityEngine;
 
 namespace HAD
 {
-    public class AbilityListUI : MonoBehaviour
+    public class AbilityListUI : UIBase
     {
-        [SerializeField] GameObject AbilityImage;
+        // ToDo: 어빌마다 본인 이미지 갖고 있는 거 불러와서 Image UI에 연결
+        // [SerializeField] GameObject AbilityImage;
         [SerializeField] TextMeshProUGUI AbilitySlot1;
         [SerializeField] TextMeshProUGUI AbilitySlot2;
         [SerializeField] TextMeshProUGUI AbilitySlot3;
@@ -32,12 +33,12 @@ namespace HAD
         {
             if(!isActivated)
             {
-                AbilityImage.SetActive(true);
+                Show();
                 isActivated = true;
             }
             else
             {
-                AbilityImage.SetActive(false);
+                Hide();
                 isActivated = false;
             }
         }

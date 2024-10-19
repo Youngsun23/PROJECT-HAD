@@ -8,13 +8,15 @@ namespace HAD
     {
         PANEL_START,
 
-        TestUI,
-        TestUI2,
+        FadeInOut,
 
         PANEL_END,
         POPUP_START,
 
-
+        InteractionNotice,
+        Dialogue,
+        AreaAnnouncer,
+        AbilityList,
 
         POPUP_END,
     }

@@ -13,18 +13,24 @@ namespace HAD
 
         public void Interact(CharacterBase actor)
         {
-            // 강화 UI창 띄우기
+            // 거울 강화 UI창 띄우기
             Debug.Log("거울 UI");
-        }
-
-        public void InteractDisenable()
-        {
-            InteractionEnableUISetup.Display();
         }
 
         public void InteractEnable()
         {
-            InteractionEnableUISetup.Hide();
+            var interactionUI = UIManager.Show<InteractionNoticeUI>(UIList.InteractionNotice);
+        }
+        public void InteractDisenable()
+        {
+            var interactionUI = UIManager.Hide<InteractionNoticeUI>(UIList.InteractionNotice);
+        }
+
+        // UI, 유저 데이터, 게임 데이터 <- 얘네 건드리는 건 따로 빼고 이 스크립트는 Charon으로 이름 바꾸기?
+        // OnButton에서 호출
+        public void BuyUpgrade()
+        {
+
         }
     }
 }

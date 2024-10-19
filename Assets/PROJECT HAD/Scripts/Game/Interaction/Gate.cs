@@ -33,11 +33,12 @@ namespace HAD
                 GameManager.Instance.LoadLevel(nextSceneName);
             }
         }
+
         public void InteractEnable()
         {
             if (isActivated)
             {
-                InteractionEnableUISetup.Display();
+                var interactionUI = UIManager.Show<InteractionNoticeUI>(UIList.InteractionNotice);
             }
         }
 
@@ -45,7 +46,7 @@ namespace HAD
         {
             if (isActivated)
             {
-                InteractionEnableUISetup.Hide();
+                var interactionUI = UIManager.Hide<InteractionNoticeUI>(UIList.InteractionNotice);  
             }
         }
     }

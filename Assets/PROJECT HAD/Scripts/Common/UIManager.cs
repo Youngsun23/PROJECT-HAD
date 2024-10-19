@@ -66,6 +66,11 @@ namespace HAD
             {
                 UIList uiType = (UIList)index;
                 ContainerPanel.Add(uiType, null);
+            }            
+            for(int index = (int)UIList.POPUP_START + 1; index < (int)UIList.POPUP_END; index++)
+            {
+                UIList uiType = (UIList)index;
+                ContainerPopup.Add(uiType, null);
             }
         }
 
@@ -80,7 +85,7 @@ namespace HAD
                     if (loadedPrefab != null)
                     {
                         result = Instantiate(loadedPrefab, panelRoot);
-                        result.gameObject.SetActive(false);
+                        //result.gameObject.SetActive(false);
                         ContainerPanel[uiType] = result;
                     }
                 }
@@ -90,15 +95,15 @@ namespace HAD
                 }
             }
 
-            if(UIList.POPUP_START < uiType && uiType < UIList.POPUP_START)
+            if(UIList.POPUP_START < uiType && uiType < UIList.POPUP_END)
             {
                 if (ContainerPopup[uiType] == null)
                 {
                     T loadedPrefab = Resources.Load<T>(UI_Resource_PATH + "UI." + uiType.ToString());
                     if (loadedPrefab != null)
                     {
-                        result = Instantiate(loadedPrefab, panelRoot);
-                        result.gameObject.SetActive(false);
+                        result = Instantiate(loadedPrefab, popupRoot);
+                        //result.gameObject.SetActive(false);
                         ContainerPopup[uiType] = result;
                     }
                 }

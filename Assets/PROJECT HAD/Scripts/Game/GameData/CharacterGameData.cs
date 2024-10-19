@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace HAD
 {
-    [CreateAssetMenu(fileName = "Character GameData", menuName = "HAD/Game Data/Character Data")]
-    public class CharacterGameData : GameDataBase // 하데스는 레벨 개념 x -> 게임시작 초기값으로만 사용
+    [CreateAssetMenu(fileName = "Character GameData", menuName = "HAD/Character Data")]
+    public class CharacterGameData : ScriptableObject // 하데스는 레벨 개념 x -> 게임시작 초기값으로만 사용
     {
         [field: Title("Character Setting")]
         [field: SerializeField] public string Option { get; protected set; }

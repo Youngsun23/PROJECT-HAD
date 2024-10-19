@@ -19,7 +19,7 @@ namespace HAD
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void SystemBoot()
         {
-#if UNITY_EDITOR            
+#if UNITY_EDITOR     
             var activeScene = EditorSceneManager.GetActiveScene();
             for (int i = 0; i < AutoBootStrappedScenes.Count; i++)
             {

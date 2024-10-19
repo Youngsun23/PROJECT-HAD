@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace HAD
 {
-    public class FadeInOutUI : MonoBehaviour
+    public class FadeInOutUI : UIBase
     {
         public static FadeInOutUI Instance { get; private set; }
 
@@ -22,6 +22,7 @@ namespace HAD
         private void Awake()
         {
             Instance = this;
+            //Show();
         }
 
         private void OnDestroy()

@@ -38,11 +38,11 @@ namespace HAD
 
         public void InteractEnable()
         {
-            InteractionEnableUISetup.Display();
+            var interactionUI = UIManager.Show<InteractionNoticeUI>(UIList.InteractionNotice);
         }
         public void InteractDisenable()
         {
-            InteractionEnableUISetup.Hide();
+            var interactionUI = UIManager.Hide<InteractionNoticeUI>(UIList.InteractionNotice);
         }
     }
 }

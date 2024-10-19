@@ -2,17 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 namespace HAD
 {
     // 임시
-    public class DialogueUI : MonoBehaviour
+    public class DialogueUI : UIBase
     {
-        [SerializeField] private TextMeshProUGUI Dialoguetext;  
+        [SerializeField] private TextMeshProUGUI Dialoguetext;
+        [SerializeField] private CSVParser csvParser;
+        // ToDo: monologue, infoboard, special도 추가
+        // [SerializeField] private TextMeshProUGUI monologueUI;
 
-        public void Setup(string txt)
+        // 음...
+        private void Awake()
         {
-            Dialoguetext.text = txt;
+            csvParser = FindObjectOfType<CSVParser>();
+        }
+
+        public void DisplayText(string key)
+        {
+            //Show();
+            string koreanText = csvParser.GetKoreanText(key);
+            if (!string.IsNullOrEmpty(koreanText))
+            {
+                Dialoguetext.text = koreanText;
+            }
         }
     }
 }

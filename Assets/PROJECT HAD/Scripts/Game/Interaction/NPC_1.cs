@@ -14,16 +14,18 @@ namespace HAD
             // DialogueUISetup.Instance.Display("Hi!\n I'm NPC 1!"); // 임시
 
             // CSVParser 사용 ex
-            DialogueUISetup.Instance.DisplayText("msg_m_60");
+            //DialogueUISetup.Instance.DisplayText("msg_m_60");
+            var DialogueUI = UIManager.Singleton.GetUI<DialogueUI>(UIList.Dialogue);
+            DialogueUI.DisplayText("msg_m_60");
         }
 
         public void InteractEnable()
         {
-            InteractionEnableUISetup.Display();
+            var interactionUI = UIManager.Show<InteractionNoticeUI>(UIList.InteractionNotice);
         }
         public void InteractDisenable()
         {
-            InteractionEnableUISetup.Hide();
+            var interactionUI = UIManager.Hide<InteractionNoticeUI>(UIList.InteractionNotice);
         }
     }
 }

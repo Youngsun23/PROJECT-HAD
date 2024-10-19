@@ -84,8 +84,8 @@ namespace HAD
 
         public void OnEscape()
         {
-            var testUI2 = UIManager.Singleton.GetUI<TestUI2>(UIList.TestUI2);
-            testUI2.Show();
+            // var testUI2 = UIManager.Singleton.GetUI<TestUI2>(UIList.TestUI2);
+            // testUI2.Show();
 
             // 간략화 버전
             // var testUI = UIManager.Show<TestUI>(UIList.TestUI);

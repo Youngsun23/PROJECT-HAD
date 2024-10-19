@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HAD
 {
-    [CreateAssetMenu(fileName ="MonsterStateData", menuName = "HAD/MonsterStateData", order = 0)]
+    [CreateAssetMenu(fileName ="MonsterGameData", menuName = "HAD/Monster Data")]
     public class MonsterStatData : ScriptableObject
     {
         [field: SerializeField] public float MaxHP {  get; set; }
