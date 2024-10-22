@@ -156,7 +156,7 @@ namespace HAD
                 // AreaAnnouncerUI.Instance.ShowAreaAnnouncerUI("Zagreus's Room");
                 var areaUI = UIManager.Singleton.GetUI<AreaAnnouncerUI>(UIList.AreaAnnouncer);
                 areaUI.ShowAreaAnnouncerUI("Zagreus's Room");
-            }           
+            }
         }
         // ToDo: 원래는 맵 로드하는 동안 캐릭터가 낙하하지 않도록 안 움직이게 처리해줘야 함
     }

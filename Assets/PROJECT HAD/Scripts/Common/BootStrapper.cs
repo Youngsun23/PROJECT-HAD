@@ -36,6 +36,7 @@ namespace HAD
         private static void InternalBoot()
         {
             UIManager.Singleton.Initialize();
+            SoundManager.Singleton.Initialize();
         }
     }
 }
