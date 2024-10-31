@@ -67,7 +67,6 @@ namespace HAD
             }
 
             Vector3 inputDirection = new Vector3(input.x, 0.0f, input.y).normalized;
-            // 거미는 엉덩이로 걸어다니고 상자는 제대로 다니네...
             if (input != Vector2.zero)
             {
                 targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + yAxis;
