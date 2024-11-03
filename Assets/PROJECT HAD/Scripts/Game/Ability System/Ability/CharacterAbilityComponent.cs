@@ -22,7 +22,9 @@ namespace HAD
             newAbility.Owner = character;
 
             // GetUI 해서 함수 호출? Character 연결해서 abillist 검사하는 private 함수 만들어서 SwitchAbilityListUI() 내부에서 호출?
-            AbilityListUI.Instance.RegisterAbility(newAbility);
+            // AbilityListUI.Instance.RegisterAbility(newAbility);
+            var abilityUI = UIManager.Singleton.GetUI<AbilityListUI>(UIList.AbilityList);
+            abilityUI.RegisterAbility(newAbility);
         }
 
         public void RemoveAbility(AbilityBase ability)

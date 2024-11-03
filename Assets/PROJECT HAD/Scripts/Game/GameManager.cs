@@ -35,8 +35,8 @@ namespace HAD
 
             if (string.IsNullOrEmpty(currentLevelName))
             {
-                LoadLevel("GrayRoomMix_ZagreusRoom");
-                // LoadLevel("GrayRoomMix_Backyard");
+                // LoadLevel("GrayRoomMix_ZagreusRoom");
+                LoadLevel("Entrance");
             }
         }
 
@@ -80,8 +80,6 @@ namespace HAD
         //}
         #endregion
 
-
-
         public void LoadLevel(string levelName)
         {
             StartCoroutine(LoadLevelAsync(levelName));
@@ -89,12 +87,21 @@ namespace HAD
 
         IEnumerator LoadLevelAsync(string levelName)
         {
+            // 씬 로드에는 문제 X
+            // CharacterController.Instance가 null인 상태 - Awake 순서 탓?
             // 캐릭터 비활성화 -> 애니메이션 고정 등 문제
-            CharacterController.Instance.enabled = false;
-            CharacterController.Instance.character.Move(Vector2.zero, Camera.main.transform.eulerAngles.y);
+            if(CharacterController.Instance != null)
+            {
+                CharacterController.Instance.enabled = false;
+                CharacterController.Instance.character.Move(Vector2.zero, Camera.main.transform.eulerAngles.y);
+                // Debug.Log(CharacterController.Instance.gameObject.name);
+            }
 
             var FadeUI = UIManager.Singleton.GetUI<FadeInOutUI>(UIList.FadeInOut);
-            FadeUI.FadeIn();
+            if(levelName != "Entrance")
+            {
+                FadeUI.FadeOut();
+            }
             // FadeInOutUI.Instance.FadeIn();
             yield return new WaitForSeconds(1);
 
@@ -122,14 +129,14 @@ namespace HAD
             // NavMesh를 최신 맵으로 한번 다시 굽기
             NavMeshSurfaceController.Instance.BakeNavMesh();
 
-            // ToDo: 임시 코드라서 FindObjectOfType 사용 -> 대체할 것
+            // ToDo: FindObjectOfType 사용 -> entry 스크립트에 string 변수(키값) 두고, gate처럼 awake에서 자신 등록?
             // Player Character를 Entry Point로 이동
             var entryPoint = GameObject.FindObjectOfType<LevelEntryPoint>();
             CharacterController.Instance.character.Move(Vector2.zero, Camera.main.transform.eulerAngles.y);
             CharacterController.Instance.transform.position = entryPoint.transform.position;
 
             // FadeInOutUI.Instance.FadeOut();
-            FadeUI.FadeOut();
+            FadeUI.FadeIn();
             yield return new WaitForSeconds(1);
 
             // 전투 씬인 경우만...
@@ -138,25 +145,26 @@ namespace HAD
             // 캐릭터 활성화
             CharacterController.Instance.enabled = true;
 
-            // 하데스의 집 / 타르타로스 / 카오스 / 자그레우스의 방 / 뒷뜰 / ...
-            if (currentLevelName == "GrayRoomMix_Tarta")
+            // 현재 씬의 이름대로 출력
+            var areaUI = UIManager.Singleton.GetUI<AreaAnnouncerUI>(UIList.AreaAnnouncer);
+            areaUI.ShowAreaAnnouncerUI();
+              
+            //if (currentLevelName == "GrayRoomMix_ZagreusRoom")
+            //{
+            //    // AreaAnnouncerUI.Instance.ShowAreaAnnouncerUI("Zagreus's Room");
+            //    var areaUI = UIManager.Singleton.GetUI<AreaAnnouncerUI>(UIList.AreaAnnouncer);
+            //    areaUI.ShowAreaAnnouncerUI("Zagreus's Room");
+            //}
+
+            // 전투 없이 방 활성화되는 경우들
+            if(currentLevelName == "Entrance")
             {
-                // AreaAnnouncerUI.Instance.ShowAreaAnnouncerUI("Tartarus");
-                var areaUI = UIManager.Singleton.GetUI<AreaAnnouncerUI>(UIList.AreaAnnouncer);
-                areaUI.ShowAreaAnnouncerUI("Tartarus");
+                foreach(Gate gate in gates)
+                {
+                    gate.ActivateGate();
+                }
             }
-            if (currentLevelName == "GrayRoomMix_Backyard")
-            {
-                // AreaAnnouncerUI.Instance.ShowAreaAnnouncerUI("Backyard");
-                var areaUI = UIManager.Singleton.GetUI<AreaAnnouncerUI>(UIList.AreaAnnouncer);
-                areaUI.ShowAreaAnnouncerUI("Backyard");
-            }           
-            if (currentLevelName == "GrayRoomMix_ZagreusRoom")
-            {
-                // AreaAnnouncerUI.Instance.ShowAreaAnnouncerUI("Zagreus's Room");
-                var areaUI = UIManager.Singleton.GetUI<AreaAnnouncerUI>(UIList.AreaAnnouncer);
-                areaUI.ShowAreaAnnouncerUI("Zagreus's Room");
-            }
+
         }
         // ToDo: 원래는 맵 로드하는 동안 캐릭터가 낙하하지 않도록 안 움직이게 처리해줘야 함
     }

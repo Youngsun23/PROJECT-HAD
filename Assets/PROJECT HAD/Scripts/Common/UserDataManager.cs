@@ -13,7 +13,8 @@ namespace HAD
         // 초기값 넣어두기
         public int id; // 데이터 슬롯 (1~)
         
-        public Vector3 lastPlayerPosition = Vector3.zero;
+        // 위치는 씬의 entryPoint로 고정
+        // public Vector3 lastPlayerPosition = Vector3.zero;
         public string lastSceneName = string.Empty;
 
         // MaxHP - 영구 / 임시() - 직접 수치로 저장하는 게 아니라 '강화 A를 X회' 형태?
@@ -93,6 +94,11 @@ namespace HAD
             // 유저데이터 getset,,
         }
 
+        public void UpdateSceneUserData(string sceneName)
+        {
+            UserData.lastSceneName = sceneName;  
+        }
+
         public void ResetTempUserData()
         {
             UserData.centaurHeart = 0;
@@ -105,13 +111,13 @@ namespace HAD
         // UserData 값대로 캐릭터 세팅 해주는 처리 필요
 
         // userdata 기반으로 실제 attribute 버프값 총합 계산하는 함수
-        public int CalUserDataMaxHP()
-        {
-            int maxHP = 0;
-            maxHP += UserData.centaurHeart * 25;
+        //public int CalUserDataMaxHP()
+        //{
+        //    int maxHP = 0;
+        //    maxHP += UserData.centaurHeart * 25;
 
-            return maxHP;
-        }
+        //    return maxHP;
+        //}
         // CurrentHP가 골치...이건 강화/buff 개념이 아니니까 별개로 관리해주고 싶은데
     }
 

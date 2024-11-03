@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace HAD
 {
@@ -23,20 +24,28 @@ namespace HAD
         //    Instance = null;
         //}
 
-        public void ShowAreaAnnouncerUI(string text)
+        public void ShowAreaAnnouncerUI()
         {
             Show();
             AreaUIBackground.gameObject.SetActive(false);
-            StartCoroutine(SwitchAreaAnnouncerUI(text));
+            StartCoroutine(SwitchAreaAnnouncerUI());
         }
 
-        IEnumerator SwitchAreaAnnouncerUI(string text)
+        IEnumerator SwitchAreaAnnouncerUI()
         {
             yield return new WaitForSeconds(1f);
 
             // todo: 연출 처리
             AreaUIBackground.gameObject.SetActive(true);
-            AreaUIText.text = text;
+            // additive로 불러온 씬이 반드시 [1]에 저장되는지 확신 x
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                Scene scene = SceneManager.GetSceneAt(i);
+                if (scene.name != "Ingame")
+                {
+                    AreaUIText.text = scene.name;
+                }
+            }
 
             yield return new WaitForSeconds(3f);
             AreaUIText.text = "";

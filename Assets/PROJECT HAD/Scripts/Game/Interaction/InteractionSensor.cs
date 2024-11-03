@@ -15,7 +15,7 @@ namespace HAD
             }
         }
 
-        private float interactionRange = 2f;
+        private float interactionRange = 1.5f;
         private SphereCollider sensorCollider;
 
         public System.Action<IInteractable> OnDetectedInteractable;

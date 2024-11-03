@@ -7,10 +7,17 @@ namespace HAD
     public class MonsterSpawner : MonoBehaviour
     {
         [SerializeField] private string monsterName;
+        [SerializeField] private GameObject spawnFX;
+
+        private void Awake()
+        {
+            
+        }
 
         public void SpawnMonster()
         {
-            MonsterWaveManager.Instance.MonsterSpawn(monsterName, this.transform.position);
+            Instantiate(spawnFX, transform.position + Vector3.up, Quaternion.identity);
+            MonsterWaveManager.Instance.MonsterSpawn(monsterName, transform.position);
         }
     }
 }

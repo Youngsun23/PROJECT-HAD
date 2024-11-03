@@ -177,8 +177,8 @@ namespace HAD
             character.MagicShot();
 
             // GameObject effect = EffectManager.Singleton.GetEffect("Effect_1");
-            var effect = EffectPoolManager.Singleton.GetEffect("Example");
-            effect.gameObject.transform.position = character.transform.position + character.transform.forward * 3f;
+            //var effect = EffectPoolManager.Singleton.GetEffect("Example");
+            //effect.gameObject.transform.position = character.transform.position + character.transform.forward * 3f;
         }
 
         private void ExecuteSpecialAttack()

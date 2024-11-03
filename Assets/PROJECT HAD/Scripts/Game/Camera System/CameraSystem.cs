@@ -194,6 +194,7 @@ using Cinemachine;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace HAD
@@ -224,13 +225,15 @@ namespace HAD
         //[field: SerializeField] public AnimationCurve CameraOffsetCurveY { get; private set; }
         [field: SerializeField] public float CameraOffsetMaxDistance { get; private set; }
 
-        
+        private List<MeshRenderer> transparentMeshs;
 
         private void Awake()
         {
             Instance = this;
             mainCamera = Camera.main;
-        }
+
+            transparentMeshs = new List<MeshRenderer>();
+    }
 
         private void OnDestroy()
         {
@@ -247,6 +250,46 @@ namespace HAD
             cameraShaker.ShakeCamera();
         }
 
+        // 카메라-플레이어 사이 옵젝(벽) 반투명화
+        private void LateUpdate()
+        {
+            Vector3 direction = CharacterController.Instance.transform.position - transform.position;
+            // 레이어 마스크 필요하려나?
+            RaycastHit hit;
+            if(Physics.Raycast(transform.position, direction, out hit))
+            {
+                // Debug.Log("Raycast에 옵젝 감지");
+
+                if (!hit.collider.CompareTag("Player"))
+                {
+                    // Debug.Log("Raycast에 Player 아닌 옵젝 감지");
+
+                    MeshRenderer meshRenderer = hit.transform.GetComponent<MeshRenderer>();
+                    Debug.Log((meshRenderer == null)); // 왜 meshRenderer가 없다고 하는가,,,
+                    if(meshRenderer != null && !transparentMeshs.Contains(meshRenderer))
+                    {
+                        // 이 if절을 못 넘어옴
+                        Debug.Log("Raycast에 감지한 옵젝 알파값 변경");
+
+                        Color color = meshRenderer.material.color;
+                        color.a = 0.5f;
+                        meshRenderer.material.color = color;
+                        transparentMeshs.Add(meshRenderer);
+                    }
+                }
+                else
+                {
+                    foreach (var mesh in transparentMeshs)
+                    {
+                        Color color = mesh.material.color;
+                        color.a = 1f;
+                        mesh.material.color = color;
+                    }
+                    transparentMeshs.Clear();
+                }
+            }
+        }
+        #region 임시 Off - 커서 따라 카메라 이동
         // @ 임시 Off @
         //private void Update()
         //{
@@ -282,12 +325,13 @@ namespace HAD
 
         //        // 카메라에서 구한 방향을 CameraPivot의 로컬 방향으로 변환
         //        Vector3 localDirection = charaterTransform.transform.InverseTransformDirection(cameraDirection);
-                
+
         //        // 최종 움직일 위치 계산
         //        Vector3 targetPosition = Vector3.up + localDirection * CameraOffsetMaxDistance;
         //        CameraPivot.transform.localPosition = Vector3.Lerp(CameraPivot.transform.localPosition, targetPosition, Time.deltaTime * 20f);
         //    }
         //}
+        #endregion
     }
 }
 

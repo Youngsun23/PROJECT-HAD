@@ -13,6 +13,7 @@ namespace HAD
         private static List<string> AutoBootStrappedScenes = new List<string>()
         {
             "Main",
+            "Title",
             "Ingame",
         };
 

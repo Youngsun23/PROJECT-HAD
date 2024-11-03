@@ -47,12 +47,14 @@ namespace HAD
             }
         }
 
+        // 장면 시작
         [Button("Fade In")]
         public void FadeIn()
         {
             StartFade(fadeInCurve);
         }
 
+        // 장면 끝
         [Button("Fade Out")]
         public void FadeOut()
         {

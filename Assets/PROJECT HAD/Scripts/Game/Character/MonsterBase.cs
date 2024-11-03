@@ -42,6 +42,7 @@ namespace HAD
         [SerializeField] private bool attackAvailable = false;
         private bool isAttacking = false;
         private float stunTimer = 0f;
+        private Coroutine hitCoroutine;
 
         // public GameObject monsterPathBoxObject;
         // BoxCollider monsterPathBoxCollider;
@@ -70,7 +71,7 @@ namespace HAD
         {
             spawnedMonsters.Remove(this);
             
-            Debug.Log($"몬스터 죽음 -> spawnedMonstersCount: {spawnedMonsters.Count}");
+            // Debug.Log($"몬스터 죽음 -> spawnedMonstersCount: {spawnedMonsters.Count}");
             // OnSpawnedMonsterCountChanged?.Invoke(spawnedMonsters.Count, this.transform.position);
 
             if(spawnedMonsters.Count <= 0)
@@ -258,7 +259,13 @@ namespace HAD
 
         public override void TakeDamage(IActor actor, float damage)
         {
-            stunTimer = 2f;
+            // StartCoroutine - actor(PC)의 정면 방향으로 넉백 밀치기
+            // 이미 넉백이 돌고 있는 중이면 새 코루틴으로 갱신
+            if(hitCoroutine != null)
+            {
+                StopCoroutine(hitCoroutine);
+            }
+            hitCoroutine = StartCoroutine(HitCoroutine(actor.GetActor().transform.forward));
 
             characterAnimator.SetTrigger("HitTrigger");
 
@@ -269,6 +276,30 @@ namespace HAD
             {
                 Die();
             }
+        }
+
+        // 피격 시 경직과 넉백
+        private IEnumerator HitCoroutine(Vector3 direction)
+        {
+            stunTimer = 2f;
+
+            // direction으로 stunTimer의 1/2 동안, moveSpeed의 *1.2만큼 이동
+            float knockbackDuration = stunTimer / 2;
+            float knockbackSpeed = MoveSpeed * 3f;
+            float elapsedTime = 0f;
+
+            navMeshAgent.isStopped = true;
+
+            while (elapsedTime < knockbackDuration)
+            {
+                transform.position += direction.normalized * knockbackSpeed * Time.deltaTime;
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            navMeshAgent.isStopped = false;
+
+            hitCoroutine = null;
         }
 
         public void Die()

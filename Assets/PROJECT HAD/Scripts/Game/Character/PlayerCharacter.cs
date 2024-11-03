@@ -250,7 +250,7 @@ namespace HAD
             // public float CurrentHP => characterAttribute.GetAttribute(Attributetypes.HealthPoint).CurrentValue; // 이렇게 사용도 가능
 
             // GameData의 초기값 + UserData의 변화 정보&변화 내용의 설정 변화값(ex.켄타심장1개-+25HP) => Component
-            characterAttributeComponent.SetAttribute(AttributeTypes.HealthPoint, characterData.MaxHP + UserDataManager.Singleton.CalUserDataMaxHP());
+            characterAttributeComponent.SetAttribute(AttributeTypes.HealthPoint, characterData.MaxHP /*+ UserDataManager.Singleton.CalUserDataMaxHP()*/);
             characterAttributeComponent.SetAttribute(AttributeTypes.MagicArrowCount, characterData.MaxArrow);
             characterAttributeComponent.SetAttribute(AttributeTypes.DashCooltime, characterData.DashCooltime);
             characterAttributeComponent.SetAttribute(AttributeTypes.MoveSpeed, characterData.MoveSpeed);
@@ -578,8 +578,8 @@ namespace HAD
             // curMagicArrow--;
 
             // Test용 - Abil 추가 UI
-            PushAbility pushAbil = new PushAbility();
-            characterAbilityComponent.AddAbility(pushAbil);
+            //PushAbility pushAbil = new PushAbility();
+            //characterAbilityComponent.AddAbility(pushAbil);
         }
 
         public void SpecialAttack()

@@ -61,7 +61,7 @@ namespace HAD
             while(!loadSceneAsync.isDone)
             {
                 progress = loadSceneAsync.progress / 0.9f;
-                Debug.Log($"Loading Progres: {progress:0.0}");
+                // Debug.Log($"Loading Progres: {progress:0.0}");
                 // ToDo: Log -> Loading UI로 변경
 
                 yield return null;

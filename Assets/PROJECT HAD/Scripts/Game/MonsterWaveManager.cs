@@ -46,19 +46,29 @@ namespace HAD
         {
             if (currentWaveIndex < waveList.Count)
             {
-                Debug.Log($"현재 Index: {currentWaveIndex} -> 다음 웨이브");
+                // Debug.Log($"현재 Index: {currentWaveIndex} -> 다음 웨이브");
                 waveList[currentWaveIndex].StartWave();
                 currentWaveIndex++;
             }
             else
             {
-                Debug.Log("모든 웨이브 종료 -> 보상 생성");
+                // Debug.Log("모든 웨이브 종료 -> 보상 생성");
+                // ToDo: 방의 보상을 리스트 중 하나로 랜덤 결정, 문에도 시각화
                 var reward = rewardItems.FindIndex(x => x.name == "HAD.Relic.Darkness");
                 rewardItems[reward].tag = "RoomReward";
                 StartCoroutine(DelayedInstantiate(rewardItems[reward], restoredMonsterBase.transform.position + Vector3.up, Quaternion.Euler(0, 0, 0), 1.0f));
                 waveList.Clear();
                 currentWaveIndex = 0;
             }
+        }
+
+        // ToDo: ItemManager 스크립트 만들어서 함수 옮기고 호출로 변경
+        // 보상 랜덤 선택 - 아이템/은혜 50%로 일단 정하고, 그 중에서 하나로 정하고, 개수도 각각 범위 중 하나로 결정
+        private GameObject SelectReward()
+        {
+            int randomIndex = Random.Range(0, rewardItems.Count);
+            GameObject reward = rewardItems[randomIndex];
+            return reward;
         }
 
         public void AddWave(MonsterWave wave)
@@ -79,7 +89,7 @@ namespace HAD
         public void MonsterSpawn(string monsterName, Vector3 pos)
         {
             // Debug.Log("찐 몬스터 스폰");
-            Instantiate(monsterDictionary[monsterName], pos, Quaternion.identity);
+            Instantiate(monsterDictionary[monsterName], pos, Quaternion.Euler(0, 270, 0));
         }
     }
 }
