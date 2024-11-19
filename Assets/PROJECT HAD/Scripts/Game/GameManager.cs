@@ -32,7 +32,10 @@ namespace HAD
             {
                 Destroy(gameObject);
             }
+        }
 
+        private void Start()
+        {
             if (string.IsNullOrEmpty(currentLevelName))
             {
                 // LoadLevel("GrayRoomMix_ZagreusRoom");
@@ -88,7 +91,7 @@ namespace HAD
         IEnumerator LoadLevelAsync(string levelName)
         {
             // 씬 로드에는 문제 X
-            // CharacterController.Instance가 null인 상태 - Awake 순서 탓?
+            // CharacterController.Instance가 null인 상태 - Awake 순서 탓? // 얘를 Start로
             // 캐릭터 비활성화 -> 애니메이션 고정 등 문제
             if(CharacterController.Instance != null)
             {
@@ -98,7 +101,7 @@ namespace HAD
             }
 
             var FadeUI = UIManager.Singleton.GetUI<FadeInOutUI>(UIList.FadeInOut);
-            if(levelName != "Entrance")
+            if(!string.IsNullOrEmpty(currentLevelName))
             {
                 FadeUI.FadeOut();
             }

@@ -37,7 +37,7 @@ namespace HAD
 
         private void Start()
         {
-            var playerCharacterData = GameDataModel.Singleton.GetPlayerCharacterData("Default");
+            var playerCharacterData = GameDataModel.Singleton.GetPlayerCharacterGameData("Default");
             character.InitializeCharacter(playerCharacterData);
 
             CameraSystem.Instance.CameraPivot = cameraPivot;

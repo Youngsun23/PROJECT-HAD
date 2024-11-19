@@ -250,45 +250,47 @@ namespace HAD
             cameraShaker.ShakeCamera();
         }
 
+        #region 벽 반투명화 Old
         // 카메라-플레이어 사이 옵젝(벽) 반투명화
-        private void LateUpdate()
-        {
-            Vector3 direction = CharacterController.Instance.transform.position - transform.position;
-            // 레이어 마스크 필요하려나?
-            RaycastHit hit;
-            if(Physics.Raycast(transform.position, direction, out hit))
-            {
-                // Debug.Log("Raycast에 옵젝 감지");
+        //private void LateUpdate()
+        //{
+        //    Vector3 direction = CharacterController.Instance.transform.position - mainCamera.transform.position;
+        //    // 레이어 마스크 필요하려나?
+        //    RaycastHit hit;
+        //    if(Physics.Raycast(mainCamera.transform.position, direction.normalized, out hit))
+        //    {
+        //        // Debug.Log("Raycast에 옵젝 감지");
 
-                if (!hit.collider.CompareTag("Player"))
-                {
-                    // Debug.Log("Raycast에 Player 아닌 옵젝 감지");
+        //        if (!hit.collider.CompareTag("Player"))
+        //        {
+        //            // Debug.Log("Raycast에 Player 아닌 옵젝 감지");
 
-                    MeshRenderer meshRenderer = hit.transform.GetComponent<MeshRenderer>();
-                    Debug.Log((meshRenderer == null)); // 왜 meshRenderer가 없다고 하는가,,,
-                    if(meshRenderer != null && !transparentMeshs.Contains(meshRenderer))
-                    {
-                        // 이 if절을 못 넘어옴
-                        Debug.Log("Raycast에 감지한 옵젝 알파값 변경");
+        //            MeshRenderer meshRenderer = hit.transform.GetComponent<MeshRenderer>();
+        //            // Debug.Log((meshRenderer == null)); // 왜 meshRenderer가 없다고 하는가,,, // mainCam에서 안 쐈으니까...
+        //            if(meshRenderer != null && !transparentMeshs.Contains(meshRenderer))
+        //            {
+        //                // 이 if절을 못 넘어옴
+        //                // Debug.Log("Raycast에 감지한 옵젝 알파값 변경");
 
-                        Color color = meshRenderer.material.color;
-                        color.a = 0.5f;
-                        meshRenderer.material.color = color;
-                        transparentMeshs.Add(meshRenderer);
-                    }
-                }
-                else
-                {
-                    foreach (var mesh in transparentMeshs)
-                    {
-                        Color color = mesh.material.color;
-                        color.a = 1f;
-                        mesh.material.color = color;
-                    }
-                    transparentMeshs.Clear();
-                }
-            }
-        }
+        //                Color color = meshRenderer.material.color;
+        //                color.a = 0.5f;
+        //                meshRenderer.material.color = color;
+        //                transparentMeshs.Add(meshRenderer);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            foreach (var mesh in transparentMeshs)
+        //            {
+        //                Color color = mesh.material.color;
+        //                color.a = 1f;
+        //                mesh.material.color = color;
+        //            }
+        //            transparentMeshs.Clear();
+        //        }
+        //    }
+        //}
+        #endregion
         #region 임시 Off - 커서 따라 카메라 이동
         // @ 임시 Off @
         //private void Update()

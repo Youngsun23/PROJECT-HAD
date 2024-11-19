@@ -9,11 +9,11 @@ namespace HAD
     {
         // ToDo: 어빌마다 본인 이미지 갖고 있는 거 불러와서 Image UI에 연결
         // [SerializeField] GameObject AbilityImage;
-        [SerializeField] TextMeshProUGUI AbilitySlot1;
-        [SerializeField] TextMeshProUGUI AbilitySlot2;
-        [SerializeField] TextMeshProUGUI AbilitySlot3;
-        [SerializeField] TextMeshProUGUI AbilitySlot4;
-        [SerializeField] TextMeshProUGUI AbilitySlot5;
+        [SerializeField] private TextMeshProUGUI AbilitySlot1;
+        [SerializeField] private TextMeshProUGUI AbilitySlot2;
+        [SerializeField] private TextMeshProUGUI AbilitySlot3;
+        [SerializeField] private TextMeshProUGUI AbilitySlot4;
+        [SerializeField] private TextMeshProUGUI AbilitySlot5;
         private bool isActivated = false;
         // private int registeredAbility = 0;
 

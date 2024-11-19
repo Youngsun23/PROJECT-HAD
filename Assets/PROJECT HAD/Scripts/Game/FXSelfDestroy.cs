@@ -10,13 +10,13 @@ namespace HAD
 
         private void Awake()
         {
-            StartCoroutine(SelfDestroy());
+            Destroy(gameObject, 0.5f);
         }
 
-        IEnumerator SelfDestroy()
-        {
-            yield return new WaitForSeconds(durationTime);
-            Destroy(gameObject);
-        }
+        //IEnumerator SelfDestroy()
+        //{
+        //    yield return new WaitForSeconds(durationTime);
+        //    Destroy(gameObject);
+        //}
     }
 }

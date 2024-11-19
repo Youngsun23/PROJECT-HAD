@@ -9,6 +9,9 @@ namespace HAD
     {
         [SerializeField] private List<MonsterSpawner> spawnPoints = new List<MonsterSpawner>();
 
+        // ToDo
+        public int waveNum;
+
         private void Awake()
         {
             // 자동 등록 -> Wave1,2중 누가 먼저 될지 모름 / 이전 작동은 우연인가?
