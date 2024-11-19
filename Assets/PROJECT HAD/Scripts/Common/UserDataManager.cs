@@ -21,17 +21,27 @@ namespace HAD
         public int centaurHeart = 0; // (임시 Max&Curr +25HP)
         // 임시 강화는 결국 최종값만 +- 하며 사용할 건데 강화 종류마다 정보 저장하고 계산할 필요 있나??
         public int vitality = 0; // (영구 recoveryHP +1~+3) // 거울의 경우 거울 쪽 초기화에도 정보 사용
-        
+
         // CurrentHP
         // Arrow 개수 강화
 
         // <- 스탯으로 분류 / 강화 계열로 분류 ->
 
-        // 거울 - 영구(name,level)
+        // 거울 - 영구(num,level)
+        // 거울 1~5set
+        public Dictionary<int, int> mirrorDic = new Dictionary<int, int>()
+        {
+            { 1, 0 },
+            { 2, 0 },
+            { 3, 0 },
+            { 4, 0 },
+            { 5, 0 },
+        };
 
         // 카론 - 즉발/임시(RoomCount) - Save(방 전환) 시 LeftRoomCount가 0이 된 것들의 효과 제거
 
         // 획득한 은혜(name,level) - 사망 시 리셋
+        
 
         // 그 외 아이템 사용? 
 
@@ -80,6 +90,16 @@ namespace HAD
         #endregion
 
         public UserDataDTO UserData = new UserDataDTO();
+
+        public bool UpdateUserDataMirror(int setNum)
+        {
+            int updatedLevel = ++UserData.mirrorDic[setNum];
+            if(updatedLevel == GameDataModel.Singleton.GetMirrorGameData(setNum).MaxLevel)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public void UpdateUserDataResources(string resource, int value)
         {

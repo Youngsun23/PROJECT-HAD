@@ -231,8 +231,10 @@ namespace HAD
         //// CharacterAttributeComponent에서 모든 Type 도는 대신에
         //public List<AttributeTypes> attributes = new List<AttributeTypes>();
 
+        //@!@! 이 함수를, "userdata 변화->PC 스탯 변화" 생길 때마다 호출해주면 됨
         public void InitializeCharacter(CharacterGameData characterData)
         {
+            #region 옛날 주석
             //// Attribute
             //// 이런 방법도 가능
             //for(int i = 0; i < attributes.Count; i++)
@@ -248,15 +250,20 @@ namespace HAD
             // 이렇게 변경
             // 스탯 변경은 모두 characterAttributeComponent로 접근해서 값 변경 
             // public float CurrentHP => characterAttribute.GetAttribute(Attributetypes.HealthPoint).CurrentValue; // 이렇게 사용도 가능
+            #endregion
 
             // GameData의 초기값 + UserData의 변화 정보&변화 내용의 설정 변화값(ex.켄타심장1개-+25HP) => Component
             characterAttributeComponent.SetAttribute(AttributeTypes.HealthPoint, characterData.MaxHP /*+ UserDataManager.Singleton.CalUserDataMaxHP()*/);
             characterAttributeComponent.SetAttribute(AttributeTypes.MagicArrowCount, characterData.MaxArrow);
             characterAttributeComponent.SetAttribute(AttributeTypes.DashCooltime, characterData.DashCooltime);
             characterAttributeComponent.SetAttribute(AttributeTypes.MoveSpeed, characterData.MoveSpeed);
-            characterAttributeComponent.SetAttribute(AttributeTypes.AttackDamage, characterData.AttackDamage);
+            //@@ 이게 맞나?
+            // AttackDamage의 buffed 값은 %로 작동, 대미지 계산할 때 (대미지+-)값 * 1.1 하는 형태?? percent라는 걸 유의하면서 코드 쓰는 수밖에 없나???
+            int mirrorIncreament = GameDataModel.Singleton.GetMirrorGameData(1).IncreamentAtLevel[UserDataManager.Singleton.UserData.mirrorDic[1]];
+            characterAttributeComponent.SetAttribute(AttributeTypes.AttackDamage, characterData.AttackDamage, mirrorIncreament);
             characterAttributeComponent.SetAttribute(AttributeTypes.MagicDamage, characterData.MagicDamage);
             characterAttributeComponent.SetAttribute(AttributeTypes.SpecialAttackDamage, characterData.SpecialAttackDamage);
+
 
             // 아래는 벞/디벞/강화 안 하는 요소
             // 그대로 써도 되나?

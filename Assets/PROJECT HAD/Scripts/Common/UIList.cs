@@ -9,6 +9,7 @@ namespace HAD
         PANEL_START,
 
         FadeInOut,
+        Mirror,
 
         PANEL_END,
         POPUP_START,

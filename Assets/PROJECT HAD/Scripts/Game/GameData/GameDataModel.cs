@@ -8,9 +8,16 @@ namespace HAD
     {
         public List<CharacterGameData> characterData = new List<CharacterGameData>();
 
-        public CharacterGameData GetPlayerCharacterData(string option)
+        public List<MirrorGameData> mirrorGameData;
+
+        public CharacterGameData GetPlayerCharacterGameData(string option)
         {
             return characterData.Find(x => x.Option == option);  
+        }
+
+        public MirrorGameData GetMirrorGameData(int num)
+        {
+            return mirrorGameData.Find(data => data.Num == num);
         }
     }
 }
