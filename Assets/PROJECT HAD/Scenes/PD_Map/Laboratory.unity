@@ -1990,6 +1990,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1480392351}
   - {fileID: 311384903}
+  waveNum: 0
 --- !u!1001 &752519220
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3134,6 +3135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoints:
   - {fileID: 598612373391854662}
+  waveNum: 0
 --- !u!1001 &1225780735
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5135,8 +5137,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 139124, guid: 51d0bce681305ad4ca9b83d5bb46c48d, type: 3}
     - target: {fileID: 4682991260678405645, guid: 4ec04a8bb7a0f1643913b22f6252e0a4, type: 3}
+      propertyPath: nextSceneNames.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682991260678405645, guid: 4ec04a8bb7a0f1643913b22f6252e0a4, type: 3}
       propertyPath: nextSceneNames.Array.data[0]
-      value: Laboratory
+      value: Barracks
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682991260678405645, guid: 4ec04a8bb7a0f1643913b22f6252e0a4, type: 3}
+      propertyPath: nextSceneNames.Array.data[1]
+      value: TortureRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 5836734070169136855, guid: 4ec04a8bb7a0f1643913b22f6252e0a4, type: 3}
+      propertyPath: m_Radius
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5836734070169136855, guid: 4ec04a8bb7a0f1643913b22f6252e0a4, type: 3}
       propertyPath: m_Center.x

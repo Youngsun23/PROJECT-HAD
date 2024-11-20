@@ -316,7 +316,7 @@ namespace HAD
             // 죽음 -> 부활 연출
 
             // 하데스의집 씬으로 이동
-
+            GameManager.Instance.LoadLevel("Entrance");
         }
 
         public override void AddBuffed(AttributeTypes type, float buffedValue)

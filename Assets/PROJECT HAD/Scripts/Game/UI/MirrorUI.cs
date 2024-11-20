@@ -24,6 +24,11 @@ namespace HAD
             UpdateMirrorUI();
         }
 
+        public void ExitButton()
+        {
+            UIManager.Hide<MirrorUI>(UIList.Mirror);
+        }
+
         private void Awake()
         {
             UpdateMirrorUI();
