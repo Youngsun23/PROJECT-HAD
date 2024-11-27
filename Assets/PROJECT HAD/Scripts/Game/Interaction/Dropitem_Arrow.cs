@@ -8,6 +8,8 @@ namespace HAD
     {
         public bool IsAutomaticInteraction => true;
 
+        string IInteractable.Message => throw new System.NotImplementedException();
+
         private Transform target;
         private Rigidbody dropItemRigidbody;
         private Collider dropItemCollider;

@@ -8,6 +8,8 @@ namespace HAD
     {
         public bool IsAutomaticInteraction => false;
 
+        string IInteractable.Message => throw new System.NotImplementedException();
+
         public void Interact(CharacterBase actor)
         {
             // ToDo: NPC의 상황에 맞는 대화로그 UI창 띄우기

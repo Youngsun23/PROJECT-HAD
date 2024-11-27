@@ -104,13 +104,8 @@ namespace HAD
             if(!string.IsNullOrEmpty(currentLevelName))
             {
                 FadeUI.FadeOut();
-            }
-            // FadeInOutUI.Instance.FadeIn();
-            yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(1);
 
-            // To do : Unload Current Level Scene
-            if (!string.IsNullOrEmpty(currentLevelName))
-            {
                 var unloadAsync = SceneManager.UnloadSceneAsync(currentLevelName);
                 while (!unloadAsync.isDone)
                 {
@@ -121,7 +116,6 @@ namespace HAD
 
             gates.Clear();
 
-            // To do : Load Level Scene (Additive)
             currentLevelName = levelName;
             var loadAsync = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
             while (!loadAsync.isDone)
@@ -138,15 +132,14 @@ namespace HAD
             CharacterController.Instance.character.Move(Vector2.zero, Camera.main.transform.eulerAngles.y);
             CharacterController.Instance.transform.position = entryPoint.transform.position;
 
-            // FadeInOutUI.Instance.FadeOut();
+            // 캐릭터 활성화
+            CharacterController.Instance.enabled = true;
             FadeUI.FadeIn();
             yield return new WaitForSeconds(1);
 
             // 전투 씬인 경우만...
             // MonsterWaveManager.Instance.StartNextWave(null);
 
-            // 캐릭터 활성화
-            CharacterController.Instance.enabled = true;
 
             // 현재 씬의 이름대로 출력
             var areaUI = UIManager.Singleton.GetUI<AreaAnnouncerUI>(UIList.AreaAnnouncer);

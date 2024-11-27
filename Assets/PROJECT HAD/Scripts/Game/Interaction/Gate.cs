@@ -8,6 +8,8 @@ namespace HAD
     {
         public bool IsAutomaticInteraction => false;
 
+        string IInteractable.Message => throw new System.NotImplementedException();
+
         // 보상 옵젝 획득 후 문 상호작용 활성화
         private bool isActivated = false;
         // ToDo: 랜덤으로 연결할 맵 리스트 준비

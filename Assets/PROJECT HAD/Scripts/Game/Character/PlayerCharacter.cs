@@ -275,6 +275,7 @@ namespace HAD
 
         public override void TakeDamage(IActor actor, float damage)
         {
+            Debug.Log("캐릭터 ");
             // base.TakeDamage(actor, damage);
 
             // ToDo: 피격 이펙트 출력

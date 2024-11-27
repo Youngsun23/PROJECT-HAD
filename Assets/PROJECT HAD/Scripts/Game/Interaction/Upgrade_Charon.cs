@@ -8,6 +8,8 @@ namespace HAD
     {
         public bool IsAutomaticInteraction => false;
 
+        string IInteractable.Message => throw new System.NotImplementedException();
+
         [SerializeField] private List<CharonGameData> charonData;
 
         public void Interact(CharacterBase actor)

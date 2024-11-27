@@ -11,6 +11,8 @@ namespace HAD
     {
         public bool IsAutomaticInteraction => false;
 
+        string IInteractable.Message => "";
+
         public void Interact(CharacterBase actor)
         {
             // 거울 강화 UI창 띄우기

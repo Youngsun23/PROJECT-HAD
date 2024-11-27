@@ -11,6 +11,8 @@ namespace HAD
 
         public bool IsAutomaticInteraction => false;
 
+        string IInteractable.Message => throw new System.NotImplementedException();
+
         public void Interact(CharacterBase actor)
         {
             // 플레이어의 Darkness 수량을 quantity만큼 증가, 획득 UI 등의 연출

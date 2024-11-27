@@ -177,7 +177,7 @@ MonoBehaviour:
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_CameraDistance: 10
+  m_CameraDistance: 50
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
@@ -782,7 +782,7 @@ Transform:
   m_GameObject: {fileID: 901663759}
   serializedVersion: 2
   m_LocalRotation: {x: 0.32884258, y: 0.3567745, z: -0.13582373, w: 0.8637861}
-  m_LocalPosition: {x: -12.450245, y: 9.650162, z: -0.9114898}
+  m_LocalPosition: {x: -26.351225, y: 33.25081, z: -26.45745}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -863,8 +863,8 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60.000004
-  orthographic: 1
+  field of view: 10
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -1309,7 +1309,7 @@ Transform:
   m_GameObject: {fileID: 1463161481}
   serializedVersion: 2
   m_LocalRotation: {x: 0.32884258, y: 0.3567745, z: -0.13582373, w: 0.8637861}
-  m_LocalPosition: {x: -12.450245, y: 9.650162, z: -0.9114898}
+  m_LocalPosition: {x: -26.351225, y: 33.25081, z: -26.45745}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1335,14 +1335,14 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_Follow: {fileID: 7197609164844946468}
   m_Lens:
-    FieldOfView: 60.000004
+    FieldOfView: 10
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
-    ModeOverride: 1
+    ModeOverride: 2
     LensShift: {x: 0, y: 0}
     GateFit: 2
     FocusDistance: 10
