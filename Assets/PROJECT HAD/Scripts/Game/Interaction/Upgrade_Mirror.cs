@@ -11,7 +11,7 @@ namespace HAD
     {
         public bool IsAutomaticInteraction => false;
 
-        string IInteractable.Message => "";
+        string IInteractable.Message => "Upgrade";
 
         public void Interact(CharacterBase actor)
         {
@@ -22,7 +22,9 @@ namespace HAD
 
         public void InteractEnable()
         {
+            var message = (this as IInteractable).Message;
             var interactionUI = UIManager.Show<InteractionNoticeUI>(UIList.InteractionNotice);
+            interactionUI.SetMessage(message);
         }
         public void InteractDisenable()
         {

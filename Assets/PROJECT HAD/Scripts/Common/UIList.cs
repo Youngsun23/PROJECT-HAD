@@ -10,6 +10,8 @@ namespace HAD
 
         FadeInOut,
         Mirror,
+        HUD,
+        BloodFrame,
 
         PANEL_END,
         POPUP_START,

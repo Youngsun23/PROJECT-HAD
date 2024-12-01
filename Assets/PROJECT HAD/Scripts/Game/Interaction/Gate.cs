@@ -8,7 +8,7 @@ namespace HAD
     {
         public bool IsAutomaticInteraction => false;
 
-        string IInteractable.Message => throw new System.NotImplementedException();
+        string IInteractable.Message => "Gate";
 
         // 보상 옵젝 획득 후 문 상호작용 활성화
         private bool isActivated = false;
@@ -54,7 +54,9 @@ namespace HAD
         {
             if (isActivated)
             {
+                var message = (this as IInteractable).Message;
                 var interactionUI = UIManager.Show<InteractionNoticeUI>(UIList.InteractionNotice);
+                interactionUI.SetMessage(message);
             }
         }
 

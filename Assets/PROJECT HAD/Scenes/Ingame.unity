@@ -423,14 +423,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ImpulseDefinition:
     m_ImpulseChannel: 1
-    m_ImpulseShape: 3
+    m_ImpulseShape: 4
     m_CustomImpulseShape:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ImpulseDuration: 0.2
+    m_ImpulseDuration: 0.15
     m_ImpulseType: 0
     m_DissipationRate: 0.25
     m_RawSignal: {fileID: 0}
@@ -461,7 +461,7 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: 0.5, y: 0.5, z: 0.5}
+  m_DefaultVelocity: {x: 0.2, y: 0.2, z: 0.2}
 --- !u!4 &416822375
 Transform:
   m_ObjectHideFlags: 0
@@ -489,7 +489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d6059e061b1fb44a948e2a7f57cabd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impulseSource: {fileID: 0}
+  impulseSource: {fileID: 416822374}
 --- !u!1 &558088836
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,8 +572,8 @@ MonoBehaviour:
     lastSceneName: DummyLevel
     centaurHeart: 0
     vitality: 0
+    lastCurrentHP: 0
     coin: 0
-    key: 0
     darkness: 0
 --- !u!4 &707588029
 Transform:
@@ -679,10 +679,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectInfoList:
-  - key: Example
-    capacity: 5
-    maxSize: 20
-    prefab: {fileID: 6147136699737270812, guid: 3564f1008a564c13b06dfe16ef9c48b0, type: 3}
   - key: Attack1
     capacity: 5
     maxSize: 20
@@ -699,6 +695,14 @@ MonoBehaviour:
     capacity: 5
     maxSize: 20
     prefab: {fileID: 1210069404974878, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+  - key: MonsterTakeDamage
+    capacity: 5
+    maxSize: 20
+    prefab: {fileID: 1758473627833946668, guid: 9b21333b068a5084ba09535839bee3c8, type: 3}
+  - key: PCTakeDamage
+    capacity: 5
+    maxSize: 20
+    prefab: {fileID: 6126188424833946103, guid: 2b96e83ff1ca425448674e4742fbbe30, type: 3}
 --- !u!1 &823359871
 GameObject:
   m_ObjectHideFlags: 0

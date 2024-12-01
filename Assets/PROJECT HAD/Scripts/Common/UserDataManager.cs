@@ -22,8 +22,8 @@ namespace HAD
         // 임시 강화는 결국 최종값만 +- 하며 사용할 건데 강화 종류마다 정보 저장하고 계산할 필요 있나??
         public int vitality = 0; // (영구 recoveryHP +1~+3) // 거울의 경우 거울 쪽 초기화에도 정보 사용
 
-        // CurrentHP
-        // Arrow 개수 강화
+        // CurrentHP - 씬 전환 시에만
+        public float lastCurrentHP;
 
         // <- 스탯으로 분류 / 강화 계열로 분류 ->
 
@@ -47,7 +47,7 @@ namespace HAD
 
         // 자원 보유량(coin,key,darkness) - coin은 사망 시 리셋
         public int coin = 0;
-        public int key = 0;
+        // public int key = 0;
         public int darkness = 0;
 
         // 플레이 루프 횟수 - 초기값 1, 사망 시 +1
@@ -104,9 +104,12 @@ namespace HAD
         public void UpdateUserDataResources(string resource, int value)
         {
             if (resource == "Coin")
+            {
                 UserData.coin += value;
-            if (resource == "Key")
-                UserData.key += value;
+
+            }
+            //if (resource == "Key")
+            //    UserData.key += value;
             if (resource == "Darkness")
                 UserData.darkness += value;
 
@@ -114,9 +117,11 @@ namespace HAD
             // 유저데이터 getset,,
         }
 
-        public void UpdateSceneUserData(string sceneName)
+        // 씬 전환 시에 저장해야 하는데
+        public void UpdateUserDataLast(string sceneName, float currentHP)
         {
-            UserData.lastSceneName = sceneName;  
+            UserData.lastSceneName = sceneName;
+            UserData.lastCurrentHP = currentHP;
         }
 
         public void ResetTempUserData()
@@ -124,6 +129,7 @@ namespace HAD
             UserData.centaurHeart = 0;
             UserData.coin = 0;
         }
+
         // ToDO
         // UserData의 값들 업데이트 함수
         // Save -> 전체 값 txt에 저장

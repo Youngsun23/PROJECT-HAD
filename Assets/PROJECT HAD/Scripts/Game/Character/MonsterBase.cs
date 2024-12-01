@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.TextCore.Text;
 
 namespace HAD
 {
@@ -269,6 +270,9 @@ namespace HAD
 
             characterAnimator.SetTrigger("HitTrigger");
 
+            var effect = EffectPoolManager.Singleton.GetEffect("MonsterTakeDamage");
+            effect.gameObject.transform.position = transform.position + Vector3.up;
+
             currentHP -= damage;
             // Debug.Log($"Monster Damaged! Current HP: {currentHP}");
 
@@ -285,7 +289,7 @@ namespace HAD
 
             // direction으로 stunTimer의 1/2 동안, moveSpeed의 *1.2만큼 이동
             float knockbackDuration = stunTimer / 2;
-            float knockbackSpeed = MoveSpeed * 3f;
+            float knockbackSpeed = MoveSpeed * 1.5f;
             float elapsedTime = 0f;
 
             navMeshAgent.isStopped = true;
@@ -306,10 +310,10 @@ namespace HAD
         {
             characterAnimator.SetTrigger("DieTrigger");
 
-            Destroy(gameObject, 1f);
+            Destroy(gameObject, 2f);
 
             // ToDo
-            Debug.Log($"----- {this.gameObject.name} Died -----");
+            //Debug.Log($"----- {this.gameObject.name} Died -----");
         }
     }
 }

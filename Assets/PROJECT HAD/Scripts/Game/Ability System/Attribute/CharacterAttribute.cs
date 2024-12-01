@@ -6,6 +6,7 @@ namespace HAD
 {
     public class CharacterAttribute
     {
+        // Default + Buffed - DeBuffed
         public float MaxValue => DefaultValue + BuffedValue;
 
         public float CurrentValue { get; set; }
@@ -18,5 +19,7 @@ namespace HAD
         // Buffed는 UserData
         // 얘는 그 둘의 합이니 TotalValue
         // 변경사항은 UserData에 저장 & 변경값은 여기에 +-될 뿐인데 네 가지 value가 필요한가?
+
+        // float, int 구분해서 사용하고 싶음
     }
 }

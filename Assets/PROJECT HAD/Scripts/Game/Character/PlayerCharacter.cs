@@ -7,6 +7,8 @@ namespace HAD
 {
     public class PlayerCharacter : CharacterBase
     {
+        public static PlayerCharacter Instance { get; private set; }
+
         public bool IsDashing => isDashing;
         public bool IsAttacking => isAttacking;
         public bool IsMagicAiming => isMagicAiming;
@@ -55,11 +57,23 @@ namespace HAD
         [SerializeField] private float attackRadius;
         [SerializeField] private float dashDuration;
 
+        // UI
+        HUDUI HUDUI;
+
         // ====   함수   ====
 
         protected override void Awake()
         {
             base.Awake();
+
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
 
             characterAbilityComponent = GetComponent<CharacterAbilityComponent>();
 
@@ -75,6 +89,16 @@ namespace HAD
 
             // Attribute
             characterAttributeComponent = GetComponent<CharacterAttributeComponent>();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            if (Instance == this)
+            {
+                Instance = null;
+            }
         }
 
         protected override void Update()
@@ -271,29 +295,46 @@ namespace HAD
             attackRadius = characterData.AttakRadius;
             dashSpeed = characterData.DashSpeed;
             dashDuration = characterData.DashDuration;
+
+            // UI
+            HUDUI = UIManager.Singleton.GetUI<HUDUI>(UIList.HUD);
+            HUDUI.UpdateHUDUIHP(/*characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).MaxValue, characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue*/);
+            HUDUI.UpdateHUDUIMagic();
+            HUDUI.UpdateHUDUICoin(UserDataManager.Singleton.UserData.coin);
+            HUDUI.UpdateHUDUIDarkness(UserDataManager.Singleton.UserData.darkness);
         }
 
         public override void TakeDamage(IActor actor, float damage)
         {
-            Debug.Log("캐릭터 ");
             // base.TakeDamage(actor, damage);
 
             // ToDo: 피격 이펙트 출력
+            var effect = EffectPoolManager.Singleton.GetEffect("PCTakeDamage");
+            effect.gameObject.transform.position = transform.position + Vector3.up;
+            // 화면 외곽 붉게?
+            var bloodFrameUI = UIManager.Singleton.GetUI<BloodFrameUI>(UIList.BloodFrame);
+            bloodFrameUI.Show();
+            CameraSystem.Instance.ShakeCamera();
 
             // float currentHP = characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue;
             // characterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.HealthPoint, currentHP - damage);
             // Debug.Log($"Take Damage - Attacker : {actor.GetActor().name}, Damage : {damage}");
-            characterAttributeComponent.DecreaseCurrentHP(damage);
             // # ToDo: 이 부분
+            //float currentHP = characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue;
+            //characterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.HealthPoint, currentHP - damage);
+            characterAttributeComponent.DecreaseCurrentHP(damage);
 
             // Debug.Log($"캐릭터가 공격받았다! by {actor.GetActor().name}");
             // Debug.Log($"캐릭터 체력: {characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue}");
 
             // 체력 감소 - 사망 체크
-            if (characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue <= 0)
+            if (characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue <= 0f)
             {
                 Die();
+               return; // -> ToDo: 부활 시 처리할 것 함수
             }
+
+            HUDUI.UpdateHUDUIHP();
 
             // @ Ability System
             // Revenge Ability 유무 체크
@@ -313,6 +354,7 @@ namespace HAD
             // ToDo
             Debug.Log("--- Player Died ---");
             UserDataManager.Singleton.ResetTempUserData();
+            HUDUI.Hide();
 
             // 죽음 -> 부활 연출
 
@@ -569,7 +611,6 @@ namespace HAD
         {
             if (characterAttributeComponent.GetAttribute(AttributeTypes.MagicArrowCount).CurrentValue <= 0)
                 return;
-
             // ToDo: 칼 비활성화
 
             isMagicAiming = true;
@@ -578,12 +619,18 @@ namespace HAD
 
         public void MagicShot()
         {
+            if (!isMagicAiming)
+                return;
+
             isMagicAiming = false;
             characterAnimator.SetTrigger("MagicShotTrigger");
             Instantiate(magicArrowPrefab, transform.position + transform.forward + transform.up, transform.rotation * Quaternion.Euler(90, 0, 0));
             // ToDo: 여기서 캐릭터 정면 = 화살 정면되게 로테이션
             // 테스트 위해 일단 주석
             // curMagicArrow--;
+            float currentArrow = characterAttributeComponent.GetAttribute(AttributeTypes.MagicArrowCount).CurrentValue;
+            characterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.MagicArrowCount, currentArrow - 1f);
+            HUDUI.UpdateHUDUIMagic();
 
             // Test용 - Abil 추가 UI
             //PushAbility pushAbil = new PushAbility();

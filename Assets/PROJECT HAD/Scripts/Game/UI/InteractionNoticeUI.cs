@@ -35,11 +35,16 @@ namespace HAD
 
         //[SerializeField] private GameObject InteractionEnableUIPrefab;
         //private static InteractionNoticeUI Instance;
-
+        [SerializeField] private TextMeshProUGUI Text;
 
         public enum IconType
         {
 
+        }
+
+        public void SetMessage(string message)
+        {
+            Text.text = message;
         }
 
         //public void Display()

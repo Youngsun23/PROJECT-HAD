@@ -8,7 +8,7 @@ namespace HAD
     {
         public bool IsAutomaticInteraction => true;
 
-        string IInteractable.Message => throw new System.NotImplementedException();
+        string IInteractable.Message => "";
 
         private Transform target;
         private Rigidbody dropItemRigidbody;
@@ -50,6 +50,9 @@ namespace HAD
 
             target = actor.transform;
             isTracking = true;
+
+            // PC-attribute-arrowcurrent++
+            // HUDUI 업데이트
         }
 
         public void InteractEnable() { }

@@ -22,6 +22,8 @@ namespace HAD
 
         private string currentLevelName;
 
+        private HUDUI HUDUI;
+
         private void Awake()
         {
             if (Instance == null)
@@ -41,6 +43,9 @@ namespace HAD
                 // LoadLevel("GrayRoomMix_ZagreusRoom");
                 LoadLevel("Entrance");
             }
+
+            HUDUI = UIManager.Singleton.GetUI<HUDUI>(UIList.HUD);
+            HUDUI.Show();
         }
 
         private void OnDestroy()
@@ -126,6 +131,9 @@ namespace HAD
             // NavMesh를 최신 맵으로 한번 다시 굽기
             NavMeshSurfaceController.Instance.BakeNavMesh();
 
+            PlayerCharacter.Instance.CharacterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.MagicArrowCount, PlayerCharacter.Instance.CharacterAttributeComponent.GetAttribute(AttributeTypes.MagicArrowCount).MaxValue);
+            HUDUI.UpdateHUDUIMagic();
+
             // ToDo: FindObjectOfType 사용 -> entry 스크립트에 string 변수(키값) 두고, gate처럼 awake에서 자신 등록?
             // Player Character를 Entry Point로 이동
             var entryPoint = GameObject.FindObjectOfType<LevelEntryPoint>();
@@ -161,6 +169,7 @@ namespace HAD
                 }
             }
 
+            UserDataManager.Singleton.UpdateUserDataLast(currentLevelName, PlayerCharacter.Instance.CharacterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue);
         }
         // ToDo: 원래는 맵 로드하는 동안 캐릭터가 낙하하지 않도록 안 움직이게 처리해줘야 함
     }

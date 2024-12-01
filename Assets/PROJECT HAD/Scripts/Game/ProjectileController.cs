@@ -36,7 +36,7 @@ namespace HAD
             //}
 
             var damageInterface = other.transform.root.GetComponent<IDamage>();
-            if (damageInterface != null)
+            if (damageInterface != null && other.gameObject.CompareTag("Monster"))
             {
                 damageInterface.TakeDamage(this, 10f);
                 // Debug.Log($"마법에 피격!");

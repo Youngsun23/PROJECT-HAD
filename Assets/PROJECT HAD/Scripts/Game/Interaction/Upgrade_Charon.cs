@@ -8,7 +8,7 @@ namespace HAD
     {
         public bool IsAutomaticInteraction => false;
 
-        string IInteractable.Message => throw new System.NotImplementedException();
+        string IInteractable.Message => "Buy";
 
         [SerializeField] private List<CharonGameData> charonData;
 
@@ -19,7 +19,9 @@ namespace HAD
 
         public void InteractEnable()
         {
+            var message = (this as IInteractable).Message;
             var interactionUI = UIManager.Show<InteractionNoticeUI>(UIList.InteractionNotice);
+            interactionUI.SetMessage(message);
         }
         public void InteractDisenable()
         {
