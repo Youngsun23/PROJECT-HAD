@@ -270,6 +270,7 @@ namespace HAD
 
             characterAnimator.SetTrigger("HitTrigger");
 
+            // 얘가 문젠가?
             var effect = EffectPoolManager.Singleton.GetEffect("MonsterTakeDamage");
             effect.gameObject.transform.position = transform.position + Vector3.up;
 

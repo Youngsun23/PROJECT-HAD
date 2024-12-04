@@ -14,6 +14,10 @@ namespace HAD
         public float BuffedValue { get; set; }
         // public float DeBuffedValue { get; set; }
 
+        // 이벤트
+        public System.Action<float, float> OnChangedEvent;
+        public System.Action<float> OnChangedBuffed;
+
         // 여기 구조 자체를 바꿔도 되나?
         // default는 GameData
         // Buffed는 UserData

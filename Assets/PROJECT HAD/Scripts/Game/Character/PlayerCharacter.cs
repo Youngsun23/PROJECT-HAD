@@ -9,6 +9,9 @@ namespace HAD
     {
         public static PlayerCharacter Instance { get; private set; }
 
+        public float MaxHP => characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).MaxValue;
+        public float CurHP => characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue;
+
         public bool IsDashing => isDashing;
         public bool IsAttacking => isAttacking;
         public bool IsMagicAiming => isMagicAiming;
@@ -99,6 +102,14 @@ namespace HAD
             {
                 Instance = null;
             }
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+
+            // 스탯 변화 이벤트 -> UI 알림(...) 등록
+            characterAttributeComponent.RegisterEvent(AttributeTypes.HealthPoint, (float max, float cur) => HUDUI.Instance.UpdateHUDUIHP(max, cur));
         }
 
         protected override void Update()
@@ -297,12 +308,13 @@ namespace HAD
             dashDuration = characterData.DashDuration;
 
             // UI
-            HUDUI = UIManager.Singleton.GetUI<HUDUI>(UIList.HUD);
-            HUDUI.UpdateHUDUIHP(/*characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).MaxValue, characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue*/);
-            HUDUI.UpdateHUDUIMagic();
-            HUDUI.UpdateHUDUICoin(UserDataManager.Singleton.UserData.coin);
-            HUDUI.UpdateHUDUIDarkness(UserDataManager.Singleton.UserData.darkness);
+            HUDUI.Instance.UpdateHUDUIHP(MaxHP, CurHP);
+            HUDUI.Instance.UpdateHUDUIMagic();
+            HUDUI.Instance.UpdateHUDUICoin(UserDataManager.Singleton.UserData.coin);
+            HUDUI.Instance.UpdateHUDUIDarkness(UserDataManager.Singleton.UserData.darkness);
         }
+
+
 
         public override void TakeDamage(IActor actor, float damage)
         {
@@ -320,9 +332,9 @@ namespace HAD
             // characterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.HealthPoint, currentHP - damage);
             // Debug.Log($"Take Damage - Attacker : {actor.GetActor().name}, Damage : {damage}");
             // # ToDo: 이 부분
-            //float currentHP = characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue;
-            //characterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.HealthPoint, currentHP - damage);
-            characterAttributeComponent.DecreaseCurrentHP(damage);
+            float currentHP = characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue;
+            characterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.HealthPoint, currentHP - damage);
+            //characterAttributeComponent.DecreaseCurrentHP(damage);
 
             // Debug.Log($"캐릭터가 공격받았다! by {actor.GetActor().name}");
             // Debug.Log($"캐릭터 체력: {characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue}");
@@ -334,7 +346,7 @@ namespace HAD
                return; // -> ToDo: 부활 시 처리할 것 함수
             }
 
-            HUDUI.UpdateHUDUIHP();
+            HUDUI.UpdateHUDUIHP(MaxHP, CurHP);
 
             // @ Ability System
             // Revenge Ability 유무 체크

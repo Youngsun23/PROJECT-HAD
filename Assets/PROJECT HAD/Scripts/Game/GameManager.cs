@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -88,6 +89,7 @@ namespace HAD
         //}
         #endregion
 
+        [Button]
         public void LoadLevel(string levelName)
         {
             StartCoroutine(LoadLevelAsync(levelName));
