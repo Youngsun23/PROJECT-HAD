@@ -1,5 +1,4 @@
 using Sirenix.OdinInspector;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +10,8 @@ namespace HAD
 
         public float MaxHP => characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).MaxValue;
         public float CurHP => characterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue;
+        public float MaxArrow => characterAttributeComponent.GetAttribute(AttributeTypes.MagicArrowCount).MaxValue;
+        public float CurArrow => characterAttributeComponent.GetAttribute(AttributeTypes.MagicArrowCount).CurrentValue;
 
         public bool IsDashing => isDashing;
         public bool IsAttacking => isAttacking;
@@ -110,6 +111,7 @@ namespace HAD
 
             // 스탯 변화 이벤트 -> UI 알림(...) 등록
             characterAttributeComponent.RegisterEvent(AttributeTypes.HealthPoint, (float max, float cur) => HUDUI.Instance.UpdateHUDUIHP(max, cur));
+            characterAttributeComponent.RegisterEvent(AttributeTypes.MagicArrowCount, (float max, float cur) => HUDUI.Instance.UpdateHUDUIMagic(max, cur));
         }
 
         protected override void Update()
@@ -309,7 +311,7 @@ namespace HAD
 
             // UI
             HUDUI.Instance.UpdateHUDUIHP(MaxHP, CurHP);
-            HUDUI.Instance.UpdateHUDUIMagic();
+            HUDUI.Instance.UpdateHUDUIMagic(MaxArrow, CurArrow);
             HUDUI.Instance.UpdateHUDUICoin(UserDataManager.Singleton.UserData.coin);
             HUDUI.Instance.UpdateHUDUIDarkness(UserDataManager.Singleton.UserData.darkness);
         }
@@ -346,7 +348,8 @@ namespace HAD
                return; // -> ToDo: 부활 시 처리할 것 함수
             }
 
-            HUDUI.UpdateHUDUIHP(MaxHP, CurHP);
+            // 등록한 이벤트에서 Set 발생 시 등록한 함수(UI업데이트) 호출까지 포함
+            // HUDUI.UpdateHUDUIHP(MaxHP, CurHP);
 
             // @ Ability System
             // Revenge Ability 유무 체크
@@ -642,7 +645,7 @@ namespace HAD
             // curMagicArrow--;
             float currentArrow = characterAttributeComponent.GetAttribute(AttributeTypes.MagicArrowCount).CurrentValue;
             characterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.MagicArrowCount, currentArrow - 1f);
-            HUDUI.UpdateHUDUIMagic();
+            // HUDUI.UpdateHUDUIMagic();
 
             // Test용 - Abil 추가 UI
             //PushAbility pushAbil = new PushAbility();

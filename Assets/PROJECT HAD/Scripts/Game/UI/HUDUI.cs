@@ -65,10 +65,8 @@ namespace HAD
             HPBar.fillAmount = targetFill;
         }
 
-        public void UpdateHUDUIMagic()
+        public void UpdateHUDUIMagic(float maxArrow, float curArrow)
         {
-            float maxArrow = PlayerCharacter.Instance.CharacterAttributeComponent.GetAttribute(AttributeTypes.MagicArrowCount).MaxValue;
-            float curArrow = PlayerCharacter.Instance.CharacterAttributeComponent.GetAttribute(AttributeTypes.MagicArrowCount).CurrentValue;
             MagicTXT.text = curArrow.ToString() + " / " + maxArrow.ToString();
         }
 

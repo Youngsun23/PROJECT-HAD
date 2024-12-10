@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace HAD
 {
     // 예시: 캐릭터의 공격, 마법, 대시 등의 행동을 정의하는 클래스

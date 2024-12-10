@@ -1,5 +1,4 @@
 using Sirenix.OdinInspector;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -134,7 +133,6 @@ namespace HAD
             NavMeshSurfaceController.Instance.BakeNavMesh();
 
             PlayerCharacter.Instance.CharacterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.MagicArrowCount, PlayerCharacter.Instance.CharacterAttributeComponent.GetAttribute(AttributeTypes.MagicArrowCount).MaxValue);
-            HUDUI.UpdateHUDUIMagic();
 
             // ToDo: FindObjectOfType 사용 -> entry 스크립트에 string 변수(키값) 두고, gate처럼 awake에서 자신 등록?
             // Player Character를 Entry Point로 이동
