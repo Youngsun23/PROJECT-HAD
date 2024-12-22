@@ -682,27 +682,27 @@ MonoBehaviour:
   - key: Attack1
     capacity: 5
     maxSize: 20
-    prefab: {fileID: 1872147318604286, guid: 5bea49531fc500c408823a2e2863106f, type: 3}
+    prefab: {fileID: 1872147318604286, guid: 792dd1a1066d1ff4f800a68fa94e63ec, type: 3}
   - key: Attack2
     capacity: 5
     maxSize: 20
-    prefab: {fileID: 1645009922904612, guid: 5e3170c6ef0f014409bd7423e3bb805a, type: 3}
+    prefab: {fileID: 1645009922904612, guid: 12db7033356f1a8428b65bd84b2f14ff, type: 3}
   - key: Attack3
     capacity: 5
     maxSize: 20
-    prefab: {fileID: 1893033738566276, guid: 3e04efdf8ee665d48962b33b06e8e3d3, type: 3}
+    prefab: {fileID: 1893033738566276, guid: 4024f9ce447429a4c97b377e889cc4a3, type: 3}
   - key: SpecialAttack
     capacity: 5
     maxSize: 20
-    prefab: {fileID: 1210069404974878, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+    prefab: {fileID: 1210069404974878, guid: 69a1071a106eab14d962b4cd24c47c54, type: 3}
   - key: MonsterTakeDamage
     capacity: 5
     maxSize: 20
-    prefab: {fileID: 1758473627833946668, guid: 9b21333b068a5084ba09535839bee3c8, type: 3}
+    prefab: {fileID: 1758473627833946668, guid: a86ade63bc98ae34698d3c77b0dff877, type: 3}
   - key: PCTakeDamage
     capacity: 5
     maxSize: 20
-    prefab: {fileID: 6126188424833946103, guid: 2b96e83ff1ca425448674e4742fbbe30, type: 3}
+    prefab: {fileID: 6126188424833946103, guid: 891b294fef7ed934ab2fbf8ffd437153, type: 3}
 --- !u!1 &823359871
 GameObject:
   m_ObjectHideFlags: 0
