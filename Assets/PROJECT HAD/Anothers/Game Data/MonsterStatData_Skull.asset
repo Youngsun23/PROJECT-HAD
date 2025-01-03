@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02c6840fe0b139e4dbc5d06f64ab286b, type: 3}
-  m_Name: MonsterStateData_Skull
+  m_Name: MonsterStatData_Skull
   m_EditorClassIdentifier: 
   <MaxHP>k__BackingField: 40
   <MoveSpeed>k__BackingField: 0

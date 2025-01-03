@@ -6,8 +6,8 @@ namespace HAD
     public class SpearTrap : MonoBehaviour
     {
         [SerializeField] private GameObject spear;
-        private float durationTime = 1.5f;
-        private float elapsedTime = 0f;
+        private float durationTime = 1f;
+        private float elapsedTime;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -17,25 +17,29 @@ namespace HAD
             }
         }
 
+        // 중복 코루틴 방지 없어서 코루틴 진행 중 다시 EnterTrigger 하면 이상작동하는데,
+        // 그것도 나름 괜찮아서 냅둠
         IEnumerator ActivateTrap()
         {
-            Vector3 originVec = spear.transform.position;
+            elapsedTime = 0f;
+            Vector3 StartVec = spear.transform.position;
             while(elapsedTime <= durationTime)
             {
                 elapsedTime += Time.deltaTime;
                 float newY = Mathf.Lerp(0f, 2f, elapsedTime / durationTime);
-                spear.transform.position = new Vector3(originVec.x, originVec.y + newY, originVec.z);
+                spear.transform.position = new Vector3(StartVec.x, StartVec.y + newY, StartVec.z);
                 yield return null;
             }            
             elapsedTime = 0f;
-            while(elapsedTime <= durationTime)
+            Vector3 EndVec = spear.transform.position;
+            while (elapsedTime <= durationTime)
             {
                 elapsedTime += Time.deltaTime;
                 float newY = Mathf.Lerp(0f, 2f, elapsedTime / durationTime);
-                spear.transform.position = new Vector3(originVec.x, originVec.y - newY, originVec.z);
+                spear.transform.position = new Vector3(EndVec.x, EndVec.y - newY, EndVec.z);
                 yield return null;
             }
-            spear.transform.position = originVec;
+            spear.transform.position = StartVec;
         }
     }
 }

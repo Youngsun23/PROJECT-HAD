@@ -3757,7 +3757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoints:
   - {fileID: 948182068}
-  waveNum: 0
+  waveNum: 2
 --- !u!1 &235632097
 GameObject:
   m_ObjectHideFlags: 0
@@ -15932,7 +15932,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 115405993}
   - {fileID: 1134033105}
-  waveNum: 0
+  waveNum: 1
 --- !u!1001 &1069078993
 PrefabInstance:
   m_ObjectHideFlags: 0

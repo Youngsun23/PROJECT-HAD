@@ -2244,7 +2244,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1480392351}
   - {fileID: 311384903}
-  waveNum: 0
+  waveNum: 1
 --- !u!1001 &752519220
 PrefabInstance:
   m_ObjectHideFlags: 0

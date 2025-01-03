@@ -7,8 +7,9 @@ namespace HAD
     {
         [SerializeField] private List<MonsterSpawner> spawnPoints = new List<MonsterSpawner>();
 
-        // ToDo
-        public int waveNum;
+        // 인스펙터에서 MonsterWave에 스크립트 만들고 직접 연결해놓고, 거기서 List 순서대로 한 번에 MonsterWaveManager에 AddWave 해주는 방법도 있음
+        [SerializeField] private int waveNum;
+        public int WaveNum => waveNum;
 
         private void Awake()
         {

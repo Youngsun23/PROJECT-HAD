@@ -61,9 +61,6 @@ namespace HAD
         [SerializeField] private float attackRadius;
         [SerializeField] private float dashDuration;
 
-        // UI
-        HUDUI HUDUI;
-
         // ====   함수   ====
 
         protected override void Awake()
@@ -369,12 +366,13 @@ namespace HAD
             // ToDo
             Debug.Log("--- Player Died ---");
             UserDataManager.Singleton.ResetTempUserData();
-            HUDUI.Hide();
+            HUDUI.Instance.Hide();
 
             // 죽음 -> 부활 연출
 
             // 하데스의집 씬으로 이동
             GameManager.Instance.LoadLevel("Entrance");
+            // ToDo: 위치 잡는 부분에 문제 O
         }
 
         public override void AddBuffed(AttributeTypes type, float buffedValue)

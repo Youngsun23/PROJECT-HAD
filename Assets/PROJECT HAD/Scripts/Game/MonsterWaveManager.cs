@@ -46,8 +46,14 @@ namespace HAD
             if (currentWaveIndex < waveList.Count)
             {
                 // Debug.Log($"현재 Index: {currentWaveIndex} -> 다음 웨이브");
-                waveList[currentWaveIndex].StartWave();
-                currentWaveIndex++;
+                for (int i = 0; i < waveList.Count; i++)
+                {
+                    if(waveList[i].WaveNum == currentWaveIndex)
+                    {
+                        waveList[i].StartWave();
+                        currentWaveIndex++;
+                    }
+                }
             }
             else
             {

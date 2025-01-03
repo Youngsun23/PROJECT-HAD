@@ -288,7 +288,36 @@ namespace HAD
         //        }
         //    }
         //}
+
+        //// 피드백 Ver.
+        //public LayerMask transparentMask;
+        //private List<Renderer> subscribeRenderers = new List<Renderer>();
+        //private void LateUpdate()
+        //{
+        //    for (int i = 0; i < subscribeRenderers.Count; i++)
+        //    {
+        //        Renderer renderer = subscribeRenderers[i];
+        //        renderer.material.SetColor("BaseColor", new Color(1, 1, 1, 1f));
+        //    }
+        //    subscribeRenderers.Clear();
+
+        //    Vector3 direction = (CharacterController.Instance.transform.position - mainCamera.transform.position).normalized;
+        //    Ray ray = new Ray(mainCamera.transform.position, direction);
+        //    RaycastHit[] hits = Physics.RaycastAll(ray, 1000f, transparentMask);
+
+        //    for (int i = 0; i < hits.Length; i++)
+        //    {
+        //        if (hits[i].collider.CompareTag("Player"))
+        //        {
+        //            break;
+        //        }
+        //        Renderer renderer = hits[i].transform.GetComponent<Renderer>();
+        //        renderer.material.SetColor("BaseColor", new Color(1, 1, 1, 0.5f));
+        //        subscribeRenderers.Add(renderer);
+        //    }
+        //}
         #endregion
+
         #region 임시 Off - 커서 따라 카메라 이동
         // @ 임시 Off @
         //private void Update()

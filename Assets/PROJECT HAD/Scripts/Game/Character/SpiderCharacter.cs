@@ -33,7 +33,7 @@ namespace HAD
             base.Attack();
 
             Vector3 targetDestination = targetPlayer.transform.position;
-            targetDirection = targetDestination - transform.position; // transform.position에서 targetDestination 방향 (평생 헷갈릴듯)
+            targetDirection = targetDestination - transform.position;
 
             isAttackDashing = true;
         }
@@ -78,5 +78,30 @@ namespace HAD
             }
         }
 
+        // 공격 범위 시각화
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+
+            // 부채꼴의 각도를 계산
+            Vector3 forward = transform.forward;
+            Vector3 leftBoundary = Quaternion.Euler(0, -60 * 0.5f, 0) * forward; // 60도가 대략 0.5
+            Vector3 rightBoundary = Quaternion.Euler(0, 60 * 0.5f, 0) * forward;
+
+            // 부채꼴을 선으로 표시
+            Gizmos.DrawLine(transform.position, transform.position + leftBoundary * AttackRange);
+            Gizmos.DrawLine(transform.position, transform.position + rightBoundary * AttackRange);
+
+            // 부채꼴 원호
+            int segments = 20; // 부채꼴
+            Vector3 previousPoint = transform.position + leftBoundary * AttackRange;
+            for (int i = 1; i <= segments; i++)
+            {
+                float angle = -60 * 0.5f + (60 / segments) * i;
+                Vector3 point = Quaternion.Euler(0, angle, 0) * forward * AttackRange + transform.position;
+                Gizmos.DrawLine(previousPoint, point);
+                previousPoint = point;
+            }
+        }
     }
 }

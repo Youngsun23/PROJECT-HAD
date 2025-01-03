@@ -136,6 +136,7 @@ namespace HAD
 
             // ToDo: FindObjectOfType 사용 -> entry 스크립트에 string 변수(키값) 두고, gate처럼 awake에서 자신 등록?
             // Player Character를 Entry Point로 이동
+            //### 이거 수정 좀~~~
             var entryPoint = GameObject.FindObjectOfType<LevelEntryPoint>();
             CharacterController.Instance.character.Move(Vector2.zero, Camera.main.transform.eulerAngles.y);
             CharacterController.Instance.transform.position = entryPoint.transform.position;

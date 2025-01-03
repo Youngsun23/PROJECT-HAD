@@ -27,7 +27,7 @@ namespace HAD
         {
             // ToDo: 연출
             // ExitPoint Visual 색상 변화 + Effect 생성 + Sound
-            Instantiate(activationEffect);
+            Instantiate(activationEffect, transform.position, Quaternion.identity);
             gameObject.GetComponentInChildren<MeshRenderer>().material = mat[1];
 
             isActivated = true;

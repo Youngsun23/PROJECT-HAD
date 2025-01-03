@@ -288,17 +288,23 @@ namespace HAD
 
             // direction으로 stunTimer의 1/2 동안, moveSpeed의 *1.2만큼 이동
             float knockbackDuration = stunTimer / 2;
-            float knockbackSpeed = MoveSpeed * 1.5f;
+            float knockbackSpeed = MoveSpeed * 1.2f;
             float elapsedTime = 0f;
 
             navMeshAgent.isStopped = true;
 
             while (elapsedTime < knockbackDuration)
             {
-                transform.position += direction.normalized * knockbackSpeed * Time.deltaTime;
+                // 감속 곡선: 초반에는 빠르고 후반에는 느리게.
+                float normalizedTime = elapsedTime / knockbackDuration; // 0에서 1로 변화
+                float easeOutFactor = 1f - Mathf.Pow(normalizedTime, 2); // Ease Out 곡선 (1 - t^2)
+                transform.position += direction.normalized * knockbackSpeed * easeOutFactor * Time.deltaTime;
+
+                //transform.position += direction.normalized * knockbackSpeed * Time.deltaTime;
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
+
 
             navMeshAgent.isStopped = false;
 
@@ -308,6 +314,8 @@ namespace HAD
         public void Die()
         {
             characterAnimator.SetTrigger("DieTrigger");
+            // 다른 액션 안 돌게 스턴 처리
+            stunTimer = 2f;
 
             Destroy(gameObject, 2f);
 

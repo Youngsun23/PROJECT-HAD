@@ -19984,7 +19984,7 @@ MonoBehaviour:
   - {fileID: 957527930}
   - {fileID: 1355419807}
   - {fileID: 1459154388}
-  waveNum: 0
+  waveNum: 2
 --- !u!1001 &1383470537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25610,7 +25610,7 @@ MonoBehaviour:
   - {fileID: 1688067568}
   - {fileID: 523482689}
   - {fileID: 1862515183}
-  waveNum: 0
+  waveNum: 1
 --- !u!1001 &1791044187
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2473,7 +2473,7 @@ MonoBehaviour:
   - {fileID: 2086063321}
   - {fileID: 36549912}
   - {fileID: 49090904}
-  waveNum: 0
+  waveNum: 1
 --- !u!1001 &482871830
 PrefabInstance:
   m_ObjectHideFlags: 0
