@@ -8,6 +8,8 @@ namespace HAD
 {
     public class GameManager : MonoBehaviour
     {
+
+
         private List<Gate> gates = new List<Gate>();
         public void AddGate(Gate newGate)
         {

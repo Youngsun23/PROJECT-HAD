@@ -29,11 +29,12 @@ namespace HAD
         protected virtual void Awake()
         {
             lastPosition = transform.position;
+            characterController = GetComponent<UnityEngine.CharacterController>();
         }
 
         protected virtual void Start()
         {
-            characterController = GetComponent<UnityEngine.CharacterController>();
+
         }
 
         protected virtual void OnDestroy()

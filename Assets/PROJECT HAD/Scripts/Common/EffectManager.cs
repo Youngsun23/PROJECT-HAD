@@ -1,16 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// EffectPoolManager의 전신
+// 전체 주석 ok
+
 namespace HAD
 {
     [System.Serializable]
-    public class  EffectPool
+    public class EffectPool
     {
         public string key;
         public int capacity = 10;
         public int maxSize = 100;
         public GameObject prefab;
-        public Queue<GameObject> pool = new Queue<GameObject>(); 
+        public Queue<GameObject> pool = new Queue<GameObject>();
     }
 
     public class EffectManager : SingletonBase<EffectManager>
@@ -25,9 +28,9 @@ namespace HAD
         private void Initialize()
         {
             // ToDO: 이펙트 풀 초기화
-            foreach(var item in container)
+            foreach (var item in container)
             {
-                for(int i = 0; i < item.capacity; i++)
+                for (int i = 0; i < item.capacity; i++)
                 {
                     var newEffect = Instantiate(item.prefab);
                     newEffect.gameObject.SetActive(false);
@@ -48,10 +51,10 @@ namespace HAD
                 targetPool.pool.Enqueue(newEffect);
                 IncreaseSizeUp(key);
                 // ToDo: 새로운 이펙트를 다시 가져온다.
-                while(newEffect.activeSelf)
+                while (newEffect.activeSelf)
                 {
                     newEffect = targetPool.pool.Dequeue();
-                    if(newEffect.activeSelf)
+                    if (newEffect.activeSelf)
                     {
                         targetPool.pool.Enqueue(newEffect);
                     }
@@ -69,7 +72,7 @@ namespace HAD
         {
             var targetPool = container.Find(x => x.key.Equals(key));
             int afterCapacity = Mathf.Clamp(targetPool.capacity * 2, targetPool.capacity, targetPool.maxSize);
-            for(int i = 0; i < targetPool.capacity; i++)
+            for (int i = 0; i < targetPool.capacity; i++)
             {
                 var newElement = Instantiate(targetPool.prefab);
                 newElement.gameObject.SetActive(false);

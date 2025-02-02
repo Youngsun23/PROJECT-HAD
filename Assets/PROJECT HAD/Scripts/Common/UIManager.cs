@@ -5,6 +5,7 @@ namespace HAD
 {
     public class UIManager : SingletonBase<UIManager>
     {
+        // 동일한 UI를 여러 창 켜야 하는 경우
         //public static T ShowNewInstance(UIList uiType) where T : UIBase
         //{
         //    T result = null;

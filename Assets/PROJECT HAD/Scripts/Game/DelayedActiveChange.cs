@@ -1,6 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
+// EffectManager 때의 스크립트
+// 전체 주석 ok
+
 namespace HAD
 {
     public class DelayedActiveChange : MonoBehaviour
