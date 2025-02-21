@@ -36,11 +36,11 @@ namespace HAD
 
         public void UpdateHUDUIHP(float maxHP, float curHP) // cur/max
         {
-
             // 체력바 Fill
             // 체력TXT cur/max
             //float maxHP = PlayerCharacter.Instance.CharacterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).MaxValue;
             //float curHP = PlayerCharacter.Instance.CharacterAttributeComponent.GetAttribute(AttributeTypes.HealthPoint).CurrentValue;
+
             float targetFill = curHP / maxHP;
             targetFill = Mathf.Clamp01(targetFill);
             StartCoroutine(FillHPBar(targetFill));
@@ -49,6 +49,9 @@ namespace HAD
 
         private IEnumerator FillHPBar(float targetFill)
         {
+            Debug.Log(targetFill);
+
+
             float duration = 2f; // 애니메이션 지속 시간
             float elapsed = 0f;    // 경과 시간
             float startFill = HPBar.fillAmount;

@@ -214,15 +214,11 @@ namespace HAD
         public CinemachineVirtualCamera playerCamera;
         public CinemachineConfiner currentConfiner;
         public CameraShaker cameraShaker;
-
         private Camera mainCamera;
 
         [field: SerializeField, MinMaxSlider(-10f, 10f, true)] public Vector2 CameraOffsetRangeX { get; private set; }
         [field: SerializeField, MinMaxSlider(-10f, 10f, true)] public Vector2 CameraOffsetRangeY { get; private set; }
-        //[field: SerializeField] public AnimationCurve CameraOffsetCurveX { get; private set; }
-        //[field: SerializeField] public AnimationCurve CameraOffsetCurveY { get; private set; }
         [field: SerializeField] public float CameraOffsetMaxDistance { get; private set; }
-
         private List<MeshRenderer> transparentMeshs;
 
         private void Awake()
@@ -231,7 +227,7 @@ namespace HAD
             mainCamera = Camera.main;
 
             transparentMeshs = new List<MeshRenderer>();
-    }
+        }
 
         private void OnDestroy()
         {
@@ -249,27 +245,18 @@ namespace HAD
         }
 
         #region 벽 반투명화 Old
-        // 카메라-플레이어 사이 옵젝(벽) 반투명화
+        //// 카메라-플레이어 사이 옵젝(벽) 반투명화
         //private void LateUpdate()
         //{
         //    Vector3 direction = CharacterController.Instance.transform.position - mainCamera.transform.position;
-        //    // 레이어 마스크 필요하려나?
         //    RaycastHit hit;
-        //    if(Physics.Raycast(mainCamera.transform.position, direction.normalized, out hit))
+        //    if (Physics.Raycast(mainCamera.transform.position, direction.normalized, out hit))
         //    {
-        //        // Debug.Log("Raycast에 옵젝 감지");
-
         //        if (!hit.collider.CompareTag("Player"))
         //        {
-        //            // Debug.Log("Raycast에 Player 아닌 옵젝 감지");
-
         //            MeshRenderer meshRenderer = hit.transform.GetComponent<MeshRenderer>();
-        //            // Debug.Log((meshRenderer == null)); // 왜 meshRenderer가 없다고 하는가,,, // mainCam에서 안 쐈으니까...
-        //            if(meshRenderer != null && !transparentMeshs.Contains(meshRenderer))
+        //            if (meshRenderer != null && !transparentMeshs.Contains(meshRenderer))
         //            {
-        //                // 이 if절을 못 넘어옴
-        //                // Debug.Log("Raycast에 감지한 옵젝 알파값 변경");
-
         //                Color color = meshRenderer.material.color;
         //                color.a = 0.5f;
         //                meshRenderer.material.color = color;
@@ -319,17 +306,15 @@ namespace HAD
         #endregion
 
         #region 임시 Off - 커서 따라 카메라 이동
-        // @ 임시 Off @
+        //// Camera Pivot의 기준점 => 캐릭터 위치
+        //// 계산하는 기준점 => 화면의 중앙 기준으로 보았을 때, 현재 Mouse의 위치
+
+        //// 얼마만큼 움직일꺼냐?
+        //// => 누구를? Camera Pivot 을 움직인다
+        //// => 어떻게? 어디로? 캐릭터의 위치와 계산하는 기준점을 토대로 방향을 계산한다.
+        //// => 얼마나? CameraSystem에 Inspector 창에 노출을해서 값을 조정할 수 있게 잡아보자.
         //private void Update()
         //{
-        //    // Camera Pivot의 기준점 => 캐릭터 위치
-        //    // 계산하는 기준점 => 화면의 중앙 기준으로 보았을 때, 현재 Mouse의 위치
-
-        //    // 얼마만큼 움직일꺼냐?
-        //    // => 누구를? Camera Pivot 을 움직인다
-        //    // => 어떻게? 어디로? 캐릭터의 위치와 계산하는 기준점을 토대로 방향을 계산한다.
-        //    // => 얼마나? CameraSystem에 Inspector 창에 노출을해서 값을 조정할 수 있게 잡아보자.
-
         //    Transform charaterTransform = CharacterController.Instance.transform;
         //    Vector3 mousePositionAsViewport = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         //    Vector3 centerViewport = new Vector3(0.5f, 0.5f, 0);

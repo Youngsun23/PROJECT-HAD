@@ -37,7 +37,12 @@ namespace HAD
             if (damageInterface != null && other.gameObject.CompareTag("Monster"))
             {
                 damageInterface.TakeDamage(this, 10f);
+                Destroy(gameObject);
                 // Debug.Log($"마법에 피격!");
+            }
+            else if (other.gameObject.CompareTag("Wall"))
+            {
+                Destroy(gameObject);
             }
 
             // ToDo
@@ -45,7 +50,6 @@ namespace HAD
             // 그 외? => Destroy 하지 않고 바로 떨어뜨림
 
             // 특정 경우에만 Destroy
-            // Destroy(gameObject);
         }
 
         public GameObject GetActor()

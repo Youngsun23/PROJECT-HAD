@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f243b9297a2a254993d9de14af3bfd8, type: 3}
   m_Name: Mirror GameData - Set1
   m_EditorClassIdentifier: 
-  <UniqueID>k__BackingField: 
-  <Name>k__BackingField: Shadow
+  <UniqueID>k__BackingField: 1
+  <Name>k__BackingField: "\uAC74\uAC15\uD55C \uC2E0\uCCB4"
   <Num>k__BackingField: 1
   <Icon>k__BackingField: {fileID: 21300000, guid: f0b1c60b0227e4e1fa89a56252ded127, type: 3}
-  <Comment>k__BackingField: "\uAE30\uBCF8 \uACF5\uACA9\uB825\uC774 \uC0C1\uC2B9\uD569\uB2C8\uB2E4."
+  <Comment>k__BackingField: "\uCCB4\uB825\uC774 \uC0C1\uC2B9\uD569\uB2C8\uB2E4."
   <PriceAtLevel>k__BackingField:
     keys: 00000000010000000200000003000000
     values: 000000000a000000140000001e000000
   <IncreamentAtLevel>k__BackingField:
     keys: 00000000010000000200000003000000
     values: 000000000a0000000f00000014000000
-  <TargetStat>k__BackingField: BonusAttackDamagePercent
+  <TargetStat>k__BackingField: HealthPoint
   <MaxLevel>k__BackingField: 3

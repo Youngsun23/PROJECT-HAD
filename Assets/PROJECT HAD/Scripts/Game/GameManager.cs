@@ -11,6 +11,8 @@ namespace HAD
 
 
         private List<Gate> gates = new List<Gate>();
+        private List<LevelEntryPoint> entries = new List<LevelEntryPoint>();
+
         public void AddGate(Gate newGate)
         {
             gates.Add(newGate);
@@ -19,6 +21,15 @@ namespace HAD
         {
             return gates;
         }
+        public void AddEntryPoint(LevelEntryPoint entry)
+        {
+            entries.Add(entry);
+        }
+        public List<LevelEntryPoint> GetLevelEntryPoints()
+        {
+            return entries;
+        }
+
 
         public static GameManager Instance { get; private set; }
 
@@ -123,6 +134,7 @@ namespace HAD
             }
 
             gates.Clear();
+            entries.Clear();
 
             currentLevelName = levelName;
             var loadAsync = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
@@ -138,8 +150,8 @@ namespace HAD
 
             // ToDo: FindObjectOfType 사용 -> entry 스크립트에 string 변수(키값) 두고, gate처럼 awake에서 자신 등록?
             // Player Character를 Entry Point로 이동
-            //### 이거 수정 좀~~~
-            var entryPoint = GameObject.FindObjectOfType<LevelEntryPoint>();
+            var entryPoint = entries[0];
+
             CharacterController.Instance.character.Move(Vector2.zero, Camera.main.transform.eulerAngles.y);
             CharacterController.Instance.transform.position = entryPoint.transform.position;
 

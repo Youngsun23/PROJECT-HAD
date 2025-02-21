@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace HAD
 {
@@ -32,7 +33,7 @@ namespace HAD
         private bool isCombo2ing = false;
 
         [Title("Character Dash")]
-        private bool dashAvailable = true;
+        private bool dashAvailable = false;
         private bool isDashing = false;
         private float dashTimer = 0f;
 
@@ -287,14 +288,14 @@ namespace HAD
             #endregion
 
             // GameData의 초기값 + UserData의 변화 정보&변화 내용의 설정 변화값(ex.켄타심장1개-+25HP) => Component
-            characterAttributeComponent.SetAttribute(AttributeTypes.HealthPoint, characterData.MaxHP /*+ UserDataManager.Singleton.CalUserDataMaxHP()*/);
+            int mirrorIncreamentHP = GameDataModel.Singleton.GetMirrorGameData(1).IncreamentAtLevel[UserDataManager.Singleton.UserData.mirrorDic[1]];
+            characterAttributeComponent.SetAttribute(AttributeTypes.HealthPoint, characterData.MaxHP, mirrorIncreamentHP);
             characterAttributeComponent.SetAttribute(AttributeTypes.MagicArrowCount, characterData.MaxArrow);
             characterAttributeComponent.SetAttribute(AttributeTypes.DashCooltime, characterData.DashCooltime);
             characterAttributeComponent.SetAttribute(AttributeTypes.MoveSpeed, characterData.MoveSpeed);
             //@@ 이게 맞나?
             // AttackDamage의 buffed 값은 %로 작동, 대미지 계산할 때 (대미지+-)값 * 1.1 하는 형태?? percent라는 걸 유의하면서 코드 쓰는 수밖에 없나???
-            int mirrorIncreament = GameDataModel.Singleton.GetMirrorGameData(1).IncreamentAtLevel[UserDataManager.Singleton.UserData.mirrorDic[1]];
-            characterAttributeComponent.SetAttribute(AttributeTypes.AttackDamage, characterData.AttackDamage, mirrorIncreament);
+            characterAttributeComponent.SetAttribute(AttributeTypes.AttackDamage, characterData.AttackDamage);
             characterAttributeComponent.SetAttribute(AttributeTypes.MagicDamage, characterData.MagicDamage);
             characterAttributeComponent.SetAttribute(AttributeTypes.SpecialAttackDamage, characterData.SpecialAttackDamage);
 
@@ -318,6 +319,8 @@ namespace HAD
         public override void TakeDamage(IActor actor, float damage)
         {
             // base.TakeDamage(actor, damage);
+
+            characterAnimator.SetTrigger("HitTrigger");
 
             // ToDo: 피격 이펙트 출력
             var effect = EffectPoolManager.Singleton.GetEffect("PCTakeDamage");
@@ -364,15 +367,24 @@ namespace HAD
         public void Die()
         {
             // ToDo
-            Debug.Log("--- Player Died ---");
+            characterAnimator.SetTrigger("DieTrigger");
+
             UserDataManager.Singleton.ResetTempUserData();
             HUDUI.Instance.Hide();
 
             // 죽음 -> 부활 연출
 
+            DashAbility dashAbil = new DashAbility();
+            characterAbilityComponent.AddAbility(dashAbil);
+
             // 하데스의집 씬으로 이동
             GameManager.Instance.LoadLevel("Entrance");
             // ToDo: 위치 잡는 부분에 문제 O
+
+            characterAttributeComponent.SetAttributeCurrentValue(AttributeTypes.HealthPoint, MaxHP);
+            HUDUI.Instance.Show();
+            InitializeCharacter(GameDataModel.Singleton.GetPlayerCharacterGameData("Default"));
+
         }
 
         public override void AddBuffed(AttributeTypes type, float buffedValue)
@@ -660,7 +672,7 @@ namespace HAD
 
         public void Dash()
         {
-            if (dashAvailable)
+            if (dashAvailable && (characterAbilityComponent.GetAbility(AbilityTag.Dash, out DashAbility abil)))
             {
                 // To do : Dash 이동 구현
                 dashAvailable = false;

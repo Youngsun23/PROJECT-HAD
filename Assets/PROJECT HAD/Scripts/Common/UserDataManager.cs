@@ -92,6 +92,7 @@ namespace HAD
         public bool UpdateUserDataMirror(int setNum)
         {
             int updatedLevel = ++UserData.mirrorDic[setNum];
+            PlayerCharacter.Instance.InitializeCharacter(GameDataModel.Singleton.GetPlayerCharacterGameData("Default"));
             if(updatedLevel == GameDataModel.Singleton.GetMirrorGameData(setNum).MaxLevel)
             {
                 return true;
@@ -104,12 +105,13 @@ namespace HAD
             if (resource == "Coin")
             {
                 UserData.coin += value;
-
+                HUDUI.Instance.UpdateHUDUICoin(value);
             }
             //if (resource == "Key")
             //    UserData.key += value;
             if (resource == "Darkness")
                 UserData.darkness += value;
+                HUDUI.Instance.UpdateHUDUIDarkness(value);
 
             // userdata에 정보 업데이트 -> component 쪽에 업데이트로 연결해줘야 하나?
             // 유저데이터 getset,,
