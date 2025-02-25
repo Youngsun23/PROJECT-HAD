@@ -3,7 +3,7 @@ using UnityEngine;
 namespace HAD
 {
     [CreateAssetMenu(fileName ="MonsterGameData", menuName = "HAD/Monster Data")]
-    public class MonsterStatData : ScriptableObject
+    public class MonsterStatData : GameDataBase
     {
         [field: SerializeField] public float MaxHP {  get; set; }
         // currentHP?

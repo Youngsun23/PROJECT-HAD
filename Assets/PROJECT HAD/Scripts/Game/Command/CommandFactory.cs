@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace HAD
 {
-    public class CommandFactory : MonoBehaviour
+    public class CommandFactory
     {
         public static ICommand CreateCommand(PlayerCharacter character, int comboStep)
         {
