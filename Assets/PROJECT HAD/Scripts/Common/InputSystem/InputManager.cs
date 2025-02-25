@@ -17,10 +17,6 @@ namespace HAD
         public System.Action OnInteractPerformed;
         public System.Action OnCharacterInfoMenuPerformed;
 
-        // 커맨드 패턴 시도
-        // public CharacterBase character;
-        // private CharacterCommandInvoker charCommandInvoker;
-
         public Vector2 MovementInput { get; private set; }
 
         private void Awake()
@@ -55,7 +51,6 @@ namespace HAD
 
         public void OnMagicCanceled()
         {
-            // Debug.Log("매직 캔슬");
             OnMagicShotPerformed?.Invoke();
         }
 
@@ -81,11 +76,7 @@ namespace HAD
 
         public void OnEscape()
         {
-            // var testUI2 = UIManager.Singleton.GetUI<TestUI2>(UIList.TestUI2);
-            // testUI2.Show();
 
-            // 간략화 버전
-            // var testUI = UIManager.Show<TestUI>(UIList.TestUI);
         }
     }
 }

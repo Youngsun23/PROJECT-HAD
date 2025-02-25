@@ -10,7 +10,6 @@ namespace HAD
             if (damageInterface != null && other.gameObject.CompareTag("Player"))
             {
                 damageInterface.TakeDamage(this, 5f);
-                Debug.Log($"트랩에 피격!");
             }
         }
 

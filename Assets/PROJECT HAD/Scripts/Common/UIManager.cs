@@ -5,22 +5,6 @@ namespace HAD
 {
     public class UIManager : SingletonBase<UIManager>
     {
-        // 동일한 UI를 여러 창 켜야 하는 경우
-        //public static T ShowNewInstance(UIList uiType) where T : UIBase
-        //{
-        //    T result = null;
-        //    if (UIList.PANEL_START < uiType && uiType < UIList.PANEL_END)
-        //    {
-        //        T loadedPrefab = Resources.Load<T>(UI_Resource_PATH + "UI." + uiType.ToString());
-        //        if (loadedPrefab != null)
-        //        {
-        //            result = Instantiate(loadedPrefab, Singleton.panelRoot);
-        //            result.gameObject.SetActive(false);
-        //        }
-        //    }
-        //    return result;
-        //}
-
         public static T Show<T>(UIList uiType) where T : UIBase
         {
             var newUI = Singleton.GetUI<T>(uiType);
@@ -85,7 +69,6 @@ namespace HAD
                     if (loadedPrefab != null)
                     {
                         result = Instantiate(loadedPrefab, panelRoot);
-                        //result.gameObject.SetActive(false);
                         ContainerPanel[uiType] = result;
                     }
                 }
@@ -103,7 +86,6 @@ namespace HAD
                     if (loadedPrefab != null)
                     {
                         result = Instantiate(loadedPrefab, popupRoot);
-                        //result.gameObject.SetActive(false);
                         ContainerPopup[uiType] = result;
                     }
                 }

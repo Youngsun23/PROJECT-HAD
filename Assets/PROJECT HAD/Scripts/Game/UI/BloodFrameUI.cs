@@ -12,7 +12,6 @@ namespace HAD
 
         private void OnEnable()
         {
-            // 잠시 알파 낮추다가 스스로 파괴
             StartCoroutine(bloodEffect());
         }
 

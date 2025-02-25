@@ -13,7 +13,6 @@ namespace HAD
 
         private void OnTriggerEnter(Collider other)
         {
-            //if(other.transform.root.TryGetComponent(out CharacterController playerCharacterController))
             if(other.transform.root.CompareTag("Player"))
             {
                 CameraSystem.Instance.SetConfinerVolume(volumeCollider);

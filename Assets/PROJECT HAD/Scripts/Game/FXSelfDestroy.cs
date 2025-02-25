@@ -10,11 +10,5 @@ namespace HAD
         {
             Destroy(gameObject, 0.5f);
         }
-
-        //IEnumerator SelfDestroy()
-        //{
-        //    yield return new WaitForSeconds(durationTime);
-        //    Destroy(gameObject);
-        //}
     }
 }

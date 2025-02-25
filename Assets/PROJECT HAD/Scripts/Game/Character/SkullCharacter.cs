@@ -4,7 +4,6 @@ namespace HAD
     {
         public override void Attack()
         {
-            // base.Attack();
 
         }
     }

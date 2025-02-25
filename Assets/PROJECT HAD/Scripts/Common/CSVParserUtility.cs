@@ -6,8 +6,7 @@ namespace HAD
     {
         public static string[] LoadData(string path)
         {
-            // Resources 폴더에서 CSV 파일을 TextAsset으로 로드
-            TextAsset csvFile = Resources.Load<TextAsset>(path); // 확장자는 생략
+            TextAsset csvFile = Resources.Load<TextAsset>(path); 
             if (csvFile != null)
             {
                 string[] lines = csvFile.text.Split('\n');

@@ -14,7 +14,7 @@ namespace HAD
             }
         }
 
-        private float interactionRange = 8f; // 몬스터들 공통/개별 어떻게 쓸건지
+        private float interactionRange = 8f;
         private SphereCollider sensorCollider;
 
         public System.Action<PlayerCharacter> OnDetectedTarget;
@@ -27,7 +27,6 @@ namespace HAD
             sensorCollider.radius = interactionRange;
         }
 
-        // Sensor Layer끼리는 물리충돌 x
         private void OnTriggerEnter(Collider other)
         {
             if (other.transform.root.TryGetComponent(out PlayerCharacter playerCharacter))

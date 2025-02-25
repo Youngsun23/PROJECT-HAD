@@ -7,7 +7,6 @@ namespace HAD
     {
         private bool isAttackDashing = false;
         private Vector3 targetDirection;
-        // AttackPossibleRange를 20초 동안 이동하도록 속도 계산
         float attackDashSpeed;
         public LayerMask sensorLayerMask;
 
@@ -40,11 +39,9 @@ namespace HAD
 
         public void AttackDashMove()
         {
-            // 공격 시작 시점의 캐릭터 위치로 이동
             characterController.Move(targetDirection * attackDashSpeed * Time.deltaTime);
         }
 
-        // 전방 부채꼴 범위 공격 <- 애니메이션 이벤트로 걸기
         public void AttackExecute()
         {
             isAttackDashing = false;
@@ -52,8 +49,6 @@ namespace HAD
             Collider[] overlapObjects = Physics.OverlapSphere(transform.position, AttackRange, ~sensorLayerMask);
             if (overlapObjects == null || overlapObjects.Length == 0)
             {
-                // To do : 공격 이펙트
-
                 return;
             }
 
@@ -78,22 +73,17 @@ namespace HAD
             }
         }
 
-        // 공격 범위 시각화
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-
-            // 부채꼴의 각도를 계산
             Vector3 forward = transform.forward;
             Vector3 leftBoundary = Quaternion.Euler(0, -60 * 0.5f, 0) * forward; // 60도가 대략 0.5
             Vector3 rightBoundary = Quaternion.Euler(0, 60 * 0.5f, 0) * forward;
 
-            // 부채꼴을 선으로 표시
             Gizmos.DrawLine(transform.position, transform.position + leftBoundary * AttackRange);
             Gizmos.DrawLine(transform.position, transform.position + rightBoundary * AttackRange);
 
-            // 부채꼴 원호
-            int segments = 20; // 부채꼴
+            int segments = 20;
             Vector3 previousPoint = transform.position + leftBoundary * AttackRange;
             for (int i = 1; i <= segments; i++)
             {

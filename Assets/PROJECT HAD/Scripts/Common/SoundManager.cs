@@ -58,22 +58,14 @@ namespace HAD
             return Resources.Load<AudioClip>($"Sound/{audioName}");
         }
 
-        // BGM은 Pool 필요 x
         public void PlayBGM(string audioName)
         {
             isUsingMusicA = !isUsingMusicA;
-
-            //TODO : Fade In/Out 구현
-            // MusicSourceA 로 재생하고 있었다면?
-            // MusicSourceB의 Audio Clip에 GetAudioClip("audioName") 을 넣어준다.
-            // MusicSourceA 의 볼륨을 서서히 죽인다.
-            // MusicSourceB 의 볼륨을 서서히 올린다.
-            // 반대 경우도
         }
 
         public void PlaySFX(string audioName, Vector3 position)
         {
-            // 풀링 사용 - 미리 생성된 sfx pool에서 하나를 가져와서 사용
+
         }
 
         public void PlayUI(string audioName)

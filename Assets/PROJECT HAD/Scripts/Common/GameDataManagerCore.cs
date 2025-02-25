@@ -53,8 +53,6 @@ namespace HAD
                         {
                             value = columnDatas[j];
                         }
-                        // 필요한 다른 타입도 추가 가능
-                        // ?: GetField.타입으로 캐스팅 줄일 방법 없나?
 
                         field.SetValue(newEntity, value);
                     }
@@ -78,11 +76,10 @@ namespace HAD
             {
                 char c = line[i];
 
-                if (c == '"') // 따옴표를 만나면 (텍스트 내용에 쉼표가 포함된 경우 csv 저장 중 자동으로 큰따옴표 감싸기 수행함)
+                if (c == '"') 
                 {
                     if (insideQuotes && i + 1 < line.Length && line[i + 1] == '"')
                     {
-                        // 이중 따옴표 ""는 필드 내에서 하나의 따옴표로 간주
                         currentField += '"';
                         i++;
                     }
@@ -91,7 +88,7 @@ namespace HAD
                         insideQuotes = !insideQuotes;
                     }
                 }
-                else if (c == ',' && !insideQuotes) // 따옴표 밖에서 쉼표를 만나면 필드 구분자로 처리
+                else if (c == ',' && !insideQuotes)
                 {
                     result.Add(currentField);
                     currentField = "";

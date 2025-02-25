@@ -7,7 +7,7 @@ namespace HAD
     {
         [SerializeField] private SerializableDictionary<string, DialogueData> DialogueDataDictionary = new SerializableDictionary<string, DialogueData>();
 
-        [SerializeField] private string csvFilePath = "DialogueData"; // CSV 파일 경로
+        [SerializeField] private string csvFilePath = "DialogueData";
 
         void Start()
         {
@@ -16,18 +16,15 @@ namespace HAD
 
         void LoadCSV()
         {
-            // Resources 폴더에서 CSV 파일을 TextAsset으로 로드
-            TextAsset csvFile = Resources.Load<TextAsset>(csvFilePath); // 확장자는 생략
+            TextAsset csvFile = Resources.Load<TextAsset>(csvFilePath);
 
             if (csvFile != null)
             {
-                // TextAsset의 텍스트 내용을 줄 단위로 나눔
                 string[] lines = csvFile.text.Split('\n');
-                // Debug.Log(lines[1]);
 
                 foreach (string line in lines)
                 {
-                    string[] values = ParseCSVLine(line); // 쉼표와 따옴표를 처리하는 함수
+                    string[] values = ParseCSVLine(line);
                     if (values.Length == 4)
                     {
                         string key = values[0];
@@ -35,12 +32,10 @@ namespace HAD
                         string korean = values[2];
                         string english = values[3];
 
-                        // Dictionary에 데이터를 저장
                         DialogueDataDictionary[key] = new DialogueData(key, group, korean, english);
                     }
-                    else // 예외 처리
+                    else
                     {
-                        // 키는 무조건 있어야 합니다. (약속) -> 있다고 상정하고
                         string key = values[0];
                         string group = "-1";
                         string korean = "Null";
@@ -56,8 +51,6 @@ namespace HAD
             }
         }
 
-
-        // Key -> Korean 호출
         public string GetKoreanText(string key)
         {
             if (DialogueDataDictionary.TryGetValue(key, out DialogueData data))
@@ -77,11 +70,10 @@ namespace HAD
             {
                 char c = line[i];
 
-                if (c == '"') // 따옴표를 만나면 (텍스트 내용에 쉼표가 포함된 경우 csv 저장 중 자동으로 큰따옴표 감싸기 수행함)
+                if (c == '"') 
                 {
                     if (insideQuotes && i + 1 < line.Length && line[i + 1] == '"')
                     {
-                        // 이중 따옴표 ""는 필드 내에서 하나의 따옴표로 간주
                         currentField += '"';
                         i++;
                     }
@@ -90,7 +82,7 @@ namespace HAD
                         insideQuotes = !insideQuotes;
                     }
                 }
-                else if (c == ',' && !insideQuotes) // 따옴표 밖에서 쉼표를 만나면 필드 구분자로 처리
+                else if (c == ',' && !insideQuotes)
                 {
                     result.Add(currentField);
                     currentField = "";

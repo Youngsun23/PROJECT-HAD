@@ -5,17 +5,15 @@ namespace HAD
 {
     public class AbilityListUI : UIBase
     {
-        // ToDo: 어빌마다 본인 이미지 갖고 있는 거 불러와서 Image UI에 연결
-        // [SerializeField] GameObject AbilityImage;
+        public static AbilityListUI Instance { get; private set; }
+
         [SerializeField] private TextMeshProUGUI AbilitySlot1;
         [SerializeField] private TextMeshProUGUI AbilitySlot2;
         [SerializeField] private TextMeshProUGUI AbilitySlot3;
         [SerializeField] private TextMeshProUGUI AbilitySlot4;
         [SerializeField] private TextMeshProUGUI AbilitySlot5;
         private bool isActivated = false;
-        // private int registeredAbility = 0;
 
-        public static AbilityListUI Instance { get; private set; }
 
         private void Awake()
         {

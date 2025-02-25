@@ -17,8 +17,6 @@ namespace HAD
             }
         }
 
-        // 중복 코루틴 방지 없어서 코루틴 진행 중 다시 EnterTrigger 하면 이상작동하는데,
-        // 그것도 나름 괜찮아서 냅둠
         IEnumerator ActivateTrap()
         {
             elapsedTime = 0f;

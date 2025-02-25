@@ -5,13 +5,10 @@ namespace HAD
     public class Upgrade_Mirror : MonoBehaviour, IInteractable
     {
         public bool IsAutomaticInteraction => false;
-
         string IInteractable.Message => "Upgrade";
 
         public void Interact(CharacterBase actor)
         {
-            // 거울 강화 UI창 띄우기
-            // Debug.Log("거울 UI");
             var mirrorUI = UIManager.Show<MirrorUI>(UIList.Mirror);
         }
 

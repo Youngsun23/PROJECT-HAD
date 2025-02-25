@@ -2,10 +2,8 @@ using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 
-// @ Command interface: 레시피 틀
 namespace HAD
 {
-    // Class Try 2 _ Command Pattern
     public static class Awaitable
     {
         public static async Task WaitForSecondsAsync(float seconds)
@@ -28,9 +26,6 @@ namespace HAD
 
     public interface ICommand
     {
-        // void Execute();
-
-        // Class Try 2 _ Command Pattern
         Task Execute();
     }
 }
