@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HAD
 {
-    public class SpiderCharacter : MonsterBase
+    public class SpiderMonster : MonsterBase
     {
         private bool isAttackDashing = false;
         private Vector3 targetDirection;

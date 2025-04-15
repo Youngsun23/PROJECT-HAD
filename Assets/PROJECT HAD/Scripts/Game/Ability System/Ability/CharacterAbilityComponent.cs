@@ -16,7 +16,7 @@ namespace HAD
         public void AddAbility(AbilityBase newAbility)
         {
             abilities.Add(newAbility);
-            newAbility.Owner = character;
+            newAbility.SetOwner(character);
 
             var abilityUI = UIManager.Singleton.GetUI<AbilityListUI>(UIList.AbilityList);
             abilityUI.Hide();
